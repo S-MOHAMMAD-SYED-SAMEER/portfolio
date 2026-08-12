@@ -7,11 +7,22 @@ export default function Contact() {
         get back to you.
       </p>
       <a
-        href="mailto:mohammadsyedsameer20@gmail.com"
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=mohammadsyedsameer20@gmail.com"
+        target="_blank"
+        rel="noopener noreferrer"
         className="mt-6 inline-block rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
       >
         Let's Work Together
       </a>
+      <p className="mt-3 text-sm text-slate-500">
+        Or email directly:{" "}
+        <a
+          href="mailto:mohammadsyedsameer20@gmail.com"
+          className="underline hover:text-slate-700"
+        >
+          mohammadsyedsameer20@gmail.com
+        </a>
+      </p>
     </section>
   );
 }
