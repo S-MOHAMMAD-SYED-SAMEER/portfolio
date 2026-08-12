@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* The nav is sticky/fixed at the top, so an anchor-scrolled section would
+   otherwise land with its heading tucked underneath it. scroll-padding-top
+   on the scrolling container offsets every in-page anchor jump by the same
+   amount, covering the nav links, the logo's #top link, and the hero's
+   #projects/#contact buttons without touching each section individually. */
+html {
+  scroll-padding-top: 5rem;
+}
