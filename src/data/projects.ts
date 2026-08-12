@@ -3,7 +3,7 @@ export interface Project {
   service: string;
   description: string;
   tags: string[];
-  status: "In development" | "Live";
+  status: "In development" | "Built" | "Live";
   href?: string;
 }
 
@@ -14,7 +14,7 @@ export const projects: Project[] = [
     description:
       "A RAG-and-tool-calling chatbot that answers product questions, checks stock and orders in real time, spots buying signals, and recovers carts before they're abandoned.",
     tags: ["RAG", "Tool-calling", "Memory", "Eval harness"],
-    status: "In development",
+    status: "Built",
   },
   {
     title: "Inbox-to-CRM Agent",
