@@ -5,16 +5,36 @@ export interface Project {
   tags: string[];
   status: "In development" | "Built" | "Live";
   href?: string;
+  /** In-site case-study page. Only projects with a written case study have one. */
+  caseStudyHref?: string;
+  /** Deployed, publicly reachable demo. */
+  demoHref?: string;
+  /** Public source repository. */
+  repoHref?: string;
+  /** Marks the project as having a thumbnail illustration on its card. */
+  thumbnail?: "salesRecovery";
 }
 
 export const projects: Project[] = [
   {
-    title: "Sales-Recovery Support Agent",
+    // Titled by the service it sells rather than by its internal project name:
+    // a visitor reads what this does for their business before they read what
+    // it is called. Matches the fixed service labels in CLAUDE.md.
+    title: "AI Customer Support & Sales Recovery",
     service: "AI Customer Support & Sales Recovery",
     description:
-      "A RAG-and-tool-calling chatbot that answers product questions, checks stock and orders in real time, spots buying signals, and recovers carts before they're abandoned.",
-    tags: ["RAG", "Tool-calling", "Memory", "Eval harness"],
-    status: "Built",
+      "An AI support agent that helps online stores answer customer questions, recover hesitant buyers, and reduce repetitive support work.",
+    tags: [
+      "Knowledge-grounded answers",
+      "Order & stock lookup",
+      "Buying-signal detection",
+      "Eval-tested",
+    ],
+    status: "Live",
+    caseStudyHref: "/case-study-sales-recovery.html",
+    demoHref: "https://sales-recovery-agent-j0mc.onrender.com",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
+    thumbnail: "salesRecovery",
   },
   {
     title: "Inbox-to-CRM Agent",
