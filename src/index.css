@@ -1,5 +1,138 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Shared design system — "precise instrument"
+   ==========================================================================
+
+   The single source of truth for the visual language across all three
+   surfaces: this portfolio, the Project 1 case study, and the Project 1 demo
+   (sales-recovery-agent/web/index.html). The demo is a standalone page served
+   by its own server, so it cannot import this file — it mirrors these exact
+   values in its own :root instead. **When a token changes here, change it
+   there too**, or the two surfaces drift apart again.
+
+   Declared with Tailwind v4's @theme rather than a plain :root so each token
+   also generates its utility — `bg-canvas`, `text-ink-muted`, `rounded-card`,
+   `shadow-resting`, `text-section` — and later work can use those instead of
+   arbitrary values.
+
+   Tokens only. Components are migrated onto them in later tasks; nothing in
+   this file restyles an existing component.
+
+   `static` because Tailwind v4 otherwise emits only the theme variables it
+   sees used, and a half-present set of custom properties is a trap: a
+   hand-written rule using var(--color-canvas) would silently resolve to
+   nothing. Emitting all of them keeps this file symmetric with the demo's
+   :root, where every token is always present. The cost is around a kilobyte
+   of CSS. */
+@theme static {
+  /* --- Typeface ---------------------------------------------------------
+     One stack shared by all three surfaces, so the demo stops rendering in a
+     different face from the site that links to it. Deliberately no webfont:
+     no external request, no extra bytes on a cold start. Swapping in a
+     self-hosted variable font later means changing this one declaration (and
+     its twin in the demo) plus an @font-face — no component touched. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* --- Colour -----------------------------------------------------------
+     Warm off-white ground with near-black ink: higher contrast than the
+     slate/white default, and warmer, so it reads as a chosen palette rather
+     than a framework's. `brand` is used for actions and verified-source
+     markers only; `signal` stays visually distinct from it because the
+     demo's badges use that difference to mean something — indigo for what
+     the agent checked, amber for what it noticed. */
+  --color-ink: #0b0f1a;
+  --color-ink-muted: #4a5568;
+  --color-canvas: #fafaf9;
+  --color-surface: #ffffff;
+  --color-line: #e7e5e4;
+  --color-line-strong: #d6d3d1;
+  --color-brand: #4f46e5;
+  --color-brand-tint: #eef2ff;
+  --color-signal: #b45309;
+  --color-signal-tint: #fffbeb;
+
+  /* --- Type scale -------------------------------------------------------
+     Six steps, no more. Weights are limited to 400/600/700: the audit's 650
+     for section headings would need a variable font to render as anything
+     other than a synthesised weight, so it resolves to 700 here and can be
+     revisited if a variable face is adopted. Negative tracking on large
+     text, positive on eyebrows — the usual optical correction. */
+  --text-display: 3.75rem; /* 60px */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  /* The lower end of the 48-60px display range, for narrow viewports. */
+  --text-display-sm: 3rem; /* 48px */
+  --text-display-sm--line-height: 1.08;
+  --text-display-sm--letter-spacing: -0.02em;
+  --text-display-sm--font-weight: 700;
+
+  --text-section: 1.875rem; /* 30px */
+  --text-section--line-height: 1.2;
+  --text-section--letter-spacing: -0.015em;
+  --text-section--font-weight: 700;
+
+  --text-subhead: 1.125rem; /* 18px */
+  --text-subhead--line-height: 1.4;
+  --text-subhead--letter-spacing: -0.01em;
+  --text-subhead--font-weight: 600;
+
+  --text-body: 1rem; /* 16px */
+  --text-body--line-height: 1.6;
+
+  --text-small: 0.875rem; /* 14px */
+  --text-small--line-height: 1.55;
+
+  /* 12px is the floor for anything a client has to read — badges and meta
+     included. Nothing in this system goes below it. */
+  --text-meta: 0.75rem; /* 12px */
+  --text-meta--line-height: 1.4;
+
+  --text-eyebrow: 0.75rem; /* 12px */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.08em;
+  --text-eyebrow--font-weight: 600;
+
+  /* --- Radii ------------------------------------------------------------
+     Three values total. The surfaces currently use five between them. */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+
+  /* --- Elevation --------------------------------------------------------
+     Two levels only, both tinted with the ink colour rather than pure black
+     so shadows sit in the same warm family as the rest of the palette. */
+  --shadow-resting: 0 1px 2px 0 rgb(11 15 26 / 0.04),
+    0 1px 3px 0 rgb(11 15 26 / 0.06);
+  --shadow-hover: 0 2px 4px -1px rgb(11 15 26 / 0.06),
+    0 8px 16px -4px rgb(11 15 26 / 0.1);
+
+  /* --- Control sizing ---------------------------------------------------
+     Generates h-control / h-control-lg. 44px is the comfortable touch target
+     for primary actions; 40px is the default. */
+  --spacing-control: 2.5rem; /* 40px */
+  --spacing-control-lg: 2.75rem; /* 44px */
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Keyboard focus is visible everywhere by default, rather than being
+     something each component has to remember. :focus-visible (not :focus)
+     so a mouse click doesn't leave a ring behind. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
 /* The nav is sticky/fixed at the top, so an anchor-scrolled section would
    otherwise land with its heading tucked underneath it. scroll-padding-top
    on the scrolling container offsets every in-page anchor jump by the same

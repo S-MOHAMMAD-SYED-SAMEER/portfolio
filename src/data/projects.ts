@@ -13,6 +13,8 @@ export interface Project {
   repoHref?: string;
   /** Marks the project as having a thumbnail illustration on its card. */
   thumbnail?: "salesRecovery";
+  /** Given the full-width featured treatment. Only completed, live work. */
+  featured?: boolean;
 }
 
 export const projects: Project[] = [
@@ -35,6 +37,7 @@ export const projects: Project[] = [
     demoHref: "https://sales-recovery-agent-j0mc.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
     thumbnail: "salesRecovery",
+    featured: true,
   },
   {
     title: "Inbox-to-CRM Agent",
