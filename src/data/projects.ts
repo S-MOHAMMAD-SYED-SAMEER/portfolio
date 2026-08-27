@@ -1,3 +1,5 @@
+import type { SnapshotVariant } from "../components/ProjectSystemSnapshot";
+
 export interface Project {
   title: string;
   service: string;
@@ -7,13 +9,26 @@ export interface Project {
   href?: string;
   /** In-site case-study page. Only projects with a written case study have one. */
   caseStudyHref?: string;
-  /** Deployed, publicly reachable demo. */
+  /** Deployed, publicly reachable demo. Absent means there is nothing to open. */
   demoHref?: string;
   /** Public source repository. */
   repoHref?: string;
-  /** Marks the project as having a thumbnail illustration on its card. */
-  thumbnail?: "salesRecovery";
-  /** Given the full-width featured treatment. Only completed, live work. */
+  /**
+   * Which system diagram the card shows. Every completed project has one, so
+   * the cards stop being structurally different from each other — the previous
+   * arrangement gave Project 1 an illustration and the other two nothing,
+   * which read as one real project beside two write-ups.
+   */
+  snapshot?: SnapshotVariant;
+  /**
+   * The verified figures shown under the description.
+   *
+   * Every entry has to be reproducible from the repository — `npm test` in the
+   * project's own folder, or its evaluation command. Nothing aspirational and
+   * nothing rounded up.
+   */
+  proof?: string[];
+  /** Complete work, shown with the full card treatment. */
   featured?: boolean;
 }
 
@@ -36,7 +51,8 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-sales-recovery.html",
     demoHref: "https://sales-recovery-agent-j0mc.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
-    thumbnail: "salesRecovery",
+    snapshot: "sales-recovery",
+    proof: ["206 tests", "16/16 eval"],
     featured: true,
   },
   {
@@ -54,6 +70,8 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-inbox-crm.html",
     demoHref: "https://inbox-crm-agent.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
+    snapshot: "inbox-crm",
+    proof: ["827 tests", "10/10 eval"],
     featured: true,
   },
   {
@@ -73,6 +91,8 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-explainable-ats.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
+    snapshot: "explainable-ats",
+    proof: ["315 tests", "deterministic scoring"],
     featured: true,
   },
 ];
