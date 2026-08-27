@@ -3,10 +3,16 @@ import { projects } from "../data/projects";
 // Points at the case study rather than straight at the deployed demo: a
 // first-time visitor gets the context — problem, capabilities, validation —
 // before meeting a free-tier cold start. The case study's own hero carries
-// the direct "Try the Live Demo" CTA, as does the Project 1 card below.
-const caseStudyHref = projects.find(
-  (project) => project.caseStudyHref,
-)?.caseStudyHref;
+// the direct "Try the Live Demo" CTA, as does the project card below.
+//
+// It selects the first project that has BOTH a case study to read and a live
+// demo to try, which is what keeps the "Live demo" label above it true. A
+// project with a case study but nothing deployed would make that label a lie,
+// and picking merely the first case study would do exactly that as soon as a
+// second one is written.
+const featuredCaseStudy = projects.find(
+  (project) => project.caseStudyHref && project.demoHref,
+);
 
 // Engineering validation, deliberately framed as such. These describe this
 // project's own test and evaluation suites — they are not customer results,
@@ -60,23 +66,47 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Proof row. The live demo carries the emphasis — it is the only item
-            a visitor can act on, and the only one that means anything to a
-            non-technical store owner. The two figures beside it are quieter by
-            design. */}
+        {/* Proof row. The featured project carries the emphasis — it is the
+            only item a visitor can act on, and the only one that means anything
+            to a non-technical store owner. The two figures beside it are
+            quieter by design.
+
+            The card names the project and offers both destinations rather than
+            being one big link: its label used to read "Live demo" while the
+            click opened the case study, which is a small promise the card did
+            not keep. Two links means the container cannot be an anchor itself —
+            nested anchors are invalid — so it is a plain div, and the hover
+            lift came off with it rather than suggesting a click that does
+            nothing. */}
         <div className="mt-10 grid gap-4 border-t border-line pt-6 sm:mt-14 sm:grid-cols-3 sm:pt-8">
-          <a
-            href={caseStudyHref}
-            className="group rounded-card border border-line bg-surface p-5 shadow-resting transition-shadow hover:border-line-strong hover:shadow-hover sm:col-span-1"
-          >
-            <p className="text-eyebrow uppercase text-brand">Live demo</p>
+          <div className="rounded-card border border-line bg-surface p-5 shadow-resting sm:col-span-1">
+            <p className="text-eyebrow uppercase text-brand">Featured project</p>
             <p className="mt-2 text-subhead text-ink">
-              View Project 1{" "}
-              <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-0.5">
-                →
-              </span>
+              {featuredCaseStudy?.title}
             </p>
-          </a>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+              <a
+                href={featuredCaseStudy?.caseStudyHref}
+                className="group text-small font-semibold text-ink underline-offset-4 hover:underline"
+              >
+                View case study{" "}
+                <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
+              </a>
+              <a
+                href={featuredCaseStudy?.demoHref}
+                target="_blank"
+                rel="noreferrer"
+                className="group text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+              >
+                Live demo{" "}
+                <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
+              </a>
+            </div>
+          </div>
 
           {/* On mobile these collapse into one quiet secondary line beneath the
               demo card; `sm:contents` hands the two items straight back to the

@@ -43,16 +43,36 @@ export const projects: Project[] = [
     title: "Inbox-to-CRM Agent",
     service: "AI Inbox & Lead Management",
     description:
-      "Classifies incoming messages, drafts replies, and logs everything to a CRM automatically — a visible, auditable three-step agent chain.",
-    tags: ["Agent chain", "Classification", "CRM integration"],
-    status: "In development",
+      "Reads incoming business email, matches it against the CRM, drafts a reply and logs the work — while a person approves anything consequential. Nothing is ever sent without that approval.",
+    tags: [
+      "Human approval gate",
+      "Auto-logged to CRM",
+      "Prompt-injection contained",
+      "Eval-tested",
+    ],
+    status: "Live",
+    caseStudyHref: "/case-study-inbox-crm.html",
+    demoHref: "https://inbox-crm-agent.onrender.com",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
+    featured: true,
   },
   {
+    // "Built", not "Live": it is complete and runnable, and there is no
+    // deployed URL to send anyone to. Saying "Live" without a demo link would
+    // be the kind of small overstatement this file exists to avoid.
     title: "Explainable ATS",
     service: "AI Recruitment Intelligence",
     description:
-      "Ranks resumes against a job spec and gives a plain-language reason for every rank — no black-box scoring.",
-    tags: ["Explainable AI", "Claude Sonnet 5"],
-    status: "In development",
+      "Ranks candidates against a job spec and explains every placement with the exact sentence from their CV that earned it — so a screening decision can be defended to the person it was made about.",
+    tags: [
+      "Evidence quoted from the CV",
+      "Deterministic scoring",
+      "Personal details masked first",
+      "Every ranking explained",
+    ],
+    status: "Built",
+    caseStudyHref: "/case-study-explainable-ats.html",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation",
+    featured: true,
   },
 ];

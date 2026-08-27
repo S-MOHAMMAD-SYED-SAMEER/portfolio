@@ -6,15 +6,21 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Two pages, two entry points. Listing them here is what makes the case
-  // study build to its own real URL as plain static output — no router and no
-  // extra dependency for a site with exactly two pages.
+  // One entry point per page. Listing them here is what makes each case study
+  // build to its own real URL as plain static output — no router and no extra
+  // dependency for a handful of pages.
   build: {
     rollupOptions: {
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         caseStudySalesRecovery: fileURLToPath(
           new URL('./case-study-sales-recovery.html', import.meta.url),
+        ),
+        caseStudyInboxCrm: fileURLToPath(
+          new URL('./case-study-inbox-crm.html', import.meta.url),
+        ),
+        caseStudyExplainableAts: fileURLToPath(
+          new URL('./case-study-explainable-ats.html', import.meta.url),
         ),
       },
     },

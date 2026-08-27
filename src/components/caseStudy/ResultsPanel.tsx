@@ -1,14 +1,24 @@
 /**
  * Verified engineering results. Every figure is reproducible from the
- * repository — `npm test` and `npm run eval` in the project's server folder.
+ * repository — `npm test` and the project's own evaluation command.
  * They describe the test and evaluation suites, deliberately not customer
- * outcomes: this is a working prototype on fictional store data, and it has
- * never handled a real customer. The caption says so plainly.
+ * outcomes: these are working prototypes on fictional data, and neither has
+ * handled a real customer. The caption says so plainly.
+ *
+ * Parameterised so a second case study can state its own figures without a
+ * second copy of this component. The defaults are Project 1's, so that page
+ * renders exactly as before with no change at its call site.
  */
 
-const RESULTS = [
+export interface Result {
+  figure: string;
+  label: string;
+  detail: string;
+}
+
+const SALES_RECOVERY_RESULTS: Result[] = [
   {
-    figure: "189",
+    figure: "206",
     label: "Automated tests passing",
     detail: "Covering retrieval, lookups, memory, signals and the safety layer.",
   },
@@ -29,11 +39,20 @@ const RESULTS = [
   },
 ];
 
-export default function ResultsPanel() {
+const SALES_RECOVERY_CAPTION =
+  "These are engineering results from this project's own test and evaluation suites, measured on a fixed scenario set with fictional store data. They are not customer results — the agent has not yet been run against a live store — and a fixed scenario set is a rigorous smoke test, not proof of accuracy across everything real customers might ask.";
+
+export default function ResultsPanel({
+  results = SALES_RECOVERY_RESULTS,
+  caption = SALES_RECOVERY_CAPTION,
+}: {
+  results?: Result[];
+  caption?: string;
+} = {}) {
   return (
     <div>
       <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {RESULTS.map((result) => (
+        {results.map((result) => (
           <div
             key={result.label}
             className="rounded-lg border border-slate-200 bg-white p-5"
@@ -50,13 +69,7 @@ export default function ResultsPanel() {
           </div>
         ))}
       </dl>
-      <p className="mt-4 text-xs leading-relaxed text-slate-500">
-        These are engineering results from this project's own test and
-        evaluation suites, measured on a fixed scenario set with fictional store
-        data. They are not customer results — the agent has not yet been run
-        against a live store — and a fixed scenario set is a rigorous smoke
-        test, not proof of accuracy across everything real customers might ask.
-      </p>
+      <p className="mt-4 text-xs leading-relaxed text-slate-500">{caption}</p>
     </div>
   );
 }

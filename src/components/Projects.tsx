@@ -3,26 +3,41 @@ import ProjectThumbnail from "./ProjectThumbnail";
 import Section from "./Section";
 
 /**
- * The featured project gets the full width, a thumbnail, and every action.
- * Only completed, live work qualifies — the visual weight is the honest
- * signal, not decoration.
+ * The featured project gets the full width and every action it actually has.
+ * Only completed work qualifies — the visual weight is the honest signal, not
+ * decoration.
+ *
+ * Two things are conditional rather than assumed. The thumbnail renders only
+ * for a project that has one: an illustration drawn for one product would
+ * misrepresent another, and a card without one simply uses the full width.
+ * "Deployed" is appended only when there is a demo to deploy to, so a project
+ * that is built but unhosted cannot claim a deployment it does not have.
  */
 function FeaturedProject({ project }: { project: Project }) {
+  const hasThumbnail = Boolean(project.thumbnail);
+
   return (
     <article className="overflow-hidden rounded-card border border-line bg-surface shadow-resting">
       <div className="grid lg:grid-cols-5">
-        <div className="border-b border-line p-6 sm:p-8 lg:col-span-2 lg:border-b-0 lg:border-r">
-          <ProjectThumbnail />
-        </div>
+        {hasThumbnail && (
+          <div className="border-b border-line p-6 sm:p-8 lg:col-span-2 lg:border-b-0 lg:border-r">
+            <ProjectThumbnail />
+          </div>
+        )}
 
-        <div className="flex flex-col gap-4 p-6 sm:p-8 lg:col-span-3">
+        <div
+          className={`flex flex-col gap-4 p-6 sm:p-8 ${
+            hasThumbnail ? "lg:col-span-3" : "lg:col-span-5"
+          }`}
+        >
           <div className="flex items-center gap-2">
             <span
               aria-hidden="true"
               className="h-1.5 w-1.5 rounded-pill bg-brand"
             />
             <span className="text-eyebrow uppercase text-brand">
-              {project.status} · Deployed
+              {project.status}
+              {project.demoHref ? " · Deployed" : ""}
             </span>
           </div>
 
@@ -109,7 +124,7 @@ export default function Projects() {
       id="projects"
       eyebrow="Projects"
       title="Working systems, not concepts"
-      intro="One is live and testable today. The others are in active development and marked as such."
+      intro="Two are live and testable right now. The third is complete but not yet deployed, and says so."
       ground="surface"
       size="large"
     >
