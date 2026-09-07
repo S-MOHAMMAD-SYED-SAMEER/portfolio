@@ -1,4 +1,6 @@
-const REPO = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
+// The site footer points at the same repository the projects do, so the URL
+// is imported rather than written a second time.
+import { REPO_URL } from "../data/projects";
 
 export default function Footer() {
   return (
@@ -8,7 +10,7 @@ export default function Footer() {
             will not silently go stale. */}
         <p>© {new Date().getFullYear()} S Mohammad Syed Sameer</p>
         <a
-          href={REPO}
+          href={REPO_URL}
           target="_blank"
           rel="noreferrer"
           className="hover:text-ink"

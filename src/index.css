@@ -122,6 +122,12 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* The ground is painted here as well as on each page's wrapper. Without
+       it the body stays transparent and short pages show the browser's own
+       canvas below the content — close to the theme colour but not equal to
+       it, which reads as a seam. */
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
   }
 
   /* Keyboard focus is visible everywhere by default, rather than being
@@ -140,4 +146,116 @@
    #projects/#contact buttons without touching each section individually. */
 html {
   scroll-padding-top: 5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   THEME
+   ---------------------------------------------------------------------------
+
+   Dark is the default. `prefers-color-scheme` is deliberately not consulted:
+   the requirement is a chosen default, not a negotiated one, and a media query
+   would let the operating system override it on first visit. The only thing
+   that changes the theme is the visitor pressing the toggle, which is stored
+   in localStorage under `theme` and re-applied by a blocking script in each
+   page's <head> before first paint.
+
+   WHY THIS REDEFINES TAILWIND'S OWN PALETTE AND NOT JUST THE SEMANTIC TOKENS
+
+   The homepage and the interactive demos are written in semantic tokens
+   (`bg-canvas`, `text-ink`), so those alone would theme them. The three case
+   studies are not — they were written in raw `slate-*` and `indigo-*`
+   utilities, 165 of them. Tailwind v4 compiles every one of those to
+   `var(--color-slate-900)` and friends, so redefining the variables here
+   themes those pages exactly as well, with no change to their markup. The
+   alternative was rewriting 165 class names across three files, which is a
+   large diff and a large opportunity to break a page that currently works.
+
+   The slate ramp is inverted rather than replaced: `text-slate-900` is a
+   heading and must stay high-contrast, so in dark it becomes near-white;
+   `bg-slate-50` is a raised card and becomes the dark equivalent. Inverting
+   keeps every existing contrast relationship pointing the same way.
+--------------------------------------------------------------------------- */
+
+[data-theme="dark"] {
+  /* Semantic tokens. */
+  --color-ink: #e8ecf3;
+  --color-ink-muted: #9aa6b8;
+  --color-canvas: #080b11;
+  --color-surface: #1a2331;
+  --color-line: #414f61;
+  --color-line-strong: #56657b;
+  --color-brand: #8b8bf5;
+  --color-brand-tint: #1c1f3d;
+  --color-signal: #e0a458;
+  --color-signal-tint: #2a2113;
+
+  /* Tailwind's slate ramp, inverted so existing utilities keep their meaning. */
+  --color-slate-50: #1a2331;
+  --color-slate-200: #414f61;
+  --color-slate-300: #3a4557;
+  --color-slate-400: #8a94a5;
+  --color-slate-500: #9aa6b8;
+  --color-slate-600: #b3bccc;
+  --color-slate-700: #ccd3de;
+  --color-slate-800: #dde3ec;
+  --color-slate-900: #e8ecf3;
+
+  /* Indigo, lifted for legibility on a dark ground. */
+  --color-indigo-50: #1c1f3d;
+  --color-indigo-200: #3d3f6b;
+  --color-indigo-500: #8b8bf5;
+  --color-indigo-600: #8b8bf5;
+  --color-indigo-700: #a5a5f8;
+  --color-indigo-800: #c2c2fb;
+  --color-indigo-900: #dcdcfd;
+
+  /* Emerald, used by the demos for records that now exist. */
+  --color-emerald-50: #122a20;
+  --color-emerald-200: #2c4d3f;
+  --color-emerald-700: #6cc9a0;
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ---------------------------------------------------------------------------
+   THE WASHED-OUT BUG, AND WHY IT NEEDS UTILITY OVERRIDES
+
+   `bg-white` appears 19 times across the case-study components — the panels
+   inside ArchitectureDiagram, ResultsPanel, the flow diagrams and Screenshot.
+   `text-white` appears 23 times, on the labels of filled buttons. Tailwind
+   compiles BOTH to `var(--color-white)`.
+
+   So redefining that one variable would have darkened the panels and, in the
+   same stroke, turned every button label dark-on-indigo. The variable cannot
+   distinguish the two uses; only the utility can. Hence the overrides below,
+   which touch the background utilities and leave `text-white` alone.
+
+   This is what made dark mode look washed out: light text was being drawn on
+   panels that had stayed pure white, so whole sections of the case studies
+   rendered at roughly 1.2:1 — legible only as a grey smear.
+
+   The button rule is the same problem from the other side. `--color-brand`
+   has to stay light so `text-brand` reads on a dark ground (6.45:1), but a
+   light indigo behind white label text gives only 2.95:1. The background gets
+   its own deeper value so both roles pass.
+--------------------------------------------------------------------------- */
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--color-surface);
+}
+
+/* Filled primary actions: deep enough that the white label passes at 5.4:1. */
+[data-theme="dark"] .bg-brand,
+[data-theme="dark"] .bg-indigo-600,
+[data-theme="dark"] .bg-indigo-500 {
+  background-color: #5b54e8;
+}
+
+[data-theme="dark"] .hover\:bg-indigo-500:hover,
+[data-theme="dark"] .hover\:bg-brand\/90:hover {
+  background-color: #6d67ec;
 }

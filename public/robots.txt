@@ -1,0 +1,9 @@
+# Everything here is public and meant to be found. There is nothing to hide
+# from a crawler: no admin area, no account pages, no private routes.
+#
+# Deliberately no Disallow rules. An empty Disallow list is not an omission —
+# adding one "just in case" is how a site accidentally de-indexes itself.
+User-agent: *
+Allow: /
+
+Sitemap: https://porfolio-sigma-woad.vercel.app/sitemap.xml

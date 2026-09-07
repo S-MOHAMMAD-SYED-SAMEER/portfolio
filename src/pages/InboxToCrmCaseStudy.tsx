@@ -1,10 +1,24 @@
 import Footer from "../components/Footer";
+import ThemeToggle from "../components/ThemeToggle";
+import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import InboxToCrmFlow from "../components/caseStudy/InboxToCrmFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 
-const DEMO_URL = "https://inbox-crm-agent.onrender.com";
-const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
+
+/**
+ * This page's project, from the canonical data.
+ *
+ * Everything below that identifies the project — its service name in the
+ * heading and all four links — is read from here rather than restated, so this
+ * page cannot drift from what the homepage and the interactive demo claim about
+ * the same project. `projectById` throws on a bad id, so a typo fails loudly at
+ * startup instead of rendering a page with dead buttons.
+ */
+const PROJECT = projectById("p2");
+const DEMO_URL = requiredLink(PROJECT, "demoHref");
+const REPO_URL = requiredLink(PROJECT, "repoHref");
+const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
 
 const CAPABILITIES = [
   {
@@ -108,6 +122,7 @@ export default function InboxToCrmCaseStudy() {
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={REPO_URL}
               target="_blank"
@@ -135,7 +150,7 @@ export default function InboxToCrmCaseStudy() {
             Case Study — Live Project
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
-            AI Inbox &amp; Lead Management
+            {PROJECT.service}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-600">
             Turns the enquiries sitting in your inbox into tracked records with
@@ -143,11 +158,20 @@ export default function InboxToCrmCaseStudy() {
             goes out in your name without your approval.
           </p>
           <div className="flex flex-wrap gap-4 pt-8">
+            {/* Leads, because the deployed dashboard below is behind a sign-in
+                and this is not: it runs in this tab on synthetic data, with no
+                account and no cold start. */}
+            <a
+              href={INTERACTIVE_DEMO_HREF}
+              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+            >
+              Try interactive demo
+            </a>
             <a
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
               Try the Live Demo
             </a>

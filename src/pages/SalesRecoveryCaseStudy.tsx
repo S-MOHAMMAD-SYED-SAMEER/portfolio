@@ -1,10 +1,24 @@
 import Footer from "../components/Footer";
+import ThemeToggle from "../components/ThemeToggle";
+import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ArchitectureDiagram from "../components/caseStudy/ArchitectureDiagram";
 import ResultsPanel from "../components/caseStudy/ResultsPanel";
 
-const DEMO_URL = "https://sales-recovery-agent-j0mc.onrender.com";
-const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
+
+/**
+ * This page's project, from the canonical data.
+ *
+ * Everything below that identifies the project — its service name in the
+ * heading and all four links — is read from here rather than restated, so this
+ * page cannot drift from what the homepage and the interactive demo claim about
+ * the same project. `projectById` throws on a bad id, so a typo fails loudly at
+ * startup instead of rendering a page with dead buttons.
+ */
+const PROJECT = projectById("p1");
+const DEMO_URL = requiredLink(PROJECT, "demoHref");
+const REPO_URL = requiredLink(PROJECT, "repoHref");
+const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
 
 const CAPABILITIES = [
   {
@@ -86,6 +100,7 @@ export default function SalesRecoveryCaseStudy() {
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={REPO_URL}
               target="_blank"
@@ -113,7 +128,7 @@ export default function SalesRecoveryCaseStudy() {
             Case Study — Live Project
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
-            AI Customer Support &amp; Sales Recovery
+            {PROJECT.service}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-600">
             An AI support agent that helps online stores answer customer
@@ -121,11 +136,21 @@ export default function SalesRecoveryCaseStudy() {
             small team spends retyping the same replies.
           </p>
           <div className="flex flex-wrap gap-4 pt-8">
+            {/* Leads, because it is the action a reader can take right now: it
+                runs in this tab on synthetic data, with no account and no cold
+                start. The deployed application is still linked beside it and
+                still described as the real thing. */}
+            <a
+              href={INTERACTIVE_DEMO_HREF}
+              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+            >
+              Try interactive demo
+            </a>
             <a
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
               Try the Live Demo
             </a>

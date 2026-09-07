@@ -9,6 +9,19 @@
       content="Case study — an AI support agent that helps online stores answer customer questions, recover hesitant buyers, and reduce repetitive support work."
     />
     <title>AI Customer Support &amp; Sales Recovery — Case Study</title>
+    <script>
+      // Sets the theme before first paint so no page flashes the wrong one.
+      // Dark is the default; only a stored choice overrides it. Deliberately
+      // does not read prefers-color-scheme.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

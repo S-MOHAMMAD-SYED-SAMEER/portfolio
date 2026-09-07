@@ -103,11 +103,23 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       <div className="mt-auto flex flex-wrap items-center gap-3">
+        {/* Leads, because it is the one action every visitor can take right
+            now: no account, no cold start, no waiting. The deployed demo is
+            still linked beside it and still described as the real thing. */}
+        {project.interactiveDemoHref && (
+          <a
+            href={project.interactiveDemoHref}
+            onClick={markProjectsAsOrigin}
+            className="inline-flex h-control items-center rounded-control bg-brand px-4 text-small font-semibold text-white hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          >
+            Try interactive demo
+          </a>
+        )}
         {project.caseStudyHref && (
           <a
             href={project.caseStudyHref}
             onClick={markProjectsAsOrigin}
-            className="inline-flex h-control items-center rounded-control bg-brand px-4 text-small font-semibold text-white hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="inline-flex h-control items-center rounded-control border border-line-strong px-4 text-small font-semibold text-ink hover:border-ink-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             View case study
           </a>
@@ -139,7 +151,9 @@ function ProjectCard({ project }: { project: Project }) {
           instance takes a moment to answer. Quiet by design — it qualifies the
           action above it rather than competing with it. */}
       {project.demoHref && project.demoNote && (
-        <p className="mt-3 text-meta text-ink-muted">{project.demoNote}</p>
+        <p className="mt-3 text-meta text-ink-muted">
+          <span className="font-semibold">Live demo:</span> {project.demoNote}
+        </p>
       )}
     </article>
   );

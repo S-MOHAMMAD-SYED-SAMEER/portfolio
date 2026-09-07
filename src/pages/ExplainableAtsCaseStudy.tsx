@@ -1,9 +1,27 @@
 import Footer from "../components/Footer";
+import ThemeToggle from "../components/ThemeToggle";
+import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ExplainableAtsFlow from "../components/caseStudy/ExplainableAtsFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 
-const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
+
+/**
+ * This page's project, from the canonical data.
+ *
+ * Everything below that identifies the project — its service name in the
+ * heading and all four links — is read from here rather than restated, so this
+ * page cannot drift from what the homepage and the interactive demo claim about
+ * the same project. `projectById` throws on a bad id, so a typo fails loudly at
+ * startup instead of rendering a page with dead buttons.
+ *
+ * The lookup was keyed on this page's own route until Phase 1; an id is used
+ * now because a route is something that can legitimately move.
+ */
+const PROJECT = projectById("p3");
+const REPO_URL = requiredLink(PROJECT, "repoHref");
+const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
+const LIVE_DEMO_HREF = requiredLink(PROJECT, "demoHref");
 
 const CAPABILITIES = [
   {
@@ -236,6 +254,7 @@ export default function ExplainableAtsCaseStudy() {
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={REPO_URL}
               target="_blank"
@@ -255,7 +274,7 @@ export default function ExplainableAtsCaseStudy() {
             Case Study — Live Project
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
-            AI Recruitment Intelligence
+            {PROJECT.service}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-slate-600">
             Ranks candidates against a role and explains every placement with the
@@ -263,11 +282,31 @@ export default function ExplainableAtsCaseStudy() {
             can be defended to the person it was made about.
           </p>
           <div className="flex flex-wrap gap-4 pt-8">
+            {/* Leads, because it is the action a reader can take right now: it
+                runs in this tab on synthetic data, with no account and no cold
+                start. */}
+            <a
+              href={INTERACTIVE_DEMO_HREF}
+              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+            >
+              Try interactive demo
+            </a>
+            {/* The deployed application. Secondary rather than primary because
+                it is behind an operator sign-in and on hosting that sleeps —
+                the button above is the one a reader can act on immediately. */}
+            <a
+              href={LIVE_DEMO_HREF}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+            >
+              Try the Live Demo
+            </a>
             <a
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
               View on GitHub
             </a>
@@ -278,10 +317,17 @@ export default function ExplainableAtsCaseStudy() {
               Talk about your hiring process
             </a>
           </div>
+          {/* What each button actually gets you, said before it is pressed.
+              The two limitations named here are the same ones set out in full
+              further down the page; they are repeated in one line because a
+              reader who opens a demo from here may never scroll that far. */}
           <p className="mt-4 text-xs text-slate-500">
-            Built locally and verified by an automated test suite — a hosted demo
-            is coming. Until then the source is public and the walkthrough below
-            describes exactly what it does.
+            The interactive demo runs in this tab — no account, nothing to
+            install. The deployed application is live, but its dashboard is
+            behind an operator sign-in and its free hosting sleeps, so a first
+            load can take up to a minute. Both run on an invented dataset with a
+            deterministic stand-in reader: no real applicants have been screened,
+            and no customer outcomes are claimed.
           </p>
           <div className="mt-10">
             <Screenshot

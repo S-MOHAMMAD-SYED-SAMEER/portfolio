@@ -1,3 +1,5 @@
+import ThemeToggle from "./ThemeToggle";
+
 const links = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Capabilities" },
@@ -32,6 +34,7 @@ export default function Nav() {
               </li>
             ))}
           </ul>
+          <ThemeToggle />
           <a
             href="#contact"
             className="inline-flex h-control items-center rounded-control bg-brand px-4 text-small font-semibold text-white hover:bg-brand/90"

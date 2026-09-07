@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The seven public pages, and nothing else.
+
+  No <lastmod>: the honest value is the deployment date, which this file has no
+  way to know, and a wrong one teaches a crawler to distrust the rest. No
+  <changefreq> or <priority> either — Google ignores both.
+
+  Deliberately absent: the GitHub repository, the three Render deployments, and
+  every asset. A sitemap lists pages of THIS site that should be indexed; the
+  external links are already in the pages' own markup, where a crawler follows
+  them on their own merits.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/case-study-sales-recovery.html</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/case-study-inbox-crm.html</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/case-study-explainable-ats.html</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/demo-sales-recovery.html</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/demo-inbox-crm.html</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/demo-explainable-ats.html</loc>
+  </url>
+</urlset>
