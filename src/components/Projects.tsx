@@ -1,5 +1,5 @@
 import { projects, type Project } from "../data/projects";
-import ProjectSystemSnapshot from "./ProjectSystemSnapshot";
+import Screenshot from "./Screenshot";
 import Section from "./Section";
 
 /**
@@ -31,16 +31,30 @@ function markProjectsAsOrigin() {
  * two placeholders.
  *
  * What still varies is what each project genuinely has. The status word, the
- * system diagram, the proof figures and the action buttons are all driven by
- * the data, so a project with no deployed demo simply has no demo button —
- * rather than a disabled one, or worse, a link to nothing.
+ * screenshot, the proof figures and the action buttons are all driven by the
+ * data, so a project with no deployed demo simply has no demo button — rather
+ * than a disabled one, or worse, a link to nothing.
+ *
+ * The visual is now a real screenshot. It sits in a fixed-ratio window with
+ * `object-cover object-top`, which does two things: every card keeps the same
+ * height whatever the capture's proportions are — they range from 3.1:1 to
+ * 0.6:1 — and a tall page shows its top rather than being squashed edge to
+ * edge. The full captures are on the case-study pages, where there is room.
  */
 function ProjectCard({ project }: { project: Project }) {
   const deployed = Boolean(project.demoHref);
 
   return (
     <article className="flex flex-col gap-5 rounded-card border border-line bg-surface p-6 shadow-resting sm:p-7">
-      {project.snapshot && <ProjectSystemSnapshot variant={project.snapshot} />}
+      {project.screenshot && (
+        <Screenshot
+          frame="card"
+          src={project.screenshot.src}
+          alt={project.screenshot.alt}
+          width={project.screenshot.width}
+          height={project.screenshot.height}
+        />
+      )}
 
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">
@@ -119,6 +133,14 @@ function ProjectCard({ project }: { project: Project }) {
           </a>
         )}
       </div>
+
+      {/* Said before the click, not after it: the button alone cannot tell a
+          visitor that a demo needs an account or that a sleeping free-tier
+          instance takes a moment to answer. Quiet by design — it qualifies the
+          action above it rather than competing with it. */}
+      {project.demoHref && project.demoNote && (
+        <p className="mt-3 text-meta text-ink-muted">{project.demoNote}</p>
+      )}
     </article>
   );
 }
@@ -132,7 +154,7 @@ export default function Projects() {
       id="projects"
       eyebrow="Projects"
       title="Working systems, not concepts"
-      intro="Three systems, each built end to end, tested and documented. Two are live and testable right now; the third is complete and not yet deployed, and says so."
+      intro="Three systems, each built end to end, tested and documented — and all three are live and testable right now."
       ground="surface"
       size="large"
     >

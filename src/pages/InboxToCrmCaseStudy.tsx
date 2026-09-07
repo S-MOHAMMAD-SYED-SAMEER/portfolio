@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Footer from "../components/Footer";
+import Screenshot from "../components/Screenshot";
 import InboxToCrmFlow from "../components/caseStudy/InboxToCrmFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 
@@ -74,48 +74,6 @@ const RESULTS: Result[] = [
 
 const RESULTS_CAPTION =
   "These are engineering results from this project's own test and evaluation suites, measured on a fixed set of example emails and a fictional CRM. They are not customer results — the agent has not yet been run against a real mailbox — and a fixed scenario set is a rigorous smoke test, not proof of accuracy across everything a real inbox might contain.";
-
-/**
- * Placeholder for a screenshot of the real running product. These slots stay
- * visibly empty rather than being filled with a mock-up: an illustration
- * dressed as a screenshot would misrepresent what the product looks like.
- * Dropping the named file into portfolio/public/images/ replaces the
- * placeholder automatically — no code change needed.
- */
-function Screenshot({
-  src,
-  alt,
-  caption,
-}: {
-  src: string;
-  alt: string;
-  caption: string;
-}) {
-  const [missing, setMissing] = useState(false);
-
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-        {missing ? (
-          <div className="flex aspect-video items-center justify-center">
-            <p className="px-6 text-center text-xs text-slate-400">
-              Product screenshot to be added
-            </p>
-          </div>
-        ) : (
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            className="h-auto w-full"
-            onError={() => setMissing(true)}
-          />
-        )}
-      </div>
-      <figcaption className="mt-2 text-xs text-slate-500">{caption}</figcaption>
-    </figure>
-  );
-}
 
 function Section({
   id,
@@ -208,9 +166,11 @@ export default function InboxToCrmCaseStudy() {
           </p>
           <div className="mt-10">
             <Screenshot
-              src="/images/p2-inbox-overview.png"
-              alt="The inbox screen listing processed emails and their states"
-              caption="The running demo: every inbound email, what the assistant made of it, and what is waiting on a person."
+              src="/images/p2-inbox-full-workflow.png"
+              width={1415}
+              height={868}
+              alt="An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer."
+              caption="An email opened up: the original message, what the agent took from it, and the checks run on that answer before any of it was stored."
             />
           </div>
         </section>
@@ -435,23 +395,36 @@ export default function InboxToCrmCaseStudy() {
 
         {/* 8. PRODUCT SCREENSHOTS */}
         <Section eyebrow="The product" title="Seeing it work">
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="columns-1 gap-8 sm:columns-2">
             <Screenshot
-              src="/images/p2-understanding.png"
-              alt="An email detail screen showing what the assistant understood from the message"
-              caption="What the assistant took from an email — and the text in the message that each detail came from."
+              src="/images/p2-human-approval.png"
+              width={1762}
+              height={752}
+              alt="The human approval step in the Inbox-to-CRM agent, where a proposed plan waits for a person."
+              caption="The approval step. Anything consequential stops here and waits for a person to say yes."
             />
             <Screenshot
-              src="/images/p2-approval-diff.png"
-              alt="An approval showing the proposed changes against the current CRM records"
-              caption="The approval screen: proposed changes shown against what the records say now, before anything is applied."
+              src="/images/p2-approved-actions.png"
+              width={1852}
+              height={767}
+              alt="The actions that were applied after a person approved the proposed plan."
+              caption="What was carried out once approval was given — applied together, with a record of every change."
             />
             <Screenshot
-              src="/images/p2-injection-flagged.png"
-              alt="An email flagged for containing hidden instructions aimed at the AI"
-              caption="An email carrying hidden instructions aimed at the assistant — caught before the AI was asked for its opinion, and routed to a person."
+              src="/images/p2-crm-deals-pipeline.png"
+              width={1822}
+              height={870}
+              alt="The CRM deals pipeline in the Inbox-to-CRM dashboard."
+              caption="The CRM the agent writes into — the records an enquiry becomes, rather than a note in someone's inbox."
             />
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+            <Screenshot
+              src="/images/p2-email-to-crm-workflow.png"
+              width={1900}
+              height={4319}
+              alt="The full path an email takes through the agent, from the message arriving to the records it becomes."
+              caption="The whole path end to end, from the email arriving to the records it becomes. Top of a much longer page."
+            />
+            <div className="mb-8 break-inside-avoid rounded-lg border border-slate-200 bg-slate-50 p-6">
               <p className="text-sm font-semibold text-slate-900">
                 Try it yourself
               </p>

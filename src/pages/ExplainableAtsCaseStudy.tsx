@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Footer from "../components/Footer";
+import Screenshot from "../components/Screenshot";
 import ExplainableAtsFlow from "../components/caseStudy/ExplainableAtsFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 
@@ -48,9 +48,9 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "315",
+    figure: "326",
     label: "Automated tests passing",
-    detail: "291 covering the server and its scoring rules, 24 covering the dashboard.",
+    detail: "302 covering the server and its scoring rules, 24 covering the dashboard.",
   },
   {
     figure: "4",
@@ -74,48 +74,6 @@ const RESULTS: Result[] = [
 
 const RESULTS_CAPTION =
   "These are engineering results from this project's own test suite, measured against a fixed demo dataset with invented candidates. They are not customer results — the system has not been run against real applicants — and a passing test suite is evidence that the rules behave as specified, not proof of good hiring outcomes.";
-
-/**
- * Placeholder for a screenshot of the real running product. These slots stay
- * visibly empty rather than being filled with a mock-up: an illustration
- * dressed as a screenshot would misrepresent what the product looks like.
- * Dropping the named file into portfolio/public/images/ replaces the
- * placeholder automatically — no code change needed.
- */
-function Screenshot({
-  src,
-  alt,
-  caption,
-}: {
-  src: string;
-  alt: string;
-  caption: string;
-}) {
-  const [missing, setMissing] = useState(false);
-
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-        {missing ? (
-          <div className="flex aspect-video items-center justify-center">
-            <p className="px-6 text-center text-xs text-slate-400">
-              Product screenshot to be added
-            </p>
-          </div>
-        ) : (
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            className="h-auto w-full"
-            onError={() => setMissing(true)}
-          />
-        )}
-      </div>
-      <figcaption className="mt-2 text-xs text-slate-500">{caption}</figcaption>
-    </figure>
-  );
-}
 
 function Section({
   id,
@@ -294,7 +252,7 @@ export default function ExplainableAtsCaseStudy() {
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
           <p className="text-sm font-medium uppercase tracking-wide text-indigo-600">
-            Case Study — Built, demo not yet deployed
+            Case Study — Live Project
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
             AI Recruitment Intelligence
@@ -327,9 +285,11 @@ export default function ExplainableAtsCaseStudy() {
           </p>
           <div className="mt-10">
             <Screenshot
-              src="/images/p3-ranking.png"
-              alt="The ranked candidate list for a role, showing scores and placement reasons"
-              caption="The ranked list for a role: each candidate's score, their standing, and the sentence explaining the placement."
+              src="/images/p3-candidate-ranking.png"
+              width={1900}
+              height={3005}
+              alt="A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it."
+              caption="A candidate opened up: the evidence score, every requirement with its verdict, and the quoted passage behind each one. Top of a longer page."
             />
           </div>
         </section>
@@ -660,41 +620,28 @@ export default function ExplainableAtsCaseStudy() {
 
         {/* 11. SCREENSHOTS */}
         <Section eyebrow="The product" title="Seeing it work">
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="columns-1 gap-8 sm:columns-2">
             <Screenshot
-              src="/images/p3-candidate-explanation.png"
-              alt="A candidate's assessment showing each requirement, its verdict and the quoted evidence"
-              caption="A candidate opened up: every requirement, the verdict in plain words, and the passage from the CV behind it."
+              src="/images/p3-candidate-evidence.png"
+              width={1920}
+              height={611}
+              alt="A requirement judgement shown alongside the passage quoted from the candidate's CV that it rests on."
+              caption="A verdict and the passage it rests on — checked against the submitted CV before it was allowed to count."
             />
             <Screenshot
-              src="/images/p3-evidence-verification.png"
-              alt="A requirement judgement alongside the verified quote it rests on"
-              caption="A verdict and the quote it rests on — checked against the submitted CV before it was allowed to count."
+              src="/images/p3-decision-audit-trail.png"
+              width={1900}
+              height={1690}
+              alt="The recorded recruiter decision and the history of every step taken to produce the assessment."
+              caption="The decision with its written reason, above the append-only history of how the assessment was produced."
             />
             <Screenshot
-              src="/images/p3-decision-history.png"
-              alt="The recorded decision and the full history of how the assessment was produced"
-              caption="The recorded decision with its written reason, and the history of every step behind the assessment."
+              src="/images/p3-system-status.png"
+              width={1900}
+              height={2759}
+              alt="The Explainable ATS status screen, reporting how the running system is configured."
+              caption="The status screen: what the running system is configured with, reported without exposing any value. Top of a longer page."
             />
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
-                Screenshots are being captured
-              </p>
-              <p className="mt-2 text-sm text-slate-600">
-                These slots are deliberately empty rather than filled with
-                mock-ups — an illustration presented as a screenshot would
-                misrepresent the product. The source is public in the meantime,
-                and a hosted demo is the next step.
-              </p>
-              <a
-                href={REPO_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-              >
-                Read the source
-              </a>
-            </div>
           </div>
         </Section>
 
@@ -725,9 +672,9 @@ export default function ExplainableAtsCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "No hosted demo yet",
+                title: "The demo is behind sign-in",
                 detail:
-                  "It runs locally and is verified by its test suite. Deploying a public demo is the next piece of work on it.",
+                  "It is hosted and reachable, but the dashboard needs an operator account, so it cannot be explored anonymously. The free-tier hosting also sleeps when idle, so the first request after a quiet spell is slow.",
               },
               {
                 title: "The reader is a deterministic stand-in",
@@ -738,11 +685,6 @@ export default function ExplainableAtsCaseStudy() {
                 title: "No real applicants have been screened",
                 detail:
                   "Everything shown runs on an invented dataset. There are no customer outcomes to report, and none are claimed.",
-              },
-              {
-                title: "Screenshots are placeholders",
-                detail:
-                  "The slots above stay empty until real captures of the running product replace them.",
               },
             ].map((item) => (
               <div

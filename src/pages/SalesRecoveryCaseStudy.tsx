@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Footer from "../components/Footer";
+import Screenshot from "../components/Screenshot";
 import ArchitectureDiagram from "../components/caseStudy/ArchitectureDiagram";
 import ResultsPanel from "../components/caseStudy/ResultsPanel";
 
@@ -52,48 +52,6 @@ const STACK = [
   { name: "Google Gemini", role: "Language model behind the assistant" },
   { name: "Render", role: "Hosting for the running demo" },
 ];
-
-/**
- * Placeholder for a screenshot of the real running product. These slots stay
- * visibly empty rather than being filled with a mock-up: an illustration
- * dressed as a screenshot would misrepresent what the product looks like.
- * Dropping the named file into portfolio/public/images/ replaces the
- * placeholder automatically — no code change needed.
- */
-function Screenshot({
-  src,
-  alt,
-  caption,
-}: {
-  src: string;
-  alt: string;
-  caption: string;
-}) {
-  const [missing, setMissing] = useState(false);
-
-  return (
-    <figure>
-      <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-        {missing ? (
-          <div className="flex aspect-video items-center justify-center">
-            <p className="px-6 text-center text-xs text-slate-400">
-              Product screenshot to be added
-            </p>
-          </div>
-        ) : (
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            className="h-auto w-full"
-            onError={() => setMissing(true)}
-          />
-        )}
-      </div>
-      <figcaption className="mt-2 text-xs text-slate-500">{caption}</figcaption>
-    </figure>
-  );
-}
 
 function Section({
   id,
@@ -186,9 +144,11 @@ export default function SalesRecoveryCaseStudy() {
           </p>
           <div className="mt-10">
             <Screenshot
-              src="/images/p1-chat-overview.png"
-              alt="The support agent answering a customer's question in the live demo"
-              caption="The running demo, answering a customer question."
+              src="/images/p1-grounded-answer.png"
+              width={942}
+              height={872}
+              alt="The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying."
+              caption="The running demo. Every reply carries a badge naming the check it ran before answering."
             />
           </div>
         </section>
@@ -301,23 +261,29 @@ export default function SalesRecoveryCaseStudy() {
 
         {/* 6. PRODUCT SCREENSHOTS */}
         <Section eyebrow="The product" title="Seeing it work">
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="columns-1 gap-8 sm:columns-2">
             <Screenshot
-              src="/images/p1-knowledge-answer.png"
-              alt="The agent answering a shipping question from the store's written policy"
-              caption="A shipping question answered from the store's own policy document — the badge shows the assistant checked store information before replying."
+              src="/images/p1-policy-grounding.png"
+              width={936}
+              height={867}
+              alt="The support agent answering a policy question using the store's own written policy."
+              caption="A policy question answered from the store's own documents rather than from the model's general knowledge."
             />
             <Screenshot
-              src="/images/p1-tool-lookup.png"
-              alt="The agent looking up a live order status for a customer"
-              caption="An order question answered with a real status and tracking number, looked up on the spot."
+              src="/images/p1-order-or-stock-lookup.png"
+              width={938}
+              height={802}
+              alt="The support agent answering a question about an order or product by looking the answer up."
+              caption="An order or stock question answered from live data, looked up on the spot rather than guessed."
             />
             <Screenshot
-              src="/images/p1-sales-signal.png"
-              alt="The agent recognising a hesitant buyer and responding to their concern"
-              caption="A hesitant buyer. The assistant recognises the hesitation and the price concern, and addresses them without inventing a discount."
+              src="/images/p1-buying-signal-recovery.png"
+              width={912}
+              height={608}
+              alt="The support agent recognising a hesitant buyer and responding to the concern they raised."
+              caption="A hesitant buyer. The assistant recognises the hesitation and answers it without inventing a discount."
             />
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+            <div className="mb-8 break-inside-avoid rounded-lg border border-slate-200 bg-slate-50 p-6">
               <p className="text-sm font-semibold text-slate-900">
                 Try these yourself
               </p>
