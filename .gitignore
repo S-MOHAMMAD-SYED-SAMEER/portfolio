@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# This is a static site: it has no server of its own. A `server/` directory
+# here is always a stray — it appeared once as a Chroma vector store written by
+# Project 1's ingest script run from the wrong working directory. That store
+# belongs at sales-recovery-agent/server/data/chroma/, and it was only kept out
+# of the repository by the root .gitignore's `*.sqlite3` rule, which would not
+# have caught the other files a Chroma run leaves behind.
+server/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

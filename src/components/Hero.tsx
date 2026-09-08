@@ -64,6 +64,29 @@ export default function Hero() {
           >
             View Projects
           </a>
+          {/* The 3D experience, which otherwise has no way in.
+              It lives at its own page and was reachable only by typing the
+              URL — a visitor had to already know it existed. Placed here
+              rather than in the nav because the nav's link list is hidden
+              below 640px, and this is the one thing on the page a client is
+              unlikely to guess at.
+
+              A plain same-origin link: the page is a separate document, so
+              there is nothing to intercept, and it works with JavaScript off.
+              The arrow marks it as leaving this page, unlike the two anchors
+              beside it which scroll within it. */}
+          <a
+            href="/3d.html"
+            className="group inline-flex h-control-lg items-center gap-2 rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
+          >
+            Explore 3D Portfolio
+            <span
+              aria-hidden="true"
+              className="inline-block transition-transform group-hover:translate-x-0.5"
+            >
+              →
+            </span>
+          </a>
         </div>
 
         {/* SELECTED WORK. Three systems, named, with the number behind each.
