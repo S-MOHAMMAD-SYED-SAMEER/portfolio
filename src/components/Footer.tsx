@@ -9,11 +9,15 @@ export default function Footer() {
         {/* Year stays derived rather than hard-coded — it renders 2026 now and
             will not silently go stale. */}
         <p>© {new Date().getFullYear()} S Mohammad Syed Sameer</p>
+        {/* Distinguished from the "GitHub" links on the project cards, which
+            name their project, and from the one in Contact, which is the
+            account. This is the repository on its own. */}
         <a
           href={REPO_URL}
           target="_blank"
           rel="noreferrer"
-          className="hover:text-ink"
+          aria-label="GitHub repository"
+          className="-my-3 inline-flex items-center py-3 hover:text-ink"
         >
           GitHub
         </a>

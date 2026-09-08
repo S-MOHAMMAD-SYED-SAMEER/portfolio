@@ -1,4 +1,5 @@
 import Footer from "../components/Footer";
+import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
@@ -249,6 +250,9 @@ export default function ExplainableAtsCaseStudy() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+        {/* This is the longest page on the site; skipping the header matters
+            more here than anywhere else. */}
+        <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
           <a href="/#projects" className="text-sm font-semibold text-slate-900">
             ← AI Business Automation
@@ -267,7 +271,7 @@ export default function ExplainableAtsCaseStudy() {
         </nav>
       </header>
 
-      <main>
+      <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
           <p className="text-sm font-medium uppercase tracking-wide text-indigo-600">

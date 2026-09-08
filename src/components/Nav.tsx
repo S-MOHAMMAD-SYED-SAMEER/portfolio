@@ -1,3 +1,4 @@
+import SkipLink from "./SkipLink";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
@@ -9,12 +10,22 @@ const links = [
 export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-canvas/85 backdrop-blur">
+      {/* Before the wordmark, so a keyboard visitor does not walk the three
+          section links, the theme toggle and the Contact button on every visit
+          before reaching the page. The sticky header is already a positioning
+          context, so the focused link places itself against it. */}
+      <SkipLink />
       <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
         {/* Smaller at mobile widths so the wordmark and the Contact button
             both fit at 375px without wrapping or overflowing. */}
+        {/* py/-my grow the touch target to 46px without moving anything: the
+            padding enlarges the hit box, the equal negative margin gives the
+            space straight back to the layout, so the header stays 73px tall at
+            every width. Safe here because the bar is a single row — there is no
+            control above or below for the taller box to overlap. */}
         <a
           href="#top"
-          className="whitespace-nowrap text-small font-semibold text-ink sm:text-subhead"
+          className="-my-3 whitespace-nowrap py-3 text-small font-semibold text-ink sm:text-subhead"
         >
           S Mohammad Syed Sameer
         </a>

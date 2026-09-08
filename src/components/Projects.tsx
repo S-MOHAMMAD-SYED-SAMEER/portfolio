@@ -106,10 +106,23 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Leads, because it is the one action every visitor can take right
             now: no account, no cold start, no waiting. The deployed demo is
             still linked beside it and still described as the real thing. */}
+        {/* WHY EVERY ACTION HERE CARRIES AN aria-label
+            Three cards render this same row, so a screen reader listing the
+            page's links hears "Try interactive demo" three times, "View case
+            study" three times, "Live demo" three times and "GitHub" three
+            times, with nothing saying which project each belongs to. The card
+            heading supplies that visually; a link list has no headings in it.
+            The visible text stays as it is — short, and the same across cards
+            on purpose — and the project name is added for anyone who cannot
+            see which card the link sits in.
+            Each label OPENS with the visible text verbatim, which is what
+            WCAG 2.5.3 (Label in Name) requires: a speech-input user says
+            "click Live demo" and the accessible name still matches. */}
         {project.interactiveDemoHref && (
           <a
             href={project.interactiveDemoHref}
             onClick={markProjectsAsOrigin}
+            aria-label={`Try interactive demo: ${project.title}`}
             className="inline-flex h-control items-center rounded-control bg-brand px-4 text-small font-semibold text-white hover:bg-brand/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Try interactive demo
@@ -119,6 +132,7 @@ function ProjectCard({ project }: { project: Project }) {
           <a
             href={project.caseStudyHref}
             onClick={markProjectsAsOrigin}
+            aria-label={`View case study: ${project.title}`}
             className="inline-flex h-control items-center rounded-control border border-line-strong px-4 text-small font-semibold text-ink hover:border-ink-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             View case study
@@ -129,6 +143,7 @@ function ProjectCard({ project }: { project: Project }) {
             href={project.demoHref}
             target="_blank"
             rel="noreferrer"
+            aria-label={`Live demo: ${project.title}`}
             className="inline-flex h-control items-center rounded-control border border-line-strong px-4 text-small font-semibold text-ink hover:border-ink-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Live demo
@@ -139,6 +154,7 @@ function ProjectCard({ project }: { project: Project }) {
             href={project.repoHref}
             target="_blank"
             rel="noreferrer"
+            aria-label={`GitHub repository for ${project.title}`}
             className="inline-flex h-control items-center px-1 text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             GitHub

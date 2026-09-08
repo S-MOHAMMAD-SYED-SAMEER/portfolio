@@ -80,9 +80,24 @@ export default function Services() {
                   →
                 </span>
               </a>
+              {/* Four cards render this link, each opening a message about a
+                  different service. The visible text stays short and identical
+                  by design — the name is already the card's heading — so the
+                  service is added to the accessible name instead, for anyone
+                  hearing the links out of that context. Opens with the visible
+                  text so WCAG 2.5.3 (Label in Name) still holds. */}
               <a
                 href={enquiryMailto(service.name)}
-                className="text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                aria-label={`Discuss this service: ${service.name}`}
+                /* A real height rather than padding with a negative margin:
+                   this row wraps at 390px, so a hit box larger than the
+                   laid-out box would reach up into the proof CTA above it and
+                   steal taps meant for that button.
+                   Scoped to max-md because a real height does move the layout —
+                   the row grows from 40px to 44px. Below md that is the point;
+                   at md and above the card keeps the proportions it shipped
+                   with, where a mouse does not need the extra 4px. */
+                className="inline-flex items-center max-md:min-h-11 text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               >
                 Discuss this service
               </a>

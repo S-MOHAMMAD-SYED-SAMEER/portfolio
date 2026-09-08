@@ -3,6 +3,7 @@ import type { Project } from "../../data/projects";
 import type { Panel } from "./panels";
 import { PanelView } from "./panels";
 import Footer from "../../components/Footer";
+import SkipLink from "../../components/SkipLink";
 import ThemeToggle from "../../components/ThemeToggle";
 
 /**
@@ -114,6 +115,9 @@ export function DemoShell({
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <header className="sticky top-0 z-50 border-b border-line bg-canvas/85 backdrop-blur">
+        {/* Ahead of the back-link, the theme toggle and the Contact button, so
+            a keyboard visitor reaches the walkthrough itself in one press. */}
+        <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
           <a href="/#projects" className="whitespace-nowrap text-small font-semibold text-ink">
             ← Back to projects
@@ -130,7 +134,7 @@ export function DemoShell({
         </nav>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 pb-20 pt-12 sm:pt-16">
+      <main id="main" tabIndex={-1} className="mx-auto max-w-5xl px-6 pb-20 pt-12 sm:pt-16">
         <p className="text-eyebrow uppercase text-brand">Interactive demo</p>
         <h1 className="mt-3 max-w-3xl text-display-sm text-balance text-ink">{project.title}</h1>
         <p className="mt-5 max-w-2xl text-body text-ink-muted">{tagline}</p>

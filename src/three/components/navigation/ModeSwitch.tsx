@@ -6,12 +6,25 @@ const MODES: readonly ExperienceMode[] = ['normal', '3d']
 /**
  * Lets the visitor move between the Normal portfolio and the 3D experience
  * from anywhere inside either mode.
+ *
+ * WHY <nav> RATHER THAN role="group"
+ *
+ * These two are links to other documents, and they are the only ones on the
+ * page — every other control here changes the scene rather than leaving it. So
+ * this is the route out of the 3D experience, and `<nav>` is what it is:
+ * native semantics replacing an explicit ARIA role, not a landmark added to
+ * satisfy a checklist. It also takes the page from one landmark to two, so the
+ * way out can be found by jumping between landmarks rather than only by
+ * tabbing from the top.
+ *
+ * The label is kept, so it is announced as "Experience mode" either way, and
+ * `inline-flex` still comes from the class list — the rendered box does not
+ * move.
  */
 export function ModeSwitch({ mode = '3d' }: { mode?: ExperienceMode }) {
 
   return (
-    <div
-      role="group"
+    <nav
       aria-label="Experience mode"
       className="border-scene-line bg-scene-ink/70 inline-flex rounded-full border p-1 backdrop-blur-sm"
     >
@@ -32,6 +45,6 @@ export function ModeSwitch({ mode = '3d' }: { mode?: ExperienceMode }) {
           </a>
         )
       })}
-    </div>
+    </nav>
   )
 }

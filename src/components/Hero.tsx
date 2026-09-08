@@ -131,7 +131,7 @@ export default function Hero() {
 
           <a
             href="#projects"
-            className="group mt-5 inline-flex text-small font-semibold text-ink underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="group mt-2 -my-3 inline-flex py-3 text-small font-semibold text-ink underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             View projects{" "}
             <span

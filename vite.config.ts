@@ -2,9 +2,10 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-// The same module every surface reads. Structured data derived from it
+// The same modules every surface reads. Structured data derived from them
 // cannot contradict what the pages themselves render.
-import { projects, REPO_URL } from './src/data/projects.ts'
+import { projects } from './src/data/projects.ts'
+import { GITHUB_PROFILE_URL, LINKEDIN_URL } from './src/data/contact.ts'
 
 /**
  * Gives every page Open Graph and Twitter tags, derived from what it already says.
@@ -58,15 +59,54 @@ const SITE_ORIGIN = 'https://porfolio-sigma-woad.vercel.app'
 const OG_IMAGE = `${SITE_ORIGIN}/og-image.png`
 
 /**
+ * The card's real pixel size, declared so a scraper can lay the preview out
+ * before the image arrives.
+ *
+ * Without these, some scrapers — LinkedIn's in particular, on the first fetch
+ * of a URL — will not block on downloading a 120 kB PNG to discover its shape,
+ * and fall back to a small thumbnail or no image at all. The values are the
+ * file's actual intrinsic dimensions, not a target: `public/og-image.png` is
+ * 1200x630, which is also the 1.91:1 that `summary_large_image` expects.
+ */
+const OG_IMAGE_WIDTH = '1200'
+const OG_IMAGE_HEIGHT = '630'
+
+/**
+ * What the card actually shows, for anyone whose reader announces it rather
+ * than renders it.
+ *
+ * The image is a text card, so this describes the words on it — that is what
+ * is in the frame. Ampersands are escaped because this string is authored here
+ * rather than copied out of an already-escaped attribute like the title and
+ * description below.
+ */
+const OG_IMAGE_ALT =
+  'A dark title card reading: S Mohammad Syed Sameer, AI Automation Engineer — ' +
+  'AI systems for small e-commerce and D2C stores, built, tested and documented. ' +
+  'Three labels sit beneath it: AI Customer Support &amp; Sales Recovery, ' +
+  'AI Inbox &amp; Lead Management, AI Recruitment Intelligence.'
+
+/**
+ * The name of the site itself, shown beside the title in a link preview.
+ *
+ * The wordmark in the nav and the line in the footer, which is the shortest
+ * form the site uses for itself. Deliberately not the homepage <title>: that
+ * string is already the og:title on `/`, and repeating it would print the same
+ * words twice in one card.
+ */
+const OG_SITE_NAME = 'S Mohammad Syed Sameer'
+
+/**
  * Structured data for one page, or null where the content does not support any.
  *
  * WHAT IS AND IS NOT CLAIMED HERE
  *
- * Every value below already appears on the page or in `projects.ts`. Nothing
- * is asserted that the site does not itself say: no awards, no employers, no
- * customer counts, no dates, and in particular no `aggregateRating`, `review`
- * or `offers`. Those three are what earn a rich result, and inventing them is
- * how structured data turns into a lie that Google renders in bold.
+ * Every value below already appears on the page, in `projects.ts` or in
+ * `contact.ts`. Nothing is asserted that the site does not itself say: no
+ * awards, no employers, no customer counts, no dates, and in particular no
+ * `aggregateRating`, `review` or `offers`. Those three are what earn a rich
+ * result, and inventing them is how structured data turns into a lie that
+ * Google renders in bold.
  *
  * WHY THE DEMO PAGES ARE `WebPage` AND NOT `WebApplication`
  *
@@ -89,7 +129,12 @@ function structuredData(file: string, title: string, description: string): unkno
     name: 'S Mohammad Syed Sameer',
     jobTitle: 'AI Automation Engineer',
     url: `${SITE_ORIGIN}/`,
-    sameAs: [REPO_URL],
+    // `sameAs` is how a search engine reconciles this person across the web, so
+    // it takes the two profiles that are the person — the ones the Contact
+    // section already links. It used to hold the monorepo URL, which is a
+    // repository rather than a profile of anybody, and left the LinkedIn and
+    // GitHub accounts the site does link out of the machine-readable identity.
+    sameAs: [GITHUB_PROFILE_URL, LINKEDIN_URL],
   }
 
   if (file === 'index.html') {
@@ -207,10 +252,17 @@ function socialMetadata(): Plugin {
         const tags = [
           `<link rel="canonical" href="${canonical}" />`,
           `<meta property="og:type" content="website" />`,
+          `<meta property="og:site_name" content="${OG_SITE_NAME}" />`,
           `<meta property="og:title" content="${title}" />`,
           `<meta property="og:description" content="${description}" />`,
           `<meta property="og:url" content="${canonical}" />`,
           `<meta property="og:image" content="${OG_IMAGE}" />`,
+          // Declared alongside the image rather than left to the scraper to
+          // discover: the dimensions let a preview be laid out before the file
+          // arrives, and the alt text is the only description a reader gets.
+          `<meta property="og:image:width" content="${OG_IMAGE_WIDTH}" />`,
+          `<meta property="og:image:height" content="${OG_IMAGE_HEIGHT}" />`,
+          `<meta property="og:image:alt" content="${OG_IMAGE_ALT}" />`,
           // The card is a real 1200x630 image, so the large variant is the
           // right one; `summary` would crop it into a small square thumbnail.
           `<meta name="twitter:card" content="summary_large_image" />`,

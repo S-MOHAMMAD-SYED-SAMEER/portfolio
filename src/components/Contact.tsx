@@ -51,8 +51,13 @@ export default function Contact() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          {/* The hero carries a button with this same wording that only
+              scrolls down to this section. This one opens a message. Same
+              visible words, two different things to a screen reader hearing
+              them in a list, so this one says which it is. */}
           <a
             href={enquiryMailto()}
+            aria-label="Let's Work Together: start an email"
             className="inline-flex h-control-lg items-center rounded-control bg-brand px-6 text-small font-semibold text-white shadow-resting hover:bg-brand/90 hover:shadow-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Let's Work Together
@@ -63,7 +68,7 @@ export default function Contact() {
               href={enquiryGmail()}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-ink underline underline-offset-4 hover:text-brand"
+              className="py-3.5 text-ink underline underline-offset-4 hover:text-brand"
             >
               open in Gmail
             </a>
@@ -73,10 +78,16 @@ export default function Contact() {
         {/* The address in full, for anyone who would rather copy it than be
             handed to an application, and the two profiles worth checking me
             against. LinkedIn existed only inside the 3D experience until now. */}
+        {/* The three links take a real 44px height below md, where the row
+            wraps and a finger needs the room; at md and above they keep the
+            22px line they shipped with, so the section height is unchanged on
+            desktop. A padded hit box with a negative margin would have been
+            invisible in the layout but would have overlapped the line above it
+            once the row wrapped. */}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-6 text-small text-ink-muted">
           <a
             href={`mailto:${EMAIL}`}
-            className="text-ink underline underline-offset-4 hover:text-brand"
+            className="inline-flex items-center max-md:min-h-11 text-ink underline underline-offset-4 hover:text-brand"
           >
             {EMAIL}
           </a>
@@ -84,15 +95,18 @@ export default function Contact() {
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-4 hover:text-ink"
+            className="inline-flex items-center max-md:min-h-11 underline underline-offset-4 hover:text-ink"
           >
             LinkedIn
           </a>
+          {/* The project cards and the footer link to the repository under
+              the same word. This one is the account itself. */}
           <a
             href={GITHUB_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-4 hover:text-ink"
+            aria-label="GitHub profile"
+            className="inline-flex items-center max-md:min-h-11 underline underline-offset-4 hover:text-ink"
           >
             GitHub
           </a>

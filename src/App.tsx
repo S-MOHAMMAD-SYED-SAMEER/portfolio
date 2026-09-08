@@ -44,7 +44,15 @@ function App() {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <Nav />
-      <main>
+      {/* The skip link in Nav targets this. `tabIndex={-1}` is what makes the
+          jump actually move focus rather than only scrolling: a <main> is not
+          focusable by default, so browsers leave focus on the link and the next
+          Tab returns the visitor to the nav they just skipped. -1 keeps it out
+          of the tab order while allowing it to be focused programmatically.
+
+          The global rule in index.css is `:focus-visible`, not `:focus`, so
+          landing here draws no outline around the whole page. */}
+      <main id="main" tabIndex={-1}>
         <Hero />
         <About />
         <Skills />

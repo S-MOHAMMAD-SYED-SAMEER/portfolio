@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="That address does not match a page on this portfolio. Links back to the projects, services and contact sections."
+    />
+    <!-- A 404 is not a page anyone should reach from a search result. It is
+         deliberately kept out of the index, and it carries no canonical: a
+         not-found response has no canonical URL to declare. -->
+    <meta name="robots" content="noindex" />
+    <title>Page not found — S Mohammad Syed Sameer</title>
+    <script>
+      // Sets the theme before first paint so no page flashes the wrong one.
+      // Dark is the default; only a stored choice overrides it. Deliberately
+      // does not read prefers-color-scheme.
+      //
+      // Copied verbatim from the eight built entry points. This file lives in
+      // public/ and is served as-is, so it cannot import the site's stylesheet
+      // or share their <head> — everything it needs is inlined below, using the
+      // exact token values from src/index.css. When a colour changes there,
+      // change it here too.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
+    <style>
+      /* Light values from the @theme block in src/index.css. */
+      :root {
+        --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+        --color-ink: #0b0f1a;
+        --color-ink-muted: #4a5568;
+        --color-canvas: #fafaf9;
+        --color-surface: #ffffff;
+        --color-line: #e7e5e4;
+        --color-line-strong: #d6d3d1;
+        --color-brand: #4f46e5;
+        /* The filled action carries white text, so its background is tracked
+           separately from --color-brand: the brand colour has to stay light
+           enough to read as text on a dark ground, which is too light behind a
+           white label. Same split the site makes in src/index.css. */
+        --color-brand-solid: #4f46e5;
+        --color-brand-solid-hover: #4338ca;
+        --radius-control: 8px;
+        --radius-card: 12px;
+        --shadow-resting: 0 1px 2px 0 rgb(11 15 26 / 0.04),
+          0 1px 3px 0 rgb(11 15 26 / 0.06);
+      }
+
+      [data-theme='dark'] {
+        --color-ink: #e8ecf3;
+        --color-ink-muted: #9aa6b8;
+        --color-canvas: #080b11;
+        --color-surface: #1a2331;
+        --color-line: #414f61;
+        --color-line-strong: #56657b;
+        --color-brand: #8b8bf5;
+        /* 5.4:1 behind the white label; #8b8bf5 would give 2.95:1. */
+        --color-brand-solid: #5b54e8;
+        --color-brand-solid-hover: #6d67ec;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: var(--color-canvas);
+        color: var(--color-ink);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Matches the site: :focus-visible, not :focus, so a mouse click leaves
+         no ring behind. */
+      :focus-visible {
+        outline: 2px solid var(--color-brand);
+        outline-offset: 2px;
+      }
+
+      .shell {
+        width: 100%;
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .card {
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-card);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-resting);
+        padding: 2rem 1.5rem;
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--color-brand);
+      }
+
+      h1 {
+        margin: 0.75rem 0 0;
+        font-size: 2.25rem;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+        text-wrap: balance;
+        max-width: 20ch;
+      }
+
+      .lede {
+        margin: 1.25rem 0 0;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--color-ink-muted);
+        max-width: 46ch;
+      }
+
+      .actions {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem 1.5rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        padding: 0 1.5rem;
+        border-radius: var(--radius-control);
+        background-color: var(--color-brand-solid);
+        color: #ffffff;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: var(--shadow-resting);
+      }
+
+      .button:hover {
+        background-color: var(--color-brand-solid-hover);
+      }
+
+      .quiet-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-ink);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .quiet-link:hover {
+        color: var(--color-brand);
+      }
+
+      .sections {
+        margin-top: 2.5rem;
+        padding-top: 1.75rem;
+        border-top: 1px solid var(--color-line);
+      }
+
+      .sections h2 {
+        margin: 0;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--color-ink-muted);
+      }
+
+      .sections ul {
+        margin: 1.25rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      @media (min-width: 40rem) {
+        .shell {
+          padding: 5rem 1.5rem;
+        }
+
+        .card {
+          padding: 3rem;
+        }
+
+        h1 {
+          font-size: 3rem;
+        }
+
+        .sections ul {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1rem;
+        }
+      }
+
+      .sections a {
+        display: block;
+        height: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-control);
+        text-decoration: none;
+        color: inherit;
+        background-color: var(--color-canvas);
+      }
+
+      .sections a:hover {
+        border-color: var(--color-line-strong);
+      }
+
+      .sections .label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-ink);
+      }
+
+      .sections .detail {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: var(--color-ink-muted);
+      }
+
+      footer {
+        border-top: 1px solid var(--color-line);
+        background-color: var(--color-surface);
+      }
+
+      footer p {
+        max-width: 64rem;
+        margin: 0 auto;
+        padding: 1.5rem;
+        font-size: 0.875rem;
+        color: var(--color-ink-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="card">
+        <p class="eyebrow">Error 404</p>
+        <h1>That page isn&rsquo;t here</h1>
+        <p class="lede">
+          The address you followed doesn&rsquo;t match any page on this site. It
+          may have a typo in it, or the link that brought you here may be out of
+          date.
+        </p>
+
+        <div class="actions">
+          <a class="button" href="/">Go to the homepage</a>
+          <a class="quiet-link" href="/#contact">Tell me what you were looking for</a>
+        </div>
+
+        <div class="sections">
+          <h2 id="elsewhere">Or go straight to</h2>
+          <nav aria-labelledby="elsewhere">
+            <ul>
+              <li>
+                <a href="/#projects">
+                  <span class="label">Projects</span>
+                  <span class="detail">Three AI systems, each built, tested and deployed.</span>
+                </a>
+              </li>
+              <li>
+                <a href="/#services">
+                  <span class="label">Services</span>
+                  <span class="detail">What I can build for your business.</span>
+                </a>
+              </li>
+              <li>
+                <a href="/#about">
+                  <span class="label">About</span>
+                  <span class="detail">What I work on, and who I work with.</span>
+                </a>
+              </li>
+              <li>
+                <a href="/3d.html">
+                  <span class="label">3D experience</span>
+                  <span class="detail">Walk through the same three systems in 3D.</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>S Mohammad Syed Sameer &middot; AI Automation Engineer</p>
+    </footer>
+  </body>
+</html>

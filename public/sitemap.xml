@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  The seven public pages, and nothing else.
+  The eight public pages, and nothing else.
 
   No <lastmod>: the honest value is the deployment date, which this file has no
   way to know, and a wrong one teaches a crawler to distrust the rest. No
