@@ -92,7 +92,7 @@ function Services({ onOpen }: { onOpen: (area: WorkshopArea) => void }) {
           <li key={service.id}>
             <h3 className="text-base font-medium">{service.title}</h3>
             <p className="text-mist mt-1.5 text-sm leading-relaxed">{service.summary}</p>
-            <p className="text-mist/80 mt-2 text-xs">{service.delivers.join(' · ')}</p>
+            <p className="text-mist/80 mt-2 text-xs">{service.evidence.join(' · ')}</p>
           </li>
         ))}
       </ul>
