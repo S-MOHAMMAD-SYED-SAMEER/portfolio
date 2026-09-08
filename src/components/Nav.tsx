@@ -15,9 +15,23 @@ export default function Nav() {
           before reaching the page. The sticky header is already a positioning
           context, so the focused link places itself against it. */}
       <SkipLink />
-      <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4 max-[389px]:px-4">
         {/* Smaller at mobile widths so the wordmark and the Contact button
-            both fit at 375px without wrapping or overflowing. */}
+            both fit at 375px without wrapping or overflowing.
+
+            The row had a hard floor of 359px: 24px of left padding, a
+            174px wordmark that `whitespace-nowrap` refused to compress, the
+            16px gap and the 145px control group. Nothing could give, so any
+            viewport under 359px pushed the document wider than the screen —
+            39px of sideways scroll at 320px, and one pixel of headroom at the
+            very common 360px.
+            Everything below is scoped to `max-[389px]`, so 390px and up render
+            exactly as they shipped. Under that width the row reclaims 8px of
+            padding and 12px of gap, which is enough to seat the full name down
+            to about 350px; below that the name is finally allowed to wrap,
+            which is what a flex row should do when it genuinely runs out of
+            room. Shrinking the type or abbreviating the name would have
+            changed the design to fix a layout bug. */}
         {/* py/-my grow the touch target to 46px without moving anything: the
             padding enlarges the hit box, the equal negative margin gives the
             space straight back to the layout, so the header stays 73px tall at
@@ -25,12 +39,12 @@ export default function Nav() {
             control above or below for the taller box to overlap. */}
         <a
           href="#top"
-          className="-my-3 whitespace-nowrap py-3 text-small font-semibold text-ink sm:text-subhead"
+          className="-my-3 whitespace-nowrap py-3 text-small font-semibold text-ink max-[389px]:whitespace-normal sm:text-subhead"
         >
           S Mohammad Syed Sameer
         </a>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 max-[389px]:gap-3">
           {/* The link list is hidden on narrow screens rather than collapsed
               into a menu: the links plus a wordmark do not fit at 375px, and a
               hamburger would add state and markup for a three-item nav. The

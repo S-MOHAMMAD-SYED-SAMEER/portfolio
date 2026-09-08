@@ -236,7 +236,15 @@ export default function Screenshot({
         type="button"
         onClick={() => setOpen(true)}
         style={frameStyle}
-        aria-label={`View full size: ${alt}`}
+        /* The name OPENS with the button's own visible words, which is what
+           WCAG 2.5.3 (Label in Name) requires: a speech-input user says "click
+           to view full size" and the accessible name still matches. It read
+           "View full size: …" before, which described the action correctly but
+           did not contain the label printed on the control.
+           When the image is missing there is no such label on screen — the
+           frame reads "Product screenshot to be added" — so the attribute is
+           dropped and that text becomes the name on its own. */
+        aria-label={missing ? undefined : `Click to view full size: ${alt}`}
         className={`group relative ${frameClasses} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand`}
       >
         {preview}
