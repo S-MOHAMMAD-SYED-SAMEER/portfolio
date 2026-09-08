@@ -1,4 +1,10 @@
 import { PROFILE } from '@/data/profile'
+import {
+  EMAIL,
+  GITHUB_PROFILE_URL,
+  LINKEDIN_URL,
+  RESUME_URL,
+} from '../../data/contact.ts'
 
 /**
  * Ways to get in touch.
@@ -30,29 +36,17 @@ export const CONTACT_INTRO = "Let's build something useful."
 /** The kind of problem worth writing about, said once and quietly. */
 export const CONTACT_PROMPT = 'Have a system that should work better?'
 
+/**
+ * The destinations come from `src/data/contact.ts`, which the main site's
+ * Contact section reads too — the address used to be written out in both
+ * places. What stays here is how this panel presents them: the labels, the
+ * spoken names below, and which channel leads.
+ */
 export const CONTACT_CHANNELS: readonly ContactChannel[] = [
-  // The address these repositories are authored under.
-  {
-    id: 'email',
-    label: 'Email',
-    kind: 'email',
-    value: 'mohammadsyedsameer20@gmail.com',
-  },
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    kind: 'external',
-    value: 'https://www.linkedin.com/in/mohammad-syed-sameer-s-a879a235a',
-  },
-  // The same account the three projects are hosted under; see src/data/projects.ts.
-  {
-    id: 'github',
-    label: 'GitHub',
-    kind: 'external',
-    value: 'https://github.com/S-MOHAMMAD-SYED-SAMEER',
-  },
-  // A hosted URL or a file served from public/ (e.g. '/resume.pdf') both work.
-  { id: 'resume', label: 'Résumé', kind: 'external', value: null },
+  { id: 'email', label: 'Email', kind: 'email', value: EMAIL },
+  { id: 'linkedin', label: 'LinkedIn', kind: 'external', value: LINKEDIN_URL },
+  { id: 'github', label: 'GitHub', kind: 'external', value: GITHUB_PROFILE_URL },
+  { id: 'resume', label: 'Résumé', kind: 'external', value: RESUME_URL },
 ]
 
 /**

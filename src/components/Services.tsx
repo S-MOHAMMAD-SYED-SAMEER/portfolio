@@ -1,3 +1,4 @@
+import { enquiryMailto } from "../data/contact";
 import { services } from "../data/services";
 import Section from "./Section";
 
@@ -58,7 +59,12 @@ export default function Services() {
               ))}
             </p>
 
-            <div>
+            {/* The proof CTA leads; the enquiry sits beside it as a quiet text
+                link so it never competes with "see it working". The subject is
+                built from the service's own canonical name, so a message
+                arrives already saying which of the four it is about — the
+                name is not restated here. */}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
               <a
                 href={service.cta.href}
                 {...(service.cta.href.startsWith("http")
@@ -73,6 +79,12 @@ export default function Services() {
                 >
                   →
                 </span>
+              </a>
+              <a
+                href={enquiryMailto(service.name)}
+                className="text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              >
+                Discuss this service
               </a>
             </div>
           </article>
