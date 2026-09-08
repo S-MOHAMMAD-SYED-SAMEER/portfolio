@@ -110,6 +110,28 @@
   --shadow-hover: 0 2px 4px -1px rgb(11 15 26 / 0.06),
     0 8px 16px -4px rgb(11 15 26 / 0.1);
 
+  /* --- The 3D experience's palette --------------------------------------
+     Used only by `/3d.html`. Its scene is a single dark room and does not
+     follow the light/dark toggle: a lit interior rendered on a white page is
+     not a light theme, it is a broken one. The tokens live here rather than in
+     a second stylesheet because Tailwind v4 generates utilities from the
+     theme, and a second `@import "tailwindcss"` would ship the framework
+     twice.
+
+     `scene-ink`, `scene-surface` and `scene-line` are prefixed deliberately.
+     The 3D palette calls its dark background "ink" and its hairline "line",
+     which are the names this system already uses for text colour and card
+     borders — the exact opposite roles. Renaming the three on the way in is
+     what stops `text-ink` meaning two different things. */
+  --color-void: #05070b;
+  --color-scene-ink: #0a0d13;
+  --color-scene-surface: #111621;
+  --color-scene-line: #1d2431;
+  --color-mist: #8a94a8;
+  --color-chalk: #e9ecf3;
+  --color-accent: #5fe3c8;
+  --color-accent-dim: #1d5f56;
+
   /* --- Control sizing ---------------------------------------------------
      Generates h-control / h-control-lg. 44px is the comfortable touch target
      for primary actions; 40px is the default. */
@@ -258,4 +280,69 @@ html {
 [data-theme="dark"] .hover\:bg-indigo-500:hover,
 [data-theme="dark"] .hover\:bg-brand\/90:hover {
   background-color: #6d67ec;
+}
+
+/* ---------------------------------------------------------------------------
+   THE 3D EXPERIENCE
+   ---------------------------------------------------------------------------
+
+   Everything below is used only by `/3d.html`. It is scoped to that page by
+   the classes themselves — nothing here applies to an element the rest of the
+   site renders.
+
+   The reduced-motion block is the one exception worth reading twice: it
+   collapses the scene's own animations to a hair's duration rather than
+   removing them, so a visitor who asks for less motion still sees the same
+   sequence of states, just without the travel between them.
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-veil,
+  .experience-loading,
+  .dialogue-line {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Shared focus treatment for the scene's interactive elements. */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@keyframes experience-veil {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Covers the canvas for the first frames so the scene fades in rather than
+   popping. */
+.experience-veil {
+  animation: experience-veil 1400ms ease-out forwards;
+}
+
+@keyframes experience-loading {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Held invisible for a beat: a chunk that arrives quickly swaps straight to
+   the scene and this never paints at all. */
+.experience-loading {
+  animation: experience-loading 500ms ease-out 400ms both;
+}
+
+@keyframes dialogue-line {
+  from { opacity: 0; transform: translateY(0.35rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Each line arrives rather than swapping under the reader. */
+.dialogue-line {
+  animation: dialogue-line 420ms ease-out both;
 }

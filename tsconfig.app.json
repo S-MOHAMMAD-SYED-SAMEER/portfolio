@@ -20,7 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Matches the Vite alias: the 3D subtree resolves its own `@/…` imports.
+       No `baseUrl` — it is deprecated in TypeScript 6, and paths resolve
+       relative to this file without it. */
+    "paths": { "@/*": ["./src/three/*"] }
   },
   "include": ["src"]
 }
