@@ -307,10 +307,13 @@ const AUTHORED_PROJECTS: readonly Project[] = [
         'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/inbox-crm-agent',
       caseStudy: null,
     },
-    access: {
-      kind: 'sign-in-required',
-      note: 'The dashboard is behind sign-in, so the demo needs an account. Free-tier hosting sleeps when idle — the first request after a quiet spell is slow.',
-    },
+    // Open, like P1: the deployed dashboard serves a read-only window onto the
+    // demo data to anyone with the link, so no account is needed to look
+    // around. Signing in is required only to approve or change something, which
+    // is not what a visitor following this link is here to do. It said
+    // sign-in-required until now, which understated the one deployment a
+    // visitor can open with no friction at all.
+    access: { kind: 'open' },
   },
   {
     id: 'p3',
@@ -327,8 +330,13 @@ const AUTHORED_PROJECTS: readonly Project[] = [
       'Vite',
       'Tailwind CSS',
     ],
+    // Not "an applicant tracking system", which is what this said until now.
+    // The deployed application reads assessments and records one thing: a
+    // recruiter's decision, with its reason. It does not take in CVs, create
+    // roles or manage a pipeline, so naming the category claimed a product
+    // several times the size of the one that exists.
     shortDescription:
-      'An applicant tracking system that scores candidates with logic you can read back and audit.',
+      'An explainable screening workflow that ranks candidates against a job spec and keeps the recruiter’s decision, with its reason, on the record.',
     status: 'live',
     proof: {
       tests: 326,
@@ -353,6 +361,16 @@ const AUTHORED_PROJECTS: readonly Project[] = [
       github:
         'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/explainable-ats',
       caseStudy: null,
+    },
+    // Said before the click rather than after it. This project carried no
+    // access disclosure at all, so the scene sent a visitor to an
+    // authentication wall the rest of the site warns about. Names the deployed
+    // dashboard specifically: the interactive demo is the prominent action
+    // beside this note and needs no account, so a note that said only
+    // "sign-in required" would attach the warning to the wrong button.
+    access: {
+      kind: 'sign-in-required',
+      note: 'The deployed dashboard is behind sign-in, so opening it needs an account. The interactive demo needs neither.',
     },
     // The pipeline also runs in the browser from the project's own source,
     // so the workflow can be stepped through here without leaving the
