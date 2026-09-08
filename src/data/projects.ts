@@ -147,7 +147,7 @@ export const projects: Project[] = [
     },
     proof: ["827 tests", "10/10 eval"],
     demoNote:
-      "The deployed dashboard is behind sign-in, so it needs an account. First load may take up to a minute while the free-tier hosting wakes up.",
+      "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to approve or change anything. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
   },
   {
