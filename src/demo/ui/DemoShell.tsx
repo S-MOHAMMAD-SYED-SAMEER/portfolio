@@ -36,9 +36,9 @@ export type Stage = {
   /**
    * A decision the visitor makes, when the real system would ask a person.
    *
-   * Only Project 2 uses it, and only where the production system genuinely
-   * stops for a human. Inventing an interaction the real workflow does not
-   * have would misrepresent it.
+   * Used only where the production system genuinely stops for a human:
+   * Project 2's approval gate, and Project 3's recruiter decision. Inventing
+   * an interaction the real workflow does not have would misrepresent it.
    */
   action?: {
     label: string;

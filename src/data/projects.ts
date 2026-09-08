@@ -158,12 +158,12 @@ export const projects: Project[] = [
     title: "Explainable ATS",
     service: "AI Recruitment Intelligence",
     description:
-      "Ranks candidates against a job spec and explains every placement with the exact sentence from their CV that earned it — so a screening decision can be defended to the person it was made about.",
+      "Ranks candidates against a job spec and explains every placement with the exact sentence from their CV that earned it — so a screening decision can be defended to the person it was made about, and the recruiter's decision, with its written reason, is kept alongside it.",
     tags: [
       "Evidence quoted from the CV",
       "Deterministic scoring",
       "Personal details masked first",
-      "Every ranking explained",
+      "Recruiter decides, on the record",
     ],
     status: "Live",
     caseStudyHref: "/case-study-explainable-ats.html",

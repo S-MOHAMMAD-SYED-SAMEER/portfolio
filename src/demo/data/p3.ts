@@ -191,6 +191,85 @@ export const P3_SCENARIOS: Scenario[] = [
           },
         ],
       },
+      {
+        id: "decision",
+        label: "Decision",
+        heading: "The call is a person's, and it is written down",
+        blurb:
+          "Everything above produces evidence and an ordering. It does not produce a decision — a recruiter does, and the system will not record one without a reason.",
+        panels: [
+          {
+            kind: "list",
+            title: "What the recruiter can record",
+            caption: "Three outcomes, and no fourth. Nothing is decided automatically.",
+            items: [
+              "Shortlist — take this candidate forward",
+              "Reject — do not take this candidate forward",
+              "Hold — decide later, without losing the assessment",
+            ],
+          },
+          {
+            kind: "note",
+            tone: "signal",
+            title: "A reason is required",
+            body: "The written reason is part of the decision, not an optional note beside it. A decision submitted without one is refused, and a reason too short to mean anything is refused as well.",
+          },
+        ],
+        action: {
+          label: "Record: shortlist",
+          doneLabel: "Recorded — shortlisted, with the reason attached",
+          reveals: [
+            {
+              kind: "fields",
+              title: "Decision recorded",
+              rows: [
+                { label: "Outcome", value: "Shortlist", tone: "positive" },
+                { label: "Recorded by", value: "operator" },
+                {
+                  label: "Reason",
+                  value:
+                    "Both essentials evidenced by passages quoted from the CV; Node.js and PostgreSQL each backed by a verified quote.",
+                },
+              ],
+            },
+            {
+              kind: "note",
+              title: "What the recruiter is accountable for",
+              body: "The system produced the evidence and the ordering. The decision, and the reason for it, belong to the person who made it — which is what makes it answerable to the candidate later.",
+            },
+          ],
+        },
+      },
+      {
+        id: "audit",
+        label: "Audit",
+        heading: "Everything that happened, kept in order",
+        blurb:
+          "Each step above appended a record as it ran. The trail is append-only: entries are added, never edited or removed, so the account of a decision cannot be tidied up afterwards.",
+        panels: [
+          {
+            kind: "list",
+            title: "History for this assessment",
+            caption: "Written as each step completed, in the order it completed.",
+            items: [
+              "CV received and stored against the candidate",
+              "Personal details removed before the CV was read",
+              "Passages extracted and quoted from the CV",
+              "Each quote checked word for word against the document",
+              "A verdict recorded per requirement: met, partial, not met, or unclear",
+              "Score computed from the stored verdicts",
+              "Placement computed, with the essential requirement gate applied",
+              "Decision recorded: shortlist, with its written reason",
+            ],
+          },
+          {
+            kind: "note",
+            tone: "brand",
+            title: "Why append-only matters here",
+            body: "A screening decision may have to be explained months later. If the record could be rewritten, the explanation would be worth nothing — so the trail only ever grows.",
+          },
+        ],
+      },
     ],
   },
 
@@ -341,6 +420,85 @@ export const P3_SCENARIOS: Scenario[] = [
             kind: "note",
             title: "Still true, and worth repeating",
             body: "The reader here is a deterministic stand-in rather than a live language model, and no real applicants have been screened.",
+          },
+        ],
+      },
+      {
+        id: "decision",
+        label: "Decision",
+        heading: "The call is a person's, and it is written down",
+        blurb:
+          "Everything above produces evidence and an ordering. It does not produce a decision — a recruiter does, and the system will not record one without a reason.",
+        panels: [
+          {
+            kind: "list",
+            title: "What the recruiter can record",
+            caption: "Three outcomes, and no fourth. Nothing is decided automatically.",
+            items: [
+              "Shortlist — take this candidate forward",
+              "Reject — do not take this candidate forward",
+              "Hold — decide later, without losing the assessment",
+            ],
+          },
+          {
+            kind: "note",
+            tone: "signal",
+            title: "A reason is required",
+            body: "The written reason is part of the decision, not an optional note beside it. A decision submitted without one is refused, and a reason too short to mean anything is refused as well.",
+          },
+        ],
+        action: {
+          label: "Record: reject",
+          doneLabel: "Recorded — rejected, with the reason attached",
+          reveals: [
+            {
+              kind: "fields",
+              title: "Decision recorded",
+              rows: [
+                { label: "Outcome", value: "Reject", tone: "signal" },
+                { label: "Recorded by", value: "operator" },
+                {
+                  label: "Reason",
+                  value:
+                    "PostgreSQL is an essential requirement and the CV does not evidence it: the passage found describes a university project rather than production use.",
+                },
+              ],
+            },
+            {
+              kind: "note",
+              title: "What the recruiter is accountable for",
+              body: "The system produced the evidence and the ordering. The decision, and the reason for it, belong to the person who made it — which is what makes it answerable to the candidate later.",
+            },
+          ],
+        },
+      },
+      {
+        id: "audit",
+        label: "Audit",
+        heading: "Everything that happened, kept in order",
+        blurb:
+          "Each step above appended a record as it ran. The trail is append-only: entries are added, never edited or removed, so the account of a decision cannot be tidied up afterwards.",
+        panels: [
+          {
+            kind: "list",
+            title: "History for this assessment",
+            caption: "Written as each step completed, in the order it completed.",
+            items: [
+              "CV received and stored against the candidate",
+              "Personal details removed before the CV was read",
+              "Passages extracted and quoted from the CV",
+              "Each quote checked word for word against the document",
+              "A verdict recorded per requirement: met, partial, not met, or unclear",
+              "Score computed from the stored verdicts",
+              "Placement computed, with the essential requirement gate applied",
+              "Decision recorded: reject, with its written reason",
+            ],
+          },
+          {
+            kind: "note",
+            tone: "brand",
+            title: "Why append-only matters here",
+            body: "A screening decision may have to be explained months later. If the record could be rewritten, the explanation would be worth nothing — so the trail only ever grows.",
           },
         ],
       },
