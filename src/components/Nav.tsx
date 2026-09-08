@@ -20,12 +20,21 @@ export default function Nav() {
         </a>
 
         <div className="flex items-center gap-6">
-          {/* The link list is hidden below 640px rather than collapsed into a
-              menu: four links plus a wordmark do not fit at 375px, and a
+          {/* The link list is hidden on narrow screens rather than collapsed
+              into a menu: the links plus a wordmark do not fit at 375px, and a
               hamburger would add state and markup for a three-item nav. The
               primary action stays visible at every width, which is what a
-              visitor on a phone actually needs. */}
-          <ul className="hidden items-center gap-6 text-small text-ink-muted sm:flex">
+              visitor on a phone actually needs.
+
+              It appears at `md` (768px), not `sm` (640px), because `sm` is
+              where three things grow at once: the wordmark steps up to 18px,
+              the theme toggle gains its text label, and this list unhides. All
+              three together need 651px of a row that has only 592px at 640px
+              wide, so the bar overflowed by 59px across 640–698px. Revealing
+              the list one breakpoint later is what makes the row fit; nothing
+              is hidden that was previously usable, since the list was already
+              hidden below its breakpoint by design. */}
+          <ul className="hidden items-center gap-6 text-small text-ink-muted md:flex">
             {links.map((link) => (
               <li key={link.href}>
                 <a href={link.href} className="hover:text-ink">
