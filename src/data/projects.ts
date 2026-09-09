@@ -145,7 +145,7 @@ export const projects: Project[] = [
       height: 868,
       alt: "An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer.",
     },
-    proof: ["827 tests", "10/10 eval"],
+    proof: ["895 tests", "10/10 eval"],
     demoNote:
       "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to approve or change anything. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,

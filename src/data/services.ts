@@ -82,7 +82,7 @@ export const services: readonly Service[] = [
       "Turn the enquiries sitting in your inbox into tracked CRM records with drafted replies — nothing sent without your approval.",
     builds:
       "An 8-stage pipeline (ingest → understand → resolve → decide → policy → approve → execute → revise), CRM matching, a human approval gate, prompt-injection containment, and an append-only audit trail.",
-    evidence: ["827 tests", "10/10 eval", "live read-only demo, no account needed"],
+    evidence: ["895 tests", "10/10 eval", "live read-only demo, no account needed"],
     // The one service whose proof a client can open without installing,
     // signing up or waiting for a walkthrough, so it leads to the real thing.
     cta: { label: "Open the live dashboard", href: p2.demoHref ?? "#projects" },

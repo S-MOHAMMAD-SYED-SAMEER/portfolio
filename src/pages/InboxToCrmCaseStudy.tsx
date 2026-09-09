@@ -65,14 +65,19 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "827",
+    figure: "895",
     label: "Automated tests passing",
-    detail: "694 covering the server and its safety layers, 133 covering the dashboard.",
+    detail: "746 covering the server and its safety layers, 149 covering the dashboard.",
   },
   {
+    // `npm run eval:understand` — the stage this figure actually grades. The
+    // pipeline has five more evals of its own (resolve, decide, execute,
+    // revise, outbound) and no single end-to-end one, so describing this as
+    // grading the whole pipeline claimed a wider measurement than exists.
     figure: "10 / 10",
     label: "Evaluation cases passing",
-    detail: "A fixed set of inbound emails the whole pipeline is graded against, end to end.",
+    detail:
+      "A fixed set of inbound emails graded through extraction, classification and injection detection.",
   },
   {
     figure: "0",
@@ -457,19 +462,24 @@ export default function InboxToCrmCaseStudy() {
               <p className="text-sm font-semibold text-slate-900">
                 Try it yourself
               </p>
+              {/* Approving is the one thing the deployed dashboard cannot let a
+                  visitor do: its public window is read-only and a write answers
+                  401. The walkthrough on this site is where the gate is
+                  genuinely operable, so the instruction to approve points
+                  there. The deployed application is still linked, described as
+                  what it is. */}
               <p className="mt-2 text-sm text-slate-600">
-                The demo runs on a fixed set of example emails and a fictional
-                CRM, so everything is safe to poke at. Run the emails through,
-                open one that is waiting on approval, read what it proposes — and
-                approve or reject it and watch what changes.
+                The walkthrough runs on a fixed set of example emails and a
+                fictional CRM, so everything is safe to poke at. Step through an
+                email, read the plan it proposes, then approve it and watch what
+                changes — the approval gate is live in the walkthrough, and it is
+                the surface where you can work the controls yourself.
               </p>
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noreferrer"
+                href={INTERACTIVE_DEMO_HREF}
                 className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
               >
-                Open the demo
+                Open the walkthrough
               </a>
             </div>
           </div>
@@ -503,10 +513,17 @@ export default function InboxToCrmCaseStudy() {
             <h2 className="text-2xl font-bold text-slate-900">
               See it run on a real inbox&apos;s worth of work
             </h2>
+            {/* Says what each of the two surfaces actually offers. The deployed
+                dashboard is open to anyone and needs no sign-up, but its public
+                window is read-only — a write answers 401 — so the invitation to
+                approve belongs to the walkthrough, not here. */}
             <p className="mt-3 max-w-2xl text-slate-600">
-              The demo is live and open — no sign-up, nothing to install. Send
-              the emails through, read what it proposes, and approve or reject it
-              yourself.
+              The deployed application is live and open — no sign-up, nothing to
+              install. Read the emails it has processed, the plans waiting on
+              approval and the records they became, in the real dashboard running
+              on synthetic data. It is read-only from here, so nothing you do can
+              change it; to work the approval gate yourself, use the walkthrough
+              on this site.
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
@@ -516,6 +533,14 @@ export default function InboxToCrmCaseStudy() {
                 className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
               >
                 Launch the Live Demo
+              </a>
+              {/* The copy above sends anyone who wants to work the approval
+                  gate here, so the link has to exist in the same row. */}
+              <a
+                href={INTERACTIVE_DEMO_HREF}
+                className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              >
+                Open the walkthrough
               </a>
               <a
                 href={REPO_URL}
