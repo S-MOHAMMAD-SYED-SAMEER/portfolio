@@ -53,11 +53,23 @@ function App() {
           The global rule in index.css is `:focus-visible`, not `:focus`, so
           landing here draws no outline around the whole page. */}
       <main id="main" tabIndex={-1}>
+        {/* PROOF FIRST.
+
+            The measured order before this was Hero, About, Skills, Services,
+            Projects — which put the first piece of built work about six
+            screens down a phone, behind three sections of self-description.
+            A prospective client is deciding whether this person can build
+            the thing they need, and the answer to that is the work, so the
+            work now comes first and everything that explains it follows.
+
+            Services sits directly under Projects because each service names
+            the project that proves it, and that link reads better downward
+            than across half a page. */}
         <Hero />
+        <Projects />
+        <Services />
         <About />
         <Skills />
-        <Services />
-        <Projects />
         <Contact />
       </main>
       <Footer />

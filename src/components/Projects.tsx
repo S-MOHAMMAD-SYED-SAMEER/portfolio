@@ -1,4 +1,5 @@
 import { projects, type Project } from "../data/projects";
+import { services } from "../data/services";
 import Screenshot from "./Screenshot";
 import Section from "./Section";
 
@@ -41,11 +42,29 @@ function markProjectsAsOrigin() {
  * 0.6:1 — and a tall page shows its top rather than being squashed edge to
  * edge. The full captures are on the case-study pages, where there is room.
  */
+/**
+ * The anchor of the service this project proves, or null.
+ *
+ * `project.service` holds the service NAME and `Service.provenBy` holds the
+ * project id — the relationship already exists in canonical data, in both
+ * directions. This resolves one to the other at render time rather than
+ * storing a third copy of it, so there is nothing new to keep in step.
+ *
+ * Returns null rather than guessing when no service claims the project, so
+ * a future project with no service simply shows no line.
+ */
+function serviceAnchor(project: Project): string | null {
+  const service = services.find(
+    (candidate) => candidate.name === project.service && candidate.provenBy === project.id,
+  )
+  return service === undefined ? null : `#service-${service.id}`
+}
+
 function ProjectCard({ project }: { project: Project }) {
   const deployed = Boolean(project.demoHref);
 
   return (
-    <article className="flex flex-col gap-5 rounded-card border border-line bg-surface p-6 shadow-resting sm:p-7">
+    <article className="flex flex-col gap-5 rounded-card border border-line bg-canvas p-6 shadow-resting sm:p-7">
       {project.screenshot && (
         <Screenshot
           frame="card"
@@ -78,6 +97,23 @@ function ProjectCard({ project }: { project: Project }) {
 
         <h3 className="text-subhead text-balance text-ink">{project.title}</h3>
         <p className="text-small text-ink-muted">{project.description}</p>
+
+        {/* Which of the four services this project is evidence for. The
+            link lands on that service's own card rather than the top of the
+            section, so the answer to "what can I buy that looks like this?"
+            is one click and no hunting. */}
+        {serviceAnchor(project) && (
+          <p className="text-meta text-ink-muted">
+            Proves the service{" "}
+            <a
+              href={serviceAnchor(project)!}
+              aria-label={`${project.service}: see the service this project proves`}
+              className="font-semibold text-ink underline underline-offset-4 hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            >
+              {project.service}
+            </a>
+          </p>
+        )}
       </div>
 
       <ul className="flex flex-wrap gap-2">
@@ -189,9 +225,12 @@ export default function Projects() {
       size="large"
     >
       <div className="flex flex-col gap-10">
-        {/* One column on phones, two from the medium breakpoint. Three across
-            would leave each card too narrow for its diagram and its buttons. */}
-        <div className="grid gap-6 md:grid-cols-2">
+        {/* One column on phones, two from md, three from lg. Three across was
+            ruled out at md — a third column there leaves each card too narrow
+            for its capture and its four actions — but at lg there is room,
+            and one row of three is what makes the set read as a body of work
+            rather than a list that happens to stop. */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {complete.map((project) => (
             <ProjectCard key={project.title} project={project} />
           ))}

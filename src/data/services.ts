@@ -1,4 +1,8 @@
-import { projectById, type ProjectId } from "./projects";
+// Extension included so this module resolves under `node --test` as well as
+// under Vite. Its sibling in three/data already imports this way; without it
+// the relationship below cannot be tested at all, which is how it stayed
+// unrendered and unverified for as long as it did.
+import { projectById, type ProjectId } from "./projects.ts";
 
 /**
  * What a client can actually buy.

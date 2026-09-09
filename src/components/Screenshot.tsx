@@ -200,7 +200,15 @@ export default function Screenshot({
       // 5.7 megapixels, and deferring that one is what left the third card
       // blank. Case-study galleries keep lazy loading — they have four or five
       // images each, well down the page.
-      {...(isCard ? {} : { loading: "lazy" as const, decoding: "async" as const })}
+      //
+      // `decoding` is separate from `loading` and applies to every frame. The
+      // cards had neither, so the browser was free to decode 7.76 megapixels
+      // on the critical path — measured at 52 ms for the largest one warm on a
+      // desktop, and several times that on a phone. Asking for an async decode
+      // does not defer the fetch and does not change when a card appears; it
+      // only stops the decode from having to finish before the next paint.
+      decoding="async"
+      {...(isCard ? {} : { loading: "lazy" as const })}
       onError={() => setMissing(true)}
       className={
         isCard

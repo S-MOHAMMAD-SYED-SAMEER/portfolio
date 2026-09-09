@@ -1,4 +1,5 @@
 import { enquiryMailto } from "../data/contact";
+import { projectById } from "../data/projects";
 import { services } from "../data/services";
 import Section from "./Section";
 
@@ -13,6 +14,22 @@ import Section from "./Section";
  * Every card carries its own evidence line for the same reason the project
  * cards do: a service claim with no figure behind it is a brochure.
  */
+/**
+ * The project that proves a service, resolved from canonical data.
+ *
+ * `Service.provenBy` is a ProjectId and `projectById` throws on a miss, so a
+ * broken reference stops the page at startup instead of rendering a link to
+ * nowhere. Nothing about the project is stored here — the title and the case
+ * study come from the project itself every render.
+ */
+function provenBy(service: (typeof services)[number]) {
+  if (service.provenBy === undefined) return null
+  const project = projectById(service.provenBy)
+  return project.caseStudyHref === undefined
+    ? null
+    : { title: project.title, href: project.caseStudyHref }
+}
+
 export default function Services() {
   return (
     <Section
@@ -20,7 +37,7 @@ export default function Services() {
       eyebrow="Services"
       title="What I can build for your business"
       intro="Four things, each already built and running. The figures under each one come from that project's own test suite."
-      ground="surface"
+      ground="canvas"
     >
       {/* Two columns from the medium breakpoint. Three would leave each card
           too narrow for a sentence of specifics, which is the part that makes
@@ -29,7 +46,10 @@ export default function Services() {
         {services.map((service) => (
           <article
             key={service.id}
-            className="flex flex-col gap-4 rounded-card border border-line bg-canvas p-6 shadow-resting sm:p-7"
+            id={`service-${service.id}`}
+            /* scroll-mt clears the fixed header, so a card linked from a
+               project lands below it rather than under it. */
+            className="flex scroll-mt-24 flex-col gap-4 rounded-card border border-line bg-surface p-6 shadow-resting sm:p-7"
           >
             <div className="flex flex-col gap-3">
               {/* h3: the section's own h2 comes from Section, and the page's
@@ -42,6 +62,31 @@ export default function Services() {
               <p className="text-eyebrow uppercase text-ink-muted">What I build</p>
               <p className="mt-2 text-small text-ink-muted">{service.builds}</p>
             </div>
+
+            {/* WHAT PROVES THIS.
+
+                `provenBy` has been in the canonical data since the services
+                were written and no surface rendered it, so a reader of a
+                service had no route to the system that backs it. The link
+                goes to that project's case study — the written account —
+                rather than to a demo, because the question this line answers
+                is "has this actually been built", not "can I click it".
+
+                A service with no `provenBy` gets no invented proof. The
+                fourth one generalises machinery built for another project and
+                says so in its own caveat below. */}
+            {provenBy(service) && (
+              <p className="text-meta text-ink-muted">
+                Proven by{" "}
+                <a
+                  href={provenBy(service)!.href}
+                  aria-label={`Proven by ${provenBy(service)!.title}: read the case study`}
+                  className="font-semibold text-ink underline underline-offset-4 hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                >
+                  {provenBy(service)!.title}
+                </a>
+              </p>
+            )}
 
             {/* Said plainly where a service generalises rather than pointing at
                 something shipped. A client who finds that out later has been
