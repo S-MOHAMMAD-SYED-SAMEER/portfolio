@@ -307,7 +307,7 @@ export function DemoShell({
                 rel="noreferrer"
                 className="inline-flex h-control-lg items-center rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
               >
-                See production demo
+                Open the deployed application
               </a>
             )}
             {project.repoHref && (
