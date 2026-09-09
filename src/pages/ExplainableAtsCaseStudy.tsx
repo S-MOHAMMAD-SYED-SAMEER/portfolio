@@ -281,7 +281,7 @@ export default function ExplainableAtsCaseStudy() {
               rel="noreferrer"
               className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
             >
-              Live Demo (sign-in)
+              Live demo (read-only)
             </a>
           </div>
         </nav>
@@ -312,15 +312,15 @@ export default function ExplainableAtsCaseStudy() {
               Try interactive demo
             </a>
             {/* The deployed application. Secondary rather than primary because
-                it is behind an operator sign-in and on hosting that sleeps —
-                the button above is the one a reader can act on immediately. */}
+                it runs on hosting that sleeps — the button above is the one a
+                reader can act on with no wait at all. */}
             <a
               href={LIVE_DEMO_HREF}
               target="_blank"
               rel="noreferrer"
               className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
-              Live Demo (sign-in)
+              Open the live read-only demo
             </a>
             <a
               href={REPO_URL}
@@ -343,11 +343,12 @@ export default function ExplainableAtsCaseStudy() {
               reader who opens a demo from here may never scroll that far. */}
           <p className="mt-4 text-xs text-slate-500">
             The interactive demo runs in this tab — no account, nothing to
-            install. The deployed application is live, but its dashboard is
-            behind an operator sign-in and its free hosting sleeps, so a first
-            load can take up to a minute. Both run on an invented dataset with a
-            deterministic stand-in reader: no real applicants have been screened,
-            and no customer outcomes are claimed.
+            install. The deployed application is open to read without an
+            account too; signing in is required only to record a decision, and
+            its free hosting sleeps, so a first load can take up to a minute.
+            Both run on an invented dataset with a deterministic stand-in
+            reader: no real applicants have been screened, and no customer
+            outcomes are claimed.
           </p>
           <div className="mt-10">
             <Screenshot
@@ -459,6 +460,25 @@ export default function ExplainableAtsCaseStudy() {
           title="One CV, from arrival to shortlist"
         >
           <ExplainableAtsFlow />
+
+          {/* The diagram describes a running system, so the link to it belongs
+              here rather than only in the header a reader scrolled past. It is
+              a text link, not a third button: the two actions in the hero are
+              the page's calls to action and this is a way to check the claim. */}
+          <p className="mt-4 text-sm text-slate-600">
+            All nine steps are running in the deployed application.{" "}
+            <a
+              href={LIVE_DEMO_HREF}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-indigo-700 underline underline-offset-4 hover:text-indigo-900"
+            >
+              Open the live read-only demo
+            </a>{" "}
+            to read the ranking, the quoted evidence and the audit trail for
+            yourself — no account needed. Recording a decision is the one
+            action that asks you to sign in.
+          </p>
         </Section>
 
         {/* 5. EVIDENCE VERIFICATION */}
@@ -738,9 +758,9 @@ export default function ExplainableAtsCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "The demo is behind sign-in",
+                title: "The hosting sleeps",
                 detail:
-                  "It is hosted and reachable, but the dashboard needs an operator account, so it cannot be explored anonymously. The free-tier hosting also sleeps when idle, so the first request after a quiet spell is slow.",
+                  "The deployed dashboard can be read without an account, but it runs on a free tier that sleeps when idle, so the first request after a quiet spell can take up to a minute. Recording a decision still needs an operator sign-in.",
               },
               {
                 title: "The reader is a deterministic stand-in",

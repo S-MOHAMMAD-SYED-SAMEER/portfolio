@@ -373,16 +373,17 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
         'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/explainable-ats',
       caseStudy: null,
     },
-    // Said before the click rather than after it. This project carried no
-    // access disclosure at all, so the scene sent a visitor to an
-    // authentication wall the rest of the site warns about. Names the deployed
-    // dashboard specifically: the interactive demo is the prominent action
-    // beside this note and needs no account, so a note that said only
-    // "sign-in required" would attach the warning to the wrong button.
-    access: {
-      kind: 'sign-in-required',
-      note: 'The deployed dashboard is behind sign-in, so opening it needs an account. The interactive demo needs neither.',
-    },
+    // Open, like P1 and P2. The deployment serves an allow-listed set of read
+    // routes to anonymous callers over the invented dataset, so a visitor
+    // following this link reaches the running application rather than the
+    // authentication wall this entry used to warn about.
+    //
+    // `open` rather than a fourth union member: the read-only nuance — that
+    // recording a decision still needs a sign-in — is a sentence, and it
+    // already lives in the canonical `demoNote` that the homepage card and
+    // the demo pages both render. A variant carrying its own copy would be a
+    // second place for that sentence to drift.
+    access: { kind: 'open' },
     // The pipeline also runs in the browser from the project's own source,
     // so the workflow can be stepped through here without leaving the
     // portfolio. The deployment above is the application itself.

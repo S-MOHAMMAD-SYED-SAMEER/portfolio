@@ -67,10 +67,12 @@ export interface Project {
    * What a visitor needs to know before opening the DEPLOYED application.
    *
    * Two things are worth saying in advance and neither is visible from the
-   * button: two of these deployments are behind an operator sign-in, and all
-   * three are on free-tier hosting that sleeps, so the first request after a
-   * quiet spell is slow. A visitor who waits a minute and then meets a
-   * password has been misled by a link that said "Live demo" and nothing else.
+   * button: each deployment answers to a stranger differently — one is fully
+   * open, two serve a read-only view of synthetic data and ask for a sign-in
+   * only to change something — and all three are on free-tier hosting that
+   * sleeps, so the first request after a quiet spell is slow. A visitor who
+   * waits a minute and then meets a password has been misled by a link that
+   * said "Live demo" and nothing else.
    *
    * THE SINGLE SOURCE FOR THIS DISCLOSURE
    *
@@ -178,7 +180,7 @@ export const projects: Project[] = [
     },
     proof: ["346 tests", "deterministic scoring"],
     demoNote:
-      "The deployed dashboard is behind sign-in, so it needs an account. First load may take up to a minute while the free-tier hosting wakes up.",
+      "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to record a decision. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
   },
 ];

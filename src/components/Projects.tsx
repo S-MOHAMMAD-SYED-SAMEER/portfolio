@@ -163,9 +163,9 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Said before the click, not after it: the button alone cannot tell a
-          visitor that a demo needs an account or that a sleeping free-tier
-          instance takes a moment to answer. Quiet by design — it qualifies the
-          action above it rather than competing with it. */}
+          visitor what a deployment will let them do without an account, or that
+          a sleeping free-tier instance takes a moment to answer. Quiet by
+          design — it qualifies the action above it rather than competing. */}
       {project.demoHref && project.demoNote && (
         <p className="mt-3 text-meta text-ink-muted">
           <span className="font-semibold">Live demo:</span> {project.demoNote}
