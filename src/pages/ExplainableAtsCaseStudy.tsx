@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
+import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ExplainableAtsFlow from "../components/caseStudy/ExplainableAtsFlow";
@@ -330,7 +331,7 @@ export default function ExplainableAtsCaseStudy() {
               View on GitHub
             </a>
             <a
-              href="/#contact"
+              href={enquiryMailto("AI Recruitment Intelligence")}
               className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
               Talk about your hiring process
@@ -788,7 +789,7 @@ export default function ExplainableAtsCaseStudy() {
                 Read the Source on GitHub
               </a>
               <a
-                href="/#contact"
+                href={enquiryMailto("AI Recruitment Intelligence")}
                 className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
               >
                 Start a conversation

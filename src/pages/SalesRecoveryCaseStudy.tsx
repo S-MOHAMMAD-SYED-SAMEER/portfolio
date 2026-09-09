@@ -1,6 +1,7 @@
 import Footer from "../components/Footer";
 import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
+import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ArchitectureDiagram from "../components/caseStudy/ArchitectureDiagram";
@@ -385,7 +386,7 @@ export default function SalesRecoveryCaseStudy() {
                 Read the Source on GitHub
               </a>
               <a
-                href="/#contact"
+                href={enquiryMailto("AI Customer Support & Sales Recovery")}
                 className="rounded-md px-4 py-3 text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
               >
                 Talk about your store

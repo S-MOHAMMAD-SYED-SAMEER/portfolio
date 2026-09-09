@@ -66,6 +66,29 @@ export const P1_SCENARIOS: Scenario[] = [
         ],
       },
       {
+        id: "signal",
+        label: "Signal",
+        heading: "Is there anything beyond the question?",
+        blurb:
+          "The system looks for hesitation or buying intent separately from the answer, because the two call for different actions.",
+        panels: [
+          {
+            kind: "fields",
+            title: "Signals",
+            rows: [
+              { label: "Hesitation", value: "None detected" },
+              { label: "Urgency", value: "Deadline stated", tone: "signal" },
+              { label: "Recovery action needed", value: "No" },
+            ],
+          },
+          {
+            kind: "note",
+            title: "Why nothing fires here",
+            body: "The customer is ready to buy and only needs a fact. Adding a discount to a question that was already answered would be noise.",
+          },
+        ],
+      },
+      {
         id: "lookup",
         label: "Lookup",
         heading: "The system checks before it speaks",
@@ -99,29 +122,6 @@ export const P1_SCENARIOS: Scenario[] = [
             source: "Store shipping policy · synthetic fixture",
           },
           { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "signal",
-        label: "Signal",
-        heading: "Is there anything beyond the question?",
-        blurb:
-          "The system looks for hesitation or buying intent separately from the answer, because the two call for different actions.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "None detected" },
-              { label: "Urgency", value: "Deadline stated", tone: "signal" },
-              { label: "Recovery action needed", value: "No" },
-            ],
-          },
-          {
-            kind: "note",
-            title: "Why nothing fires here",
-            body: "The customer is ready to buy and only needs a fact. Adding a discount to a question that was already answered would be noise.",
-          },
         ],
       },
       {
@@ -195,6 +195,23 @@ export const P1_SCENARIOS: Scenario[] = [
         ],
       },
       {
+        id: "signal",
+        label: "Signal",
+        heading: "Frustration is worth noticing",
+        blurb: "A customer chasing an order is a retention risk, not a sales opportunity. The action reflects that.",
+        panels: [
+          {
+            kind: "fields",
+            title: "Signals",
+            rows: [
+              { label: "Hesitation", value: "None" },
+              { label: "Frustration", value: "Low, but present", tone: "signal" },
+              { label: "Recovery action needed", value: "No — reassurance instead" },
+            ],
+          },
+        ],
+      },
+      {
         id: "lookup",
         label: "Lookup",
         heading: "The order record is fetched",
@@ -225,23 +242,6 @@ export const P1_SCENARIOS: Scenario[] = [
         blurb: "Where two sources disagree, the system answers from the authoritative one and says so plainly.",
         panels: [
           { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "signal",
-        label: "Signal",
-        heading: "Frustration is worth noticing",
-        blurb: "A customer chasing an order is a retention risk, not a sales opportunity. The action reflects that.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "None" },
-              { label: "Frustration", value: "Low, but present", tone: "signal" },
-              { label: "Recovery action needed", value: "No — reassurance instead" },
-            ],
-          },
         ],
       },
       {
@@ -315,6 +315,24 @@ export const P1_SCENARIOS: Scenario[] = [
         ],
       },
       {
+        id: "signal",
+        label: "Signal",
+        heading: "A returns question before purchase",
+        blurb:
+          "Asking about returns before buying is a hesitation marker: the customer is weighing the risk of it not working out.",
+        panels: [
+          {
+            kind: "fields",
+            title: "Signals",
+            rows: [
+              { label: "Hesitation", value: "Detected", tone: "signal" },
+              { label: "Basis", value: "Returns asked pre-purchase" },
+              { label: "Recovery action needed", value: "Yes — reassurance", tone: "signal" },
+            ],
+          },
+        ],
+      },
+      {
         id: "lookup",
         label: "Retrieval",
         heading: "The store's own policy is retrieved",
@@ -348,24 +366,6 @@ export const P1_SCENARIOS: Scenario[] = [
             kind: "note",
             title: "If it had not been covered",
             body: "Where retrieval returns nothing relevant, the system says it does not know and offers to pass the question to a person. It does not fill the gap from general knowledge.",
-          },
-        ],
-      },
-      {
-        id: "signal",
-        label: "Signal",
-        heading: "A returns question before purchase",
-        blurb:
-          "Asking about returns before buying is a hesitation marker: the customer is weighing the risk of it not working out.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "Detected", tone: "signal" },
-              { label: "Basis", value: "Returns asked pre-purchase" },
-              { label: "Recovery action needed", value: "Yes — reassurance", tone: "signal" },
-            ],
           },
         ],
       },
@@ -444,6 +444,31 @@ export const P1_SCENARIOS: Scenario[] = [
         ],
       },
       {
+        id: "signal",
+        label: "Signal",
+        heading: "The signal that makes this project worth building",
+        blurb:
+          "This is the moment a small team misses at 20:37 on a weeknight, and the one the system exists to catch.",
+        panels: [
+          {
+            kind: "fields",
+            title: "Signals",
+            rows: [
+              { label: "Hesitation", value: "Detected", tone: "signal" },
+              { label: "Basis", value: "Price objection + stated intent to leave" },
+              { label: "Confidence", value: "High" },
+              { label: "Recovery action needed", value: "Yes", tone: "signal" },
+            ],
+          },
+          {
+            kind: "note",
+            tone: "signal",
+            title: "Signal detected",
+            body: "Customer is interested but uncertain, and has named price as the reason. The opportunity is live but about to close.",
+          },
+        ],
+      },
+      {
         id: "lookup",
         label: "Lookup",
         heading: "What is available to offer",
@@ -474,31 +499,6 @@ export const P1_SCENARIOS: Scenario[] = [
         blurb: "The code, the amount and the expiry all come from the store's own configuration.",
         panels: [
           { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "signal",
-        label: "Signal",
-        heading: "The signal that makes this project worth building",
-        blurb:
-          "This is the moment a small team misses at 20:37 on a weeknight, and the one the system exists to catch.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "Detected", tone: "signal" },
-              { label: "Basis", value: "Price objection + stated intent to leave" },
-              { label: "Confidence", value: "High" },
-              { label: "Recovery action needed", value: "Yes", tone: "signal" },
-            ],
-          },
-          {
-            kind: "note",
-            tone: "signal",
-            title: "Signal detected",
-            body: "Customer is interested but uncertain, and has named price as the reason. The opportunity is live but about to close.",
-          },
         ],
       },
       {
