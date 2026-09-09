@@ -320,7 +320,7 @@ export default function ExplainableAtsCaseStudy() {
               rel="noreferrer"
               className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
             >
-              Try the Live Demo
+              Live Demo (sign-in)
             </a>
             <a
               href={REPO_URL}
