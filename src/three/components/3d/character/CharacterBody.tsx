@@ -76,11 +76,6 @@ function buildParts() {
     piece(sphere(F.jawRadius, 14, 10), [0.86, 0.74, 0.94], [0, skull * 0.5, 0.012]),
     // Chin, proud of the jaw.
     piece(sphere(F.chinRadius, 10, 8), [0.95, 0.72, 0.85], [0, skull * 0.16, 0.062]),
-    // Brows: two masses with a gap at the bridge. A single bar across the
-    // eyes reads as a visor, which is the one thing this head must not do.
-    ...SIDES.map((side) =>
-      piece(sphere(F.browRadius, 10, 8), [1.15, 0.34, 0.5], [side * 0.032, skull * 1.16, 0.074]),
-    ),
     // Nose: a bridge and a tip, and nothing else.
     piece(sphere(F.noseRadius, 8, 8), [0.36, 1.35, 0.8], [0, skull * 0.94, 0.09]),
     piece(sphere(F.noseTipRadius, 8, 6), [1.05, 0.85, 1.1], [0, skull * 0.66, 0.096]),
@@ -88,6 +83,25 @@ function buildParts() {
       piece(sphere(F.earRadius, 8, 8), [0.4, 0.9, 0.72], [side * skull * 0.89, skull * 0.86, -0.008]),
     ),
   ])
+
+  /*
+   * Brows, in the hair's colour rather than the skin's.
+   *
+   * They were part of the merged head, which meant they were skin-coloured
+   * masses on a skin-coloured skull: geometry that existed and could not be
+   * seen. At the distance the welcome pose holds — the head is about 35 px
+   * tall — a brow ridge lit by a soft warm key produces almost no value
+   * change, so the face read as a blank oval.
+   *
+   * Two masses with a gap at the bridge, exactly as before. A single bar
+   * across the eyes reads as a visor, which is the one thing this head must
+   * not do. Same positions, same sizes — only the material differs.
+   */
+  const brows = mergeGeometries(
+    SIDES.map((side) =>
+      piece(sphere(F.browRadius, 10, 8), [1.15, 0.34, 0.5], [side * 0.032, skull * 1.16, 0.074]),
+    ),
+  )
 
   /*
    * Hair. Tipping the crown back is what stops it reading as a helmet: the
@@ -144,6 +158,7 @@ function buildParts() {
 
   return {
     head,
+    brows,
     hair,
     hands,
     shoe,
@@ -195,6 +210,7 @@ export function CharacterBody({ motion }: CharacterBodyProps) {
   useEffect(
     () => () => {
       parts.head.dispose()
+      parts.brows.dispose()
       parts.hair.dispose()
       parts.shoe.dispose()
       for (const hand of parts.hands) hand.dispose()
@@ -372,6 +388,7 @@ export function CharacterBody({ motion }: CharacterBodyProps) {
 
         <group ref={head} position-y={F.torsoLength + F.neckLength - 0.01}>
           <mesh geometry={parts.head} material={parts.material.skin} castShadow />
+          <mesh geometry={parts.brows} material={parts.material.hair} castShadow />
 
           {/* Mouth: a value change, not a drawn line. */}
           <mesh position={[0, F.headRadius * 0.34, 0.089]} material={parts.material.mouth}>

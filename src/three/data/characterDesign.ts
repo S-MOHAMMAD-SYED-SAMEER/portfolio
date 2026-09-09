@@ -212,7 +212,14 @@ export const FIGURE_FINISH = {
   trousers: 0.86,
   shoes: 0.42,
   hair: 0.92,
-  skin: 0.84,
+  /*
+   * Skin was 0.84 — matte enough that the brow, nose and chin produced
+   * almost no value change under the hall's soft key, which is what left a
+   * modelled face reading as a blank oval. Lower roughness gives those
+   * forms a highlight to catch and a shadow to sit under. Still well short
+   * of a sheen: skin that is too glossy is the other way to look wrong.
+   */
+  skin: 0.62,
 } as const
 
 /** Warm and dim: enough to find the form, never a spotlight. */
