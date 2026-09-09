@@ -34,8 +34,8 @@ export function ContactPanel() {
 
       {unlinked.length > 0 && (
         <div className="mt-6">
-          <p className="text-mist/70 text-[10px] tracking-[0.3em] uppercase">Not linked yet</p>
-          <p className="text-mist/45 mt-2 text-sm">
+          <p className="text-mist text-[10px] tracking-[0.3em] uppercase">Not linked yet</p>
+          <p className="text-mist mt-2 text-sm">
             {unlinked.map((channel) => channel.label).join(' · ')}
           </p>
         </div>

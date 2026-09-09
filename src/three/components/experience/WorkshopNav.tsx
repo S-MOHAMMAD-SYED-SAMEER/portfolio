@@ -21,7 +21,7 @@ export function WorkshopNav({ highlighted, open, onHighlight, onSelect }: Worksh
 
   return (
     <div className="pointer-events-auto">
-      <p className="text-mist/60 h-4 text-[10px] tracking-[0.3em] uppercase">
+      <p className="text-mist h-4 text-[10px] tracking-[0.3em] uppercase">
         {prompt === null ? 'Look around' : AREA_PROMPT[prompt]}
       </p>
 

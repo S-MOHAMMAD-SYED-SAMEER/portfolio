@@ -47,7 +47,7 @@ export function ProjectActions({ project }: { project: Project }) {
     <div>
       {needsSignIn && (
         <div className="mb-4">
-          <p className="text-mist/70 text-[10px] tracking-[0.3em] uppercase">Demo access</p>
+          <p className="text-mist text-[10px] tracking-[0.3em] uppercase">Demo access</p>
           <p className="text-mist mt-2 text-sm leading-relaxed">
             {access.note ?? 'This project requires sign-in.'}
           </p>
@@ -56,14 +56,14 @@ export function ProjectActions({ project }: { project: Project }) {
 
       {hasPublicLogin && (
         <div className="border-scene-line mb-4 rounded-lg border p-3">
-          <p className="text-mist/70 text-[10px] tracking-[0.3em] uppercase">Demo account</p>
+          <p className="text-mist text-[10px] tracking-[0.3em] uppercase">Demo account</p>
           {access.note !== undefined && (
             <p className="text-mist mt-2 text-xs leading-relaxed">{access.note}</p>
           )}
           <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 font-mono text-xs">
-            <dt className="text-mist/60">user</dt>
+            <dt className="text-mist">user</dt>
             <dd className="text-chalk break-all">{access.username}</dd>
-            <dt className="text-mist/60">pass</dt>
+            <dt className="text-mist">pass</dt>
             <dd className="text-chalk break-all">{access.password}</dd>
           </dl>
         </div>
@@ -74,7 +74,7 @@ export function ProjectActions({ project }: { project: Project }) {
           (
             <a
               href={demo.href}
-              target="_blank"
+              target={demo.external ? '_blank' : undefined}
               rel={demo.external ? 'noreferrer noopener' : undefined}
               aria-label={demo.accessibleName}
               className={cn(PRIMARY_ACTION_CLASS)}
@@ -87,7 +87,7 @@ export function ProjectActions({ project }: { project: Project }) {
             <a
               key={action.id}
               href={action.href}
-              target="_blank"
+              target={action.external ? '_blank' : undefined}
               rel={action.external ? 'noreferrer noopener' : undefined}
               aria-label={action.accessibleName}
               className={SECONDARY_ACTION_CLASS}

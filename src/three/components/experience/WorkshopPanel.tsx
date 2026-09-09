@@ -76,7 +76,7 @@ function Skills() {
     <ul className="space-y-6">
       {SKILL_GROUPS.map((group) => (
         <li key={group.id}>
-          <p className="text-mist/70 text-[10px] tracking-[0.3em] uppercase">{group.title}</p>
+          <p className="text-mist text-[10px] tracking-[0.3em] uppercase">{group.title}</p>
           <p className="mt-2 text-sm leading-relaxed">{group.items.join(' · ')}</p>
         </li>
       ))}
@@ -90,9 +90,9 @@ function Services({ onOpen }: { onOpen: (area: WorkshopArea) => void }) {
       <ul className="space-y-6">
         {SERVICES.map((service) => (
           <li key={service.id}>
-            <h3 className="text-base font-medium">{service.title}</h3>
+            <h3 className="text-chalk text-base font-medium">{service.title}</h3>
             <p className="text-mist mt-1.5 text-sm leading-relaxed">{service.summary}</p>
-            <p className="text-mist/80 mt-2 text-xs">{service.evidence.join(' · ')}</p>
+            <p className="text-mist mt-2 text-xs">{service.evidence.join(' · ')}</p>
           </li>
         ))}
       </ul>
@@ -112,7 +112,7 @@ function About() {
   return (
     <div>
       <p className="text-sm font-medium tracking-[0.12em]">{ABOUT.name}</p>
-      <p className="text-mist/70 mt-1 text-[10px] tracking-[0.3em] uppercase">{ABOUT.title}</p>
+      <p className="text-mist mt-1 text-[10px] tracking-[0.3em] uppercase">{ABOUT.title}</p>
 
       <div className="mt-5 space-y-4">
         {ABOUT.paragraphs.map((paragraph) => (

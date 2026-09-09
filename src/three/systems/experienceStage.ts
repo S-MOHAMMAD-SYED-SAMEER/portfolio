@@ -36,6 +36,14 @@ export const STAGE_ORDER: readonly ExperienceStage[] = [
 
 export const FIRST_STAGE: ExperienceStage = 'intro'
 
+/**
+ * The resting place: the workshop, where the projects are.
+ *
+ * Derived from the order rather than written again, so extending the
+ * journey moves it automatically.
+ */
+export const LAST_STAGE: ExperienceStage = STAGE_ORDER[STAGE_ORDER.length - 1]!
+
 /** The next beat, or `null` at the end of what is built. */
 export function nextStage(stage: ExperienceStage): ExperienceStage | null {
   const index = STAGE_ORDER.indexOf(stage)

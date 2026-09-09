@@ -7,6 +7,7 @@ import type { CharacterGesture } from '@/systems/character'
 import {
   FIRST_STAGE,
   isIntrinsic,
+  LAST_STAGE,
   nextStage,
   previousCheckpoint,
   type ExperienceStage,
@@ -31,6 +32,18 @@ export interface Journey {
   gesture: CharacterGesture
   advance: () => void
   back: () => void
+  /**
+   * Jump straight to the workshop, where the projects are.
+   *
+   * The arrival is a sequence of held beats, and walking it takes about a
+   * minute before a visitor sees a single project. That is the right pace
+   * for somebody who wants the story and the wrong one for somebody who
+   * came to judge the work, so both are offered rather than the cinematic
+   * being cut down to suit the second.
+   */
+  skipToWork: () => void
+  /** False once there is nothing left to skip. */
+  canSkipToWork: boolean
   setMode: (mode: PlaybackMode) => void
   togglePause: () => void
   onCharacterArrive: () => void
@@ -78,6 +91,13 @@ export function useJourney(reducedMotion: boolean): Journey {
     setStage(target)
     setLine(0)
   }, [stage])
+
+  // Same shape as `back`: set the stage, reset the line. Nothing else in
+  // the machine needs to know a jump happened.
+  const skipToWork = useCallback(() => {
+    setStage(LAST_STAGE)
+    setLine(0)
+  }, [])
 
   const setMode = useCallback((next: PlaybackMode) => {
     // The stage is kept: switching pacing should never restart the story.
@@ -140,6 +160,8 @@ export function useJourney(reducedMotion: boolean): Journey {
     gesture,
     advance,
     back,
+    skipToWork,
+    canSkipToWork: stage !== LAST_STAGE,
     setMode,
     togglePause,
     onCharacterArrive,

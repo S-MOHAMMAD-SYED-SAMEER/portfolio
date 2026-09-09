@@ -23,7 +23,7 @@ export function DialoguePanel({ line, showSpeaker }: DialoguePanelProps) {
       {line !== null && (
         <div key={line.text} className="dialogue-line max-w-lg">
           {showSpeaker && (
-            <p className="text-mist/70 mb-2 text-[10px] tracking-[0.32em] uppercase">
+            <p className="text-mist mb-2 text-[10px] tracking-[0.32em] uppercase">
               {SPEAKER_LABEL}
             </p>
           )}

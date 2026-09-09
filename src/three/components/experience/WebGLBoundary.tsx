@@ -69,7 +69,7 @@ export class WebGLBoundary extends Component<WebGLBoundaryProps, WebGLBoundarySt
 
     return (
       <div className="bg-void flex h-dvh w-full flex-col items-center justify-center px-6 text-center">
-        <p className="text-mist/70 text-[10px] tracking-[0.35em] uppercase">3D Experience</p>
+        <p className="text-mist text-[10px] tracking-[0.35em] uppercase">3D Experience</p>
         <p className="mt-4 max-w-sm text-lg leading-snug font-medium">
           This device can’t start the 3D experience.
         </p>

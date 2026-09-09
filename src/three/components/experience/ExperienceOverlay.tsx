@@ -44,6 +44,10 @@ export function ExperienceOverlay({
   // row stands down rather than offering a second button that does the same
   // thing. Escape and Backspace still close it.
   const showBack = journey.canGoBack && !workshop.isOpen
+  // Offered from the first beat, not buried at the end of the arrival: a
+  // visitor evaluating the work should not have to sit through a minute of
+  // cinematic to find out whether there is any.
+  const showSkip = journey.canSkipToWork && !workshop.isOpen
 
   return (
     <div
@@ -93,7 +97,7 @@ export function ExperienceOverlay({
 
       <div className="relative">
         {copy.label !== undefined && !inWorkshop && (
-          <p className="text-mist/80 text-[11px] tracking-[0.35em] uppercase">{copy.label}</p>
+          <p className="text-mist text-[11px] tracking-[0.35em] uppercase">{copy.label}</p>
         )}
 
         {copy.heading !== undefined && journey.dialogue === null && (
@@ -137,6 +141,12 @@ export function ExperienceOverlay({
 
           {showAction && <ActionButton onClick={journey.advance}>{actionLabel}</ActionButton>}
 
+          {showSkip && (
+            <ActionButton onClick={journey.skipToWork} variant="secondary">
+              Skip to the work
+            </ActionButton>
+          )}
+
           {showPause && (
             <ActionButton onClick={journey.togglePause} variant="secondary">
               {journey.paused ? 'Resume' : 'Pause'}
@@ -144,7 +154,7 @@ export function ExperienceOverlay({
           )}
 
           {isAuto && (
-            <p className="text-mist/60 text-[10px] tracking-[0.3em] uppercase">
+            <p className="text-mist text-[10px] tracking-[0.3em] uppercase">
               {journey.paused ? 'Paused' : 'Auto'}
             </p>
           )}

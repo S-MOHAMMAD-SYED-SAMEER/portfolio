@@ -18,7 +18,14 @@ interface SceneCanvasProps {
  */
 export function SceneCanvas({ children }: SceneCanvasProps) {
   return (
+    // The scene is decorative in the accessibility sense: everything it
+    // conveys — where the visitor is, what is being said, every action — is
+    // in the overlay above it as real, focusable HTML. So it takes a name
+    // and an image role rather than being exposed as an interactive region
+    // a screen reader would then have to describe frame by frame.
     <Canvas
+      role="img"
+      aria-label="A rendered hall: a figure standing before a doorway, with a name board on the wall beside it. Everything the scene shows is also written in the panel over it."
       // Cap the pixel ratio so high-DPI phones do not render 3x the pixels.
       dpr={[1, 2]}
       // PCF rather than PCFSoft: three deprecated the latter and now

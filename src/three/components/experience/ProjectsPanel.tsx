@@ -27,6 +27,26 @@ interface ProjectsPanelProps {
  * an index of what is on the screens, and selecting an entry is stepping
  * closer to read it. Editorial rather than a card grid: rules, not boxes.
  */
+/**
+ * Names what is behind the row, rather than describing the click.
+ *
+ * "Inspect" tells a visitor nothing about where they are going, and the
+ * destinations — a written case study, an in-browser demo, the deployed
+ * application, the source — are the reason to go. The list is derived from
+ * `projectActions`, so a project without one of them never advertises it and
+ * nothing here is a second copy of the link data.
+ */
+function destinationSummary(project: Project): string {
+  const ids = new Set(projectActions(project).map((action) => action.id))
+  const parts: string[] = []
+  if (ids.has('caseStudy')) parts.push('Case study')
+  if (ids.has('interactiveDemo') || ids.has('demo')) parts.push('demos')
+  if (ids.has('github')) parts.push('source')
+  if (parts.length === 0) return 'Inspect'
+  if (parts.length === 1) return parts[0]!
+  return parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1]!
+}
+
 export function ProjectsPanel({
   project,
   highlighted,
@@ -51,25 +71,27 @@ export function ProjectsPanel({
             onMouseLeave={() => onHighlight(null)}
             onFocus={() => onHighlight(entry.id)}
             onBlur={() => onHighlight(null)}
-            aria-label={`Inspect ${entry.title}`}
+            aria-label={`${destinationSummary(entry)} for ${entry.title}`}
             className={cn(
               'focus-ring group -mx-2 block w-full rounded-lg px-2 py-5 text-left transition-colors duration-200',
               entry.id === highlighted ? 'bg-scene-surface/50' : 'hover:bg-scene-surface/40',
             )}
           >
-            <p className="text-mist/70 text-[10px] tracking-[0.3em] uppercase">
+            <p className="text-mist text-[10px] tracking-[0.3em] uppercase">
               {entry.category}
             </p>
-            <h3 className="mt-1.5 text-base leading-snug font-medium">{entry.title}</h3>
+            <h3 className="text-chalk mt-1.5 text-base leading-snug font-medium">{entry.title}</h3>
             <p className="text-mist mt-2 text-sm leading-relaxed">{entry.shortDescription}</p>
 
-            <div className="text-mist/80 mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            <div className="text-mist mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
               {projectHighlights(entry).map((highlight) => (
                 <span key={highlight}>{highlight}</span>
               ))}
             </div>
 
-            <span className="text-accent mt-3 inline-block text-xs">Inspect →</span>
+            <span className="text-accent mt-3 inline-block text-xs">
+              {destinationSummary(entry)} →
+            </span>
           </button>
         </li>
       ))}
@@ -92,10 +114,10 @@ function CaseStudy({ project, onBack }: { project: Project; onBack: () => void }
         ← Back to projects
       </button>
 
-      <p className="text-mist/70 mt-5 text-[10px] tracking-[0.3em] uppercase">
+      <p className="text-mist mt-5 text-[10px] tracking-[0.3em] uppercase">
         {project.category}
       </p>
-      <h3 className="mt-1.5 text-xl leading-snug font-medium">{project.title}</h3>
+      <h3 className="text-chalk mt-1.5 text-xl leading-snug font-medium">{project.title}</h3>
       <p className="text-mist mt-3 text-sm leading-relaxed">{project.shortDescription}</p>
 
       <Rule />
@@ -183,7 +205,7 @@ function Rule() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h4 className="text-mist/70 mb-3 text-[10px] tracking-[0.3em] uppercase">{title}</h4>
+      <h4 className="text-mist mb-3 text-[10px] tracking-[0.3em] uppercase">{title}</h4>
       {children}
     </section>
   )
@@ -192,7 +214,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-mist/60 text-[10px] tracking-[0.2em] uppercase">{label}</dt>
+      <dt className="text-mist text-[10px] tracking-[0.2em] uppercase">{label}</dt>
       <dd className="mt-1 text-lg font-medium">{value}</dd>
     </div>
   )

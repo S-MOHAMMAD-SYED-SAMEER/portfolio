@@ -33,7 +33,7 @@ export const FRAMING = {
    * moving here: it trades ceiling for light path without changing the
    * camera's distance, so the character keeps its size.
    */
-  portraitTilt: 1.35,
+  portraitTilt: 0.45,
 } as const
 
 /** Where the camera begins before the cinematic move settles it. */
@@ -46,14 +46,14 @@ export const CAMERA_START: CameraPose = {
 export const CAMERA_POSES: Record<ExperienceStage, CameraPose> = {
   /** Establishing wide. The hall, the closed door, the board beside it. */
   intro: {
-    position: [0, 2.9, 10],
-    lookAt: [0, 3.1, -16],
+    position: [0, 2.7, 4],
+    lookAt: [0, 2.4, -16],
     parallax: 0.3,
   },
   /** Inside, holding the door and the board in one frame. */
   entrance: {
-    position: [1.1, 2.2, -6],
-    lookAt: [1.6, 2.5, -18.9],
+    position: [2, 1.7, -5.6],
+    lookAt: [0, 1, -10],
     parallax: 0.45,
   },
   /** Tracking in behind the walk, the door filling the end of the hall. */

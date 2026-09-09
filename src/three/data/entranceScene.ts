@@ -19,9 +19,9 @@ import type { Vec3 } from '@/lib/vec3'
 export const ENTRANCE_PALETTE = {
   background: '#05070b',
   fog: '#070910',
-  floor: '#15171d',
+  floor: '#1c1f27',
   stone: '#3d3d46',
-  stoneShadow: '#24252c',
+  stoneShadow: '#2b2d36',
   stoneLight: '#4a4a54',
   inlay: '#191b21',
   ceilingDetail: '#2c2d34',
@@ -31,7 +31,7 @@ export const ENTRANCE_PALETTE = {
   daylight: '#fdf1e2',
   keyLight: '#ffe0b8',
   fillLight: '#8e97a6',
-  bounceLight: '#16181e',
+  bounceLight: '#242833',
 } as const
 
 export const FOG = { near: 26, far: 96 } as const
@@ -149,7 +149,7 @@ export const CHARACTER = {
  */
 export const LIGHTING = {
   key: { position: [3, 18, -38] as Vec3, intensity: 7.2 },
-  fill: { position: [-9, 8, 16] as Vec3, intensity: 1.9 },
+  fill: { position: [-9, 8, 16] as Vec3, intensity: 3.4 },
   spill: { position: [0, 4.5, -17] as Vec3, intensity: 55, distance: 30 },
-  hemisphere: { intensity: 1.7 },
+  hemisphere: { intensity: 3.4 },
 } as const
