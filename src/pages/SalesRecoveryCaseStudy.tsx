@@ -95,7 +95,7 @@ function Section({
 export default function SalesRecoveryCaseStudy() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-surface/80 backdrop-blur">
         {/* This is the longest page on the site; skipping the header matters
             more here than anywhere else. */}
         <SkipLink />

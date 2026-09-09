@@ -249,7 +249,7 @@ function GateComparison() {
 export default function ExplainableAtsCaseStudy() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-surface/80 backdrop-blur">
         {/* This is the longest page on the site; skipping the header matters
             more here than anywhere else. */}
         <SkipLink />
@@ -263,9 +263,24 @@ export default function ExplainableAtsCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
+              className="text-sm text-slate-600 hover:text-slate-900"
+            >
+              GitHub
+            </a>
+            {/* Same filled slot the other two case studies give their
+                deployment, so the three pages read alike. The label carries the
+                constraint rather than leaving it behind: this header is sticky,
+                so it follows the reader down a very long page, and a bare "Live
+                Demo" would keep promising something that stops at a sign-in
+                the reader has no way through. The hero below still leads with
+                the interactive demo, which needs no account. */}
+            <a
+              href={LIVE_DEMO_HREF}
+              target="_blank"
+              rel="noreferrer"
               className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
             >
-              View on GitHub
+              Live Demo (sign-in)
             </a>
           </div>
         </nav>
