@@ -68,9 +68,9 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "326",
+    figure: "346",
     label: "Automated tests passing",
-    detail: "302 covering the server and its scoring rules, 24 covering the dashboard.",
+    detail: "315 covering the server and its scoring rules, 31 covering the dashboard.",
   },
   {
     figure: "4",
@@ -167,11 +167,11 @@ function GateComparison() {
                 71%
               </p>
             </div>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-600">
               {c.placement} · {c.tier}
             </p>
 
-            <p className="mt-4 text-xs font-medium uppercase tracking-wide text-slate-500">
+            <p className="mt-4 text-xs font-medium uppercase tracking-wide text-slate-600">
               Essential requirement · {c.verdict}
             </p>
             <blockquote className="mt-2 border-l-2 border-slate-300 pl-3 text-sm italic text-slate-700">

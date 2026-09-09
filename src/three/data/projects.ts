@@ -42,8 +42,12 @@ function canonicalProof(id: CanonicalId): { tests: number; evaluation: string | 
   const tests = Number.parseInt(project.proof?.[0] ?? '', 10)
   if (!Number.isFinite(tests)) throw new Error(`Project ${id} has no parseable test count`)
 
-  const ratio = /^[0-9]+\/[0-9]+$/.exec(project.proof?.[1] ?? '')
-  return { tests, evaluation: ratio === null ? null : ratio[0] }
+  // Anchored at the start but NOT at the end. The canonical strings are
+  // "16/16 eval" and "10/10 eval", so requiring the ratio to be the whole
+  // string matched neither, and every 3D panel silently dropped a true and
+  // verified figure. The trailing word boundary still rejects "16/16x".
+  const ratio = /^([0-9]+\/[0-9]+)\b/.exec(project.proof?.[1] ?? '')
+  return { tests, evaluation: ratio === null ? null : ratio[1]! }
 }
 
 export type ProjectId = 'p1' | 'p2' | 'p3'
@@ -205,7 +209,20 @@ export interface Project {
  * are left in place only so this array still satisfies `Project`; nothing
  * renders them.
  */
-const AUTHORED_PROJECTS: readonly Project[] = [
+/**
+ * What an entry below may state.
+ *
+ * `tests` and `evaluation` are omitted rather than merely overridden. Both
+ * were authored here as well as in the canonical file, and a stale `827`
+ * outlived the real count of 895 by several commits — always replaced at
+ * runtime, so nothing ever rendered it, and always wrong to anyone reading
+ * this file. A value that cannot be written here cannot go stale here.
+ */
+type AuthoredProject = Omit<Project, 'proof'> & {
+  proof: Omit<ProjectProof, 'tests' | 'evaluation'>
+}
+
+const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
   {
     id: 'p1',
     order: 1,
@@ -225,8 +242,6 @@ const AUTHORED_PROJECTS: readonly Project[] = [
       'An AI system that handles customer support conversations and recovers sales that would otherwise be lost.',
     status: 'live',
     proof: {
-      tests: 206,
-      evaluation: '16/16',
       properties: [
         'Eight guardrail policies enforced in code, not prompt text',
         'Evaluated against the live model, not only mocked responses',
@@ -278,8 +293,6 @@ const AUTHORED_PROJECTS: readonly Project[] = [
       'An inbox-to-CRM system that triages incoming mail and moves qualified leads into the CRM.',
     status: 'live',
     proof: {
-      tests: 827,
-      evaluation: '10/10',
       properties: [
         'No value reaches the database without text quoted from the email',
         'Nothing is ever sent: an approved reply stops at the outbox',
@@ -339,8 +352,6 @@ const AUTHORED_PROJECTS: readonly Project[] = [
       'An explainable screening workflow that ranks candidates against a job spec and keeps the recruiter’s decision, with its reason, on the record.',
     status: 'live',
     proof: {
-      tests: 326,
-      evaluation: null,
       properties: [
         'Deterministic integer scoring — no floating point in the scoring path',
         'Every citation verified character-for-character against the submitted CV',

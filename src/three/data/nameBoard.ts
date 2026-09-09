@@ -36,12 +36,19 @@ export const NAME_BOARD = {
   light: {
     offset: [0, 0.66, 0.55] as Vec3,
     colour: '#ffe7c8',
-    intensity: 3.4,
+    intensity: 4.4,
     distance: 2.8,
     angle: 0.5,
     penumbra: 0.5,
   },
 } as const
 
-/** Texture resolution for the engraved face. Matches the board's aspect. */
-export const NAME_BOARD_TEXTURE = { width: 1024, height: 489 } as const
+/**
+ * Texture resolution for the engraved face. Matches the board's aspect.
+ *
+ * 2048 rather than 1024: the board is 2.1 m wide but is read from across the
+ * hall, where it lands on only a few dozen screen pixels. At the old density
+ * the name resolved to a smudge. Every size in `paint` scales with these, so
+ * the layout is unchanged — only the sampling is finer.
+ */
+export const NAME_BOARD_TEXTURE = { width: 2048, height: 978 } as const

@@ -176,7 +176,7 @@ export const projects: Project[] = [
       height: 3005,
       alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
     },
-    proof: ["326 tests", "deterministic scoring"],
+    proof: ["346 tests", "deterministic scoring"],
     demoNote:
       "The deployed dashboard is behind sign-in, so it needs an account. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,

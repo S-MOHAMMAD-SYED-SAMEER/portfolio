@@ -94,7 +94,7 @@ export const services: readonly Service[] = [
     positioning: "Screening decisions you can defend to the person they were made about.",
     builds:
       "Personal details redacted before the CV is read, evidence quoted and verified word-for-word, deterministic integer scoring, an essential-requirement gate, and a recruiter decision with a required written reason on an append-only trail.",
-    evidence: ["326 tests", "10-stage demo ending in Decision + Audit"],
+    evidence: ["346 tests", "10-stage demo ending in Decision + Audit"],
     cta: { label: "Step through the demo", href: p3.interactiveDemoHref ?? "#projects" },
     provenBy: "p3",
   },

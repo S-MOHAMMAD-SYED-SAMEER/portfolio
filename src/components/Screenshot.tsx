@@ -107,7 +107,7 @@ function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label={alt}
-      className="fixed inset-0 z-50 flex flex-col bg-slate-900/90"
+      className="fixed inset-0 z-50 flex flex-col bg-[#0f172ae6]"
       // Only a click that lands on the backdrop itself closes. A click on the
       // image, the toolbar, or a scrollbar inside the scroll area does not.
       onClick={(event) => {
@@ -115,12 +115,12 @@ function Lightbox({
       }}
     >
       <div className="flex flex-none items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <p className="min-w-0 truncate text-xs text-slate-300">{alt}</p>
+        <p className="min-w-0 truncate text-xs text-[#cbd5e1]">{alt}</p>
         <div className="flex flex-none items-center gap-2">
           <button
             type="button"
             onClick={() => setActualSize((v) => !v)}
-            className="rounded-md border border-slate-600 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:border-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="rounded-md border border-[#64748b] px-3 py-1.5 text-xs font-semibold text-[#e2e8f0] hover:border-[#94a3b8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {actualSize ? "Fit to screen" : "Full width"}
           </button>
@@ -128,7 +128,7 @@ function Lightbox({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-slate-900 hover:bg-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="rounded-md bg-[#ffffff] px-3 py-1.5 text-xs font-semibold text-[#0f172a] hover:bg-[#e2e8f0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Close
           </button>
@@ -156,7 +156,7 @@ function Lightbox({
         />
       </div>
 
-      <p className="flex-none px-4 pb-4 text-center text-xs text-slate-400 sm:px-6">
+      <p className="flex-none px-4 pb-4 text-center text-xs text-[#cbd5e1] sm:px-6">
         Press Escape to close
       </p>
     </div>
@@ -186,7 +186,7 @@ export default function Screenshot({
         isCard ? "aspect-video" : "h-full w-full"
       }`}
     >
-      <p className="px-6 text-center text-xs text-slate-400">
+      <p className="px-6 text-center text-xs text-slate-600">
         Product screenshot to be added
       </p>
     </div>
@@ -252,7 +252,7 @@ export default function Screenshot({
           // Always visible rather than hover-only: on a touch screen there is
           // no hover, and a visitor who cannot tell the image is clickable will
           // never find the full-resolution version.
-          <span className="pointer-events-none absolute bottom-2 right-2 rounded-md bg-slate-900/75 px-2 py-1 text-[11px] font-medium text-white">
+          <span className="pointer-events-none absolute bottom-2 right-2 rounded-md bg-[#0f172acc] px-2 py-1 text-[11px] font-medium text-white">
             Click to view full size
           </span>
         )}
@@ -272,9 +272,9 @@ export default function Screenshot({
     <figure className="mb-8 break-inside-avoid">
       {body}
       {caption && (
-        <figcaption className="mt-2 text-xs text-slate-500">
+        <figcaption className="mt-2 text-xs text-slate-600">
           {caption}{" "}
-          <span className="text-slate-400">
+          <span className="text-slate-500">
             Shown in full — click to read it at full resolution.
           </span>
         </figcaption>

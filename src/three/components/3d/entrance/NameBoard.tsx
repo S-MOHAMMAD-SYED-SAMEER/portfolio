@@ -67,15 +67,15 @@ function paint(canvas: HTMLCanvasElement): void {
   const maxWidth = TEX_W * 0.84
 
   ctx.fillStyle = NAME_BOARD.palette.text
-  ctx.font = '600 84px Inter, system-ui, -apple-system, "Segoe UI", sans-serif'
-  drawTrackedLine(ctx, NAME_BOARD.lines.name, TEX_W / 2, TEX_H * 0.34, 7, maxWidth)
+  ctx.font = '600 168px Inter, system-ui, -apple-system, "Segoe UI", sans-serif'
+  drawTrackedLine(ctx, NAME_BOARD.lines.name, TEX_W / 2, TEX_H * 0.34, 14, maxWidth)
 
   ctx.fillStyle = NAME_BOARD.palette.rule
-  ctx.fillRect(TEX_W * 0.5 - 150, TEX_H * 0.55, 300, 2)
+  ctx.fillRect(TEX_W * 0.5 - 300, TEX_H * 0.55, 600, 4)
 
   ctx.fillStyle = NAME_BOARD.palette.text
-  ctx.font = '500 46px Inter, system-ui, -apple-system, "Segoe UI", sans-serif'
-  drawTrackedLine(ctx, NAME_BOARD.lines.role, TEX_W / 2, TEX_H * 0.73, 11, maxWidth)
+  ctx.font = '500 92px Inter, system-ui, -apple-system, "Segoe UI", sans-serif'
+  drawTrackedLine(ctx, NAME_BOARD.lines.role, TEX_W / 2, TEX_H * 0.73, 22, maxWidth)
 }
 
 /**
@@ -98,7 +98,7 @@ export function NameBoard() {
     const created = new CanvasTexture(canvas)
     created.colorSpace = SRGBColorSpace
     created.minFilter = LinearFilter
-    created.anisotropy = 8
+    created.anisotropy = 16
     return created
   }, [])
 
@@ -147,7 +147,11 @@ export function NameBoard() {
           map={texture}
           emissiveMap={texture}
           emissive="#ffffff"
-          emissiveIntensity={0.22}
+          // The plate is lit like a real sign rather than relying on the hall,
+          // which is deliberately dim. `emissiveMap` is the same texture, so only
+          // the lettering emits — the dark face stays dark and the contrast the
+          // board is painted with survives the scene's lighting.
+          emissiveIntensity={0.9}
           roughness={0.5}
           metalness={0.1}
         />

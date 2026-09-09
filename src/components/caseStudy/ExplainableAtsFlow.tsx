@@ -84,7 +84,7 @@ function StageRow({ stage }: { stage: Stage }) {
 export default function ExplainableAtsFlow() {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
         The AI takes part here
       </p>
       <ol className="mt-4 flex flex-col gap-6">
@@ -117,7 +117,7 @@ export default function ExplainableAtsFlow() {
         </div>
       </div>
 
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
         Decided by the application, not the AI
       </p>
       <ol className="mt-4 flex flex-col gap-6">
