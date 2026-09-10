@@ -23,20 +23,6 @@ export const AREA_LABEL: Record<WorkshopArea, string> = {
   contact: 'Contact',
 }
 
-/**
- * The two destinations that are read on the studio screen.
- *
- * Projects and Services are catalogues of work, and the room already has a
- * surface for showing work: the glazed back wall. Skills, About and Contact
- * are about the left wall, the host and the rack, so their panels stay beside
- * those rather than being displaced onto a screen at the other end of the
- * room. One predicate, so the camera, the scene and the overlay cannot
- * disagree about which is which.
- */
-export function isScreenArea(area: WorkshopArea | null): boolean {
-  return area === 'projects' || area === 'services'
-}
-
 /** The one line shown when a destination is hovered or focused. */
 export const AREA_PROMPT: Record<WorkshopArea, string> = {
   projects: 'Explore projects',

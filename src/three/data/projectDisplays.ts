@@ -1,3 +1,4 @@
+import type { CameraPose } from '@/data/cameraPoses'
 import { PROJECTS, type ProjectId } from '@/data/projects'
 import { WORKSTATION } from '@/data/workshop'
 import { addVec3, rotateY, type Vec3 } from '@/lib/vec3'
@@ -41,3 +42,15 @@ export const DISPLAY_MARKER = {
   width: WORKSTATION.monitor.width + 0.08,
   height: WORKSTATION.monitor.height + 0.08,
 } as const
+
+/**
+ * A step closer for inspection.
+ *
+ * Deliberately a small move off the Projects pose — the visitor is leaning in
+ * to read a screen, not being flown somewhere.
+ */
+export const PROJECT_DETAIL_POSE: CameraPose = {
+  position: [-0.3, 1.75, -26.6],
+  lookAt: [-2.7, 1.2, -29.2],
+  parallax: 0.2,
+}

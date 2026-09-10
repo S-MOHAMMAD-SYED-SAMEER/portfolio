@@ -69,58 +69,6 @@ export const WORKSTATION = {
   chair: { offsetZ: 1.15, seatHeight: 0.46 },
 } as const
 
-/**
- * The studio display: one physical monitor, on a stand behind the bench.
- *
- * WHY THE ROOM NEEDED A NEW OBJECT
- *
- * It had no screen. Every surface in here is `WORKSHOP_PALETTE` — wall, bench,
- * rack, monitor bezels, all between #15161b and #3d404a — and the only large
- * light rectangle is the glazed opening in the back wall. That is a window: an
- * unlit `meshBasicMaterial` plane 2.4 m behind a hole in the wall, and the
- * room's only warm light. Hosting the interface on it meant framing a
- * 9 x 10.7 m opening, which filled the middle of the viewport with a flat
- * near-white slab — a modal made of triangles. So the display is a real object
- * again, and the window goes back to being a window.
- *
- * WHY THIS SIZE
- *
- * 5 x 3 m, against a 3.8 m bench: a large display over a desk, roughly the
- * proportion a monitor has to the desk it sits behind. An earlier version was
- * 6.8 x 3.9 and dominated the room. The scale reference is the workstation,
- * not the wall — it has to leave the bench, the host and the room around it
- * legible, which a screen half the width of the room does not.
- *
- * It takes the bench's own angle, so desk and display read as one workstation
- * rather than two objects that happen to be near each other, and it stands
- * clear of the glazing behind it: dark bezel against daylight is what makes it
- * read as a physical panel rather than a hole.
- */
-const DISPLAY_WIDTH = 5
-const DISPLAY_HEIGHT = 3
-const DISPLAY_BEZEL = 0.09
-
-export const WORKSPACE_DISPLAY = {
-  /** Behind the bench, along the bench's own normal. */
-  position: [-3.5, 2.75, -30.3] as Vec3,
-  /** The bench's angle, so screen and desk read as one workstation. */
-  rotationY: WORKSTATION.rotationY,
-  width: DISPLAY_WIDTH,
-  height: DISPLAY_HEIGHT,
-  bezel: DISPLAY_BEZEL,
-  depth: 0.12,
-  /** The lit area inside the frame — what the interface is drawn on. */
-  screenWidth: DISPLAY_WIDTH - DISPLAY_BEZEL * 2,
-  screenHeight: DISPLAY_HEIGHT - DISPLAY_BEZEL * 2,
-  /**
-   * A margin of screen left showing inside the bezel, so the content reads as
-   * something running on the panel rather than as the panel itself.
-   */
-  contentInset: 0.1,
-  /** Floor stand: pole and foot, sized to carry a panel this wide. */
-  stand: { poleWidth: 0.17, poleDepth: 0.1, footWidth: 1.1, footDepth: 0.5, footHeight: 0.07 },
-} as const
-
 /** A slim rack against the left wall. Engineering, not decoration. */
 export const RACK = {
   position: [-6.1, 0, -33.4] as Vec3,

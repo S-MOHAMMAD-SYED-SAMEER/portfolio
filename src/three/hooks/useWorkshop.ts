@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { AREA_POSES } from '@/data/workshopAreas'
 import type { CameraPose } from '@/data/cameraPoses'
+import { PROJECT_DETAIL_POSE } from '@/data/projectDisplays'
 import type { ProjectId } from '@/data/projects'
 import { WORKSHOP_AREAS, type WorkshopArea } from '@/systems/workshopArea'
 
@@ -89,13 +90,11 @@ export function useWorkshop(active: boolean): Workshop {
 
   const pose = useMemo<CameraPose | null>(() => {
     if (!active || open === null) return null
-    // One pose per destination, and selecting a project does not change it.
-    // Projects are read on the studio screen now, so leaning the camera in
-    // toward the bench — which is what selecting one used to do, back when it
-    // opened a case study at the desk — would carry the screen the content is
-    // drawn on straight out of frame.
+    // Inspecting a case study leans in a little; everything else keeps the
+    // destination's own pose.
+    if (open === 'projects' && project !== null) return PROJECT_DETAIL_POSE
     return AREA_POSES[open]
-  }, [active, open])
+  }, [active, open, project])
 
   return {
     open,

@@ -4,8 +4,6 @@ import { DialoguePanel } from '@/components/experience/DialoguePanel'
 import { PlaybackSwitch } from '@/components/experience/PlaybackSwitch'
 import { WorkshopNav } from '@/components/experience/WorkshopNav'
 import { WorkshopPanel } from '@/components/experience/WorkshopPanel'
-import { cn } from '@/lib/cn'
-import { isScreenArea } from '@/systems/workshopArea'
 import { STAGE_COPY } from '@/data/experienceCopy'
 import type { Journey } from '@/hooks/useJourney'
 import type { Workshop } from '@/hooks/useWorkshop'
@@ -35,9 +33,6 @@ export function ExperienceOverlay({
 }: ExperienceOverlayProps) {
   const copy = STAGE_COPY[journey.stage]
   const isAuto = journey.mode === 'auto'
-
-  // Whether the open destination is one the studio screen shows.
-  const onScreen = isScreenArea(workshop.open)
 
   // Dialogue mid-beat is advanced by Continue; the stage's own wording is
   // saved for the step that actually leaves the room.
@@ -85,45 +80,9 @@ export function ExperienceOverlay({
           above the controls on a phone; in both the environment stays
           visible. Positioned out of the flow so a tall panel can never push
           the controls off the bottom of the viewport. */}
-      {/* Projects and Services are read on the studio display, so their panel
-          is laid onto it by `ScreenAnchor`: sized to the panel's projected
-          rectangle and then warped into its plane, so the content's edges run
-          along the bezel instead of cutting across it. It tracks the camera,
-          so it stays on the screen through the whole ease rather than only
-          once it settles, and the fallbacks cover the frame or two before the
-          first projection lands.
-
-          Everything else is somewhere else in the room and keeps the column
-          beside it. */}
-      <div
-        style={
-          onScreen
-            ? {
-                left: 'var(--screen-x, 22%)',
-                top: 'var(--screen-y, 26%)',
-                width: 'var(--screen-w, 40vw)',
-                height: 'var(--screen-h, 26vh)',
-                transform: 'var(--screen-matrix)',
-                transformOrigin: '0 0',
-                backfaceVisibility: 'hidden',
-              }
-            : undefined
-        }
-        className={cn(
-          'pointer-events-none absolute flex',
-          onScreen
-            ? ''
-            : 'inset-x-6 bottom-44 justify-end sm:inset-x-auto sm:top-1/2 sm:right-10 sm:bottom-auto sm:-translate-y-1/2',
-        )}
-      >
+      <div className="pointer-events-none absolute inset-x-6 bottom-44 flex justify-end sm:inset-x-auto sm:top-1/2 sm:right-10 sm:bottom-auto sm:-translate-y-1/2">
         {workshop.open !== null && (
           <WorkshopPanel
-            /* A different destination is a different screen: keying on the
-               area resets which view is showing and anything typed into the
-               search field, rather than carrying one destination's state
-               into the next. */
-            key={workshop.open}
-            onScreen={onScreen}
             area={workshop.open}
             onClose={workshop.close}
             onOpen={workshop.select}
