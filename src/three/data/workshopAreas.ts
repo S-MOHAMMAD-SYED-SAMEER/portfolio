@@ -40,21 +40,31 @@ export const AREA_ANCHORS: Record<WorkshopArea, AreaAnchor> = {
  */
 export const AREA_POSES: Record<WorkshopArea, CameraPose> = {
   /**
-   * Framed on the workspace display, not the bench. The interface is drawn over
-   * this screen, so the screen is what has to be centred and legible; the bench
-   * and its monitors stay in shot beneath it, which is what keeps the panel
-   * reading as part of the workstation rather than a poster.
+   * Three-quarter on the studio display, with the bench in front of it.
    *
-   * Tuned against the projected rectangle rather than computed from distance —
+   * Off the panel's normal by about 25 degrees rather than square to it: a
+   * display framed head-on and centred is a rectangle filling the middle of
+   * the viewport, which is the thing this composition exists to avoid. From
+   * here the panel is a panel — foreshortened, standing in a room, with the
+   * desk between it and the camera. The aim point sits to the right of the
+   * panel rather than on it, which puts the display left of centre and brings
+   * the host into the right of the frame instead of leaving him outside it.
+   *
+   * The distance is set by the host rather than by the panel. Standing closer
+   * makes the display bigger — which a phone badly wants — but walks him out
+   * of the right of the frame, and a workstation composition without the
+   * person whose workstation it is is the wrong trade. So this is as close as
+   * the pose comes, and the phone reads a smaller panel.
+   *
+   * Tuned against the projected rectangle rather than computed from distance:
    * `FRAMING` rewrites the pose by aspect before the rig applies it, so
    * arithmetic here does not predict what lands on screen. Standing off ~9 m
-   * along the panel's own normal is what put the whole 6.8 m display in frame
-   * with its bezel visible; nearer than that and it grows past the viewport,
-   * which is the failure this pose was retuned to fix.
+   * is what leaves the panel legible while the bench, the host and the room
+   * around them stay in shot.
    */
   projects: {
-    position: [2.6, 2.35, -23.3],
-    lookAt: [-3.25, 2.5, -30.1],
+    position: [1.5, 2.5, -21.2],
+    lookAt: [-2.4, 2.35, -29.4],
     parallax: 0.12,
   },
   skills: {
@@ -63,14 +73,19 @@ export const AREA_POSES: Record<WorkshopArea, CameraPose> = {
     parallax: 0.25,
   },
   /**
-   * Across the room to the build station. Nothing of the workstation is in
-   * this frame, which is the point — the two destinations were previously
-   * looking at the same object from almost the same place.
+   * The same display as Projects, approached from the build-station side.
+   *
+   * Services is read on the same panel, so it cannot stay pointed at the right
+   * wall the way it was — content on a screen needs the screen in frame.
+   * Coming in from the other side of the room gives a stronger three-quarter
+   * on the panel than Projects gets, so the destination still has its own
+   * vantage rather than being the Projects pose over again. The host is out of
+   * this frame, as he was out of the build-station pose it replaces.
    */
   services: {
-    position: [2.2, 1.9, -29],
-    lookAt: [6.4, 1.1, -31.7],
-    parallax: 0.25,
+    position: [-1, 2.5, -21.5],
+    lookAt: [-3.5, 2.6, -30.3],
+    parallax: 0.12,
   },
   /**
    * On the host. About is about a person, so the composition is a person —

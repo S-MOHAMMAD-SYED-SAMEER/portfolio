@@ -24,10 +24,11 @@ export function WorkspaceNav({
 
   return (
     <div className="border-scene-line border-b">
-      {/* Wraps rather than scrolls: five short labels fit two rows on a phone,
-          and a horizontal scroller hides controls a visitor cannot see to
-          reach for. */}
-      <div className="flex flex-wrap items-center gap-1 px-3 py-2">
+      {/* Wraps rather than scrolls: a horizontal scroller hides controls a
+          visitor cannot see to reach for. The type and padding are tight
+          because the panel this sits on is only a few hundred pixels wide on
+          a phone, and two rows of nav there costs a third of the screen. */}
+      <div className="flex flex-wrap items-center gap-0.5 px-2.5 py-1">
         {WORKSPACE_VIEWS.map((entry) => {
           const active = entry.id === view
           return (
@@ -37,7 +38,7 @@ export function WorkspaceNav({
               onClick={() => onView(entry.id)}
               aria-pressed={active}
               className={cn(
-                'focus-ring rounded px-2.5 py-1 text-[11px] font-medium tracking-wide transition-colors',
+                'focus-ring rounded px-2 py-1 text-[10px] font-medium tracking-wide transition-colors',
                 active ? 'bg-chalk text-void' : 'text-mist hover:text-chalk',
               )}
             >

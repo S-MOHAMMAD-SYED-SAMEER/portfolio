@@ -1,81 +1,90 @@
 import { WORKSHOP_PALETTE, WORKSPACE_DISPLAY as D } from '@/data/workshop'
 
 /**
- * The large screen above the bench: the workspace the projects are read on.
+ * The studio's information display: the screen the work is shown on.
  *
- * WHAT THIS IS, AND WHAT THE HTML DOES
+ * WHAT IS GEOMETRY AND WHAT IS HTML
  *
- * This is the physical object — a bezel, a lit panel, and a hairline of spill
- * beneath it. The interface is HTML, drawn over this rectangle by the overlay
- * and wearing `.workspace-light`, because text baked into a texture at this
- * distance is either unreadable or a 2K texture nobody needs, and because the
- * overlay already carries the keyboard access, the accessible names and the
- * real CTA destinations.
+ * This is the physical object — a bezel, a lit panel, a stand. The interface
+ * on it is HTML, laid into the panel's rectangle by `ScreenAnchor`, because
+ * type baked into a texture at this distance is either unreadable or a 2K
+ * texture nobody needs, and because the overlay already carries the keyboard
+ * access, the accessible names and the real link destinations.
  *
  * So the mesh gives the interface somewhere to live and the room something to
- * be lit by; the overlay gives it something to say. Neither duplicates the
- * other, and there is still exactly one project-selection state behind both.
+ * be lit by; the overlay gives it something to say. There is still exactly one
+ * project-selection state behind both.
  *
- * WHY IT IS NOT THE GLAZED WALL
+ * WHY IT IS DIMMER THAN THE WINDOW
  *
- * The bright rectangle behind the bench is the back wall's glazing, 16 m from
- * the workshop camera, and the daylight plane beyond it lights this whole
- * room. Turning that into a display would put the interface out of reading
- * range and switch the studio's only warm light off. This panel hangs nearer
- * the camera instead and leaves the window doing its job behind it.
+ * The glazed back wall is the room's key light and has to stay the brightest
+ * thing in here — a display that outshines the daylight behind it stops being
+ * a panel in a room and becomes a light source, which is how the last version
+ * ended up reading as a floating rectangle. The panel is lit enough to carry
+ * dark text and no more, with a low emissive floor so it still reads as
+ * switched on when the camera is far from the bench lamp.
  *
  * COST
  *
- * Three meshes, no texture, no transparency, no per-frame work, and out of
- * both shadow passes — it is a lit surface with the room's light behind it, so
- * a six-metre plane in the shadow map would cost more than it could show.
+ * Five meshes, no texture, no transparency, no per-frame work. The panel is
+ * out of both shadow passes: it is a lit surface, so a shadow map of it would
+ * cost more than it could show. The frame and stand still catch and cast,
+ * because those are what make it read as an object standing in the room.
  */
 export function WorkspaceDisplay() {
-  const inner = { w: D.width - D.bezel * 2, h: D.height - D.bezel * 2 }
+  /* The group sits at the panel's centre, so the stand is measured downward
+     from there in local space: the floor is as far below as the panel centre
+     is above it. */
+  const floor = -D.position[1]
+  const panelBottom = -D.height / 2
+  const footTop = floor + D.stand.footHeight
+  const poleLength = panelBottom - footTop
+  const poleCentre = (panelBottom + footTop) / 2
 
   return (
     <group position={D.position} rotation-y={D.rotationY}>
-      {/* The frame the panel sits in. */}
-      <mesh castShadow={false} receiveShadow={false}>
+      {/* The frame. Deliberately the darkest thing on the object, so the
+          panel inside it reads as lit rather than painted. */}
+      <mesh castShadow receiveShadow>
         <boxGeometry args={[D.width, D.height, D.depth]} />
         <meshStandardMaterial
           color={WORKSHOP_PALETTE.screenFrame}
-          roughness={0.55}
-          metalness={0.35}
+          roughness={0.5}
+          metalness={0.4}
         />
       </mesh>
 
-      {/* The panel, standing proud of the bezel so the edge catches light.
-          Emissive rather than lit: a screen is a source, not a surface, and
-          that is what makes it read as switched on from across the room. The
-          value matches the `--color-scene-ink` the overlay uses in
-          `.workspace-light`, so the geometry and the HTML on top of it are the
-          same white. */}
-      <mesh position-z={D.depth / 2 + 0.004} castShadow={false} receiveShadow={false}>
-        <planeGeometry args={[inner.w, inner.h]} />
+      {/* The panel, standing just proud of the bezel so its edge catches
+          light. This is the surface the overlay is anchored to. */}
+      <mesh position-z={D.depth / 2 + 0.005} castShadow={false} receiveShadow={false}>
+        <planeGeometry args={[D.screenWidth, D.screenHeight]} />
         <meshStandardMaterial
-          color="#f7f8fa"
-          emissive="#eef1f6"
-          emissiveIntensity={0.45}
-          roughness={0.9}
+          color="#bcc2cb"
+          emissive="#828b99"
+          emissiveIntensity={0.18}
+          roughness={0.85}
           metalness={0}
         />
       </mesh>
 
-      {/* A hairline of spill under the frame, the way a wall-mounted panel
-          catches the surface it is fixed to. */}
-      <mesh
-        position={[0, -D.height / 2 - 0.015, D.depth / 2]}
-        castShadow={false}
-        receiveShadow={false}
-      >
-        <boxGeometry args={[D.width * 0.82, 0.012, 0.012]} />
-        <meshStandardMaterial
-          color="#8fa2bd"
-          emissive="#8fa2bd"
-          emissiveIntensity={0.7}
-          roughness={1}
-        />
+      {/* Stand: pole down to a foot on the floor. Without it the panel is a
+          rectangle hanging in mid-air, which is most of what made the
+          previous version read as a card rather than a monitor. */}
+      <mesh position={[0, poleCentre, 0]} castShadow receiveShadow>
+        <boxGeometry args={[D.stand.poleWidth, poleLength, D.stand.poleDepth]} />
+        <meshStandardMaterial color={WORKSHOP_PALETTE.metal} roughness={0.45} metalness={0.55} />
+      </mesh>
+
+      <mesh position={[0, floor + D.stand.footHeight / 2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[D.stand.footWidth, D.stand.footHeight, D.stand.footDepth]} />
+        <meshStandardMaterial color={WORKSHOP_PALETTE.metal} roughness={0.5} metalness={0.5} />
+      </mesh>
+
+      {/* A hairline of spill under the frame, the way a panel catches the
+          surface it stands over. */}
+      <mesh position={[0, -D.height / 2 - 0.012, D.depth / 2]} castShadow={false} receiveShadow={false}>
+        <boxGeometry args={[D.width * 0.78, 0.01, 0.01]} />
+        <meshStandardMaterial color="#8fa2bd" emissive="#8fa2bd" emissiveIntensity={0.5} roughness={1} />
       </mesh>
     </group>
   )

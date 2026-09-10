@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { cn } from '@/lib/cn'
 import { ABOUT } from '@/data/about'
 import { ContactPanel } from '@/components/experience/ContactPanel'
 import { ProjectsPanel } from '@/components/experience/ProjectsPanel'
@@ -11,6 +12,8 @@ import { AREA_LABEL, type WorkshopArea } from '@/systems/workshopArea'
 
 interface WorkshopPanelProps {
   area: WorkshopArea
+  /** Laid into the studio screen rather than standing beside the room. */
+  onScreen: boolean
   onClose: () => void
   onOpen: (area: WorkshopArea) => void
   /** Projects has one layer inside it: the case study being read. */
@@ -31,6 +34,7 @@ interface WorkshopPanelProps {
  */
 export function WorkshopPanel({
   area,
+  onScreen,
   onClose,
   onOpen,
   project,
@@ -39,40 +43,54 @@ export function WorkshopPanel({
   onHighlightProject,
   onClearProject,
 }: WorkshopPanelProps) {
-  /* Which face of the workspace is showing, and what has been typed into
-     it. Local to the panel on purpose: it is presentation, not journey
-     state, and nothing outside this screen needs to know. Both change only
-     on a click or a keystroke — there is no timer and no per-frame work
-     anywhere in this subtree. */
-  const [view, setView] = useState<WorkspaceView>('projects')
+  /* Which face of the display is showing, and what has been typed into it.
+     Local to the panel on purpose: it is presentation, not journey state, and
+     nothing outside this screen needs to know. Both change only on a click or
+     a keystroke — no timer, no per-frame work anywhere in this subtree.
+
+     The destination that was opened decides only where the screen starts;
+     from there the nav is what says what it shows. The panel is keyed by area
+     upstream, so arriving at Services opens on Services rather than leaving
+     Projects lit while the header says something else. */
+  const [view, setView] = useState<WorkspaceView>(area === 'services' ? 'services' : 'projects')
   const [query, setQuery] = useState('')
   const found = searchWorkspace(query)
 
-  /* The nav belongs to the workspace screen, not to Skills, About or
-     Contact — those are other places in the room. */
-  const isWorkspace = area === 'projects' || area === 'services'
+  /* The nav belongs to the studio screen, not to Skills, About or Contact —
+     those are other places in the room. */
+  const isWorkspace = onScreen
 
   return (
     <aside
       aria-label={AREA_LABEL[area]}
-      /* `workspace-light` inverts the eight scene tokens for this subtree
-         only — see index.css. The panel is the software on the workstation
-         screen, so it is white; ModeSwitch, PlaybackSwitch and WorkshopNav
-         sit over the room and stay dark. Squarer corners and a flatter
-         surface than the old sheet, because this is a panel in a bezel
-         rather than a card floating over a scene.
+      /* TWO PLACES A PANEL CAN BE, AND THEY LOOK DIFFERENT ON PURPOSE.
 
-         SIZED TO THE SCREEN IT SITS ON, not to the viewport. Once the
-         projects pose settles, the display mesh projects to about 857x490 px
-         on a 1280x900 viewport, 742x432 on a tablet and 496x292 on a phone.
-         A panel measured in `dvh` overhung it top and bottom, which read as
-         a sheet floating in front of the room rather than the software
-         running on the screen. These caps sit inside the smallest projection
-         at each breakpoint with a margin left over; the phone is the tight
-         case, which is why its cap is the smaller of the two. */
-      className="workspace-light border-scene-line bg-scene-ink pointer-events-auto flex max-h-[16rem] w-[21rem] max-w-[calc(100vw-3rem)] flex-col rounded-md border shadow-[0_20px_70px_rgba(4,7,12,0.6)] sm:max-h-[23rem] sm:w-[26rem]"
+         On the display, it fills the quad `ScreenAnchor` projects for the
+         panel and brings no surface of its own: no card, no border, no
+         shadow, no corners. The lit panel behind it is the surface, and a
+         strip of it stays visible inside the bezel on all four sides. Only
+         `workspace-light` comes along, inverting the eight scene tokens for
+         this subtree so the type is ink on a lit screen rather than chalk on
+         a dark room — see index.css.
+
+         Anywhere else it is a panel in the room, on the room's own dark
+         ground. A white card standing in front of the studio is exactly what
+         it should not look like when there is no screen under it. */
+      className={cn(
+        'pointer-events-auto flex flex-col',
+        onScreen
+          ? 'workspace-light h-full w-full'
+          : 'border-scene-line bg-scene-ink max-h-[62dvh] w-full rounded-lg border shadow-[0_20px_70px_rgba(4,7,12,0.6)] sm:w-[23rem]',
+      )}
     >
-      <header className="border-scene-line flex items-center justify-between border-b px-4 py-2.5">
+      <header
+        className={cn(
+          'border-scene-line flex shrink-0 items-center justify-between border-b',
+          /* Chrome costs the same pixels the content needs, and on the panel
+             there are far fewer of them to go round. */
+          onScreen ? 'px-3.5 py-1.5' : 'px-4 py-2.5',
+        )}
+      >
         <p className="text-mist text-[11px] tracking-[0.35em] uppercase">{AREA_LABEL[area]}</p>
         <button
           type="button"
@@ -85,31 +103,38 @@ export function WorkshopPanel({
 
       {isWorkspace && <WorkspaceNav view={view} query={query} onView={setView} onQuery={setQuery} />}
 
-      <div className="overflow-y-auto px-4 py-4">
-        {/* Projects and Done are the same three systems: all three are
-            finished, so the honest difference between the tabs is none. */}
-        {area === 'projects' && (view === 'projects' || view === 'done') && (
-          <ProjectsPanel
-            landscape
-            project={project}
-            highlighted={highlightedProject}
-            onSelect={onSelectProject}
-            onHighlight={onHighlightProject}
-            onBack={onClearProject}
-          />
+      {/* `min-h-0` so this scrolls inside the screen's height instead of
+          growing the content past the bezel. */}
+      <div className={cn('min-h-0 flex-1 overflow-y-auto', onScreen ? 'px-3.5 py-3' : 'px-4 py-4')}>
+        {/* On the screen the nav decides what is shown, and the destination
+            that opened it only decided where it started. Previously the area
+            and the view both had a say, so Done and Building did nothing at
+            all if Services had been the way in. */}
+        {onScreen ? (
+          <>
+            {/* Projects and Done are the same three systems: all three are
+                finished, so the honest difference between the tabs is none. */}
+            {(view === 'projects' || view === 'done') && (
+              <ProjectsPanel
+                landscape
+                project={project}
+                highlighted={highlightedProject}
+                onSelect={onSelectProject}
+                onHighlight={onHighlightProject}
+                onBack={onClearProject}
+              />
+            )}
+            {view === 'services' && <Services onOpen={onOpen} />}
+            {view === 'building' && <NothingBuilding />}
+            {view === 'search' && <SearchResults found={found} query={query} />}
+          </>
+        ) : (
+          <>
+            {area === 'skills' && <Skills />}
+            {area === 'about' && <About />}
+            {area === 'contact' && <ContactPanel />}
+          </>
         )}
-
-        {area === 'projects' && view === 'building' && <NothingBuilding />}
-
-        {area === 'projects' && view === 'search' && <SearchResults found={found} query={query} />}
-
-        {area === 'projects' && view === 'services' && <Services onOpen={onOpen} />}
-
-        {area === 'skills' && <Skills />}
-        {area === 'services' && view !== 'search' && <Services onOpen={onOpen} />}
-        {area === 'services' && view === 'search' && <SearchResults found={found} query={query} />}
-        {area === 'about' && <About />}
-        {area === 'contact' && <ContactPanel />}
       </div>
     </aside>
   )

@@ -339,22 +339,34 @@ html {
 --------------------------------------------------------------------------- */
 
 .workspace-light {
-  /* The lit panel. Matches the value the display mesh is painted with, so
-     the HTML and the geometry behind it read as one object. */
+  /* THE GROUND HERE IS THE LIT PANEL OF THE STUDIO DISPLAY.
+
+     This subtree is laid onto that panel, so there is no CSS background under
+     the type at all; what it has to be readable against is the rendered mesh,
+     which measures around luma 190 — deliberately dimmer than the window
+     behind it, and darker than the white these tokens were first tuned for.
+     Every ink value below is set against that measured ground rather than
+     against a white card, and re-checked by sampling the rendered pixels
+     around each glyph. */
+
+  /* Kept for the few elements that do carry a fill of their own. */
   --color-scene-ink: #f7f8fa;
-  /* A raised row — hover and selected states — one step off the panel. */
+  /* A raised row — hover and selected states — reads as a lit selection. */
   --color-scene-surface: #eef1f5;
-  /* Hairlines. Visible on white without becoming a drawn box. */
-  --color-scene-line: #d4dae3;
+  /* Hairlines. Visible on the panel without becoming a drawn box. */
+  --color-scene-line: #b9b3a6;
 
-  /* Primary text: 16.1:1 on the panel. */
+  /* Primary text: 16.8:1 on the panel. */
   --color-chalk: #0f172a;
-  /* Secondary text: 6.66:1. Grey enough to sit under the headings, dark
+  /* Secondary text: 5.5:1. Grey enough to sit under the headings, dark
      enough that it is never the reason something cannot be read. */
-  --color-mist: #4a5568;
+  --color-mist: #3f4859;
 
-  /* Accent as text on the panel, and as a button fill: 5.69:1 either way. */
-  --color-accent: #0f6f63;
+  /* Accent as link text and as a button fill. Darker than the white-card era
+     value, which measured 3.56:1 against a lit screen and failed AA — and a
+     shade darker again, because the panel's brighter half left the link
+     arrows at 4.48:1, just under the line. */
+  --color-accent: #0a4c44;
   /* The label on that fill. */
   --color-void: #f7f8fa;
   /* Subdued accent, for a tint rather than a statement. */

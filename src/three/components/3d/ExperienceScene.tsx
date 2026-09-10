@@ -6,6 +6,7 @@ import { EntranceHall } from '@/components/3d/entrance/EntranceHall'
 import { BuildStation } from '@/components/3d/workshop/BuildStation'
 import { WorkshopFittings } from '@/components/3d/workshop/WorkshopFittings'
 import { ProjectHotspots } from '@/components/3d/workshop/ProjectHotspots'
+import { ScreenAnchor } from '@/components/3d/workshop/ScreenAnchor'
 import { WorkshopHotspots } from '@/components/3d/workshop/WorkshopHotspots'
 import { WorkshopShell } from '@/components/3d/workshop/WorkshopShell'
 import { Workstation } from '@/components/3d/workshop/Workstation'
@@ -110,6 +111,11 @@ export function ExperienceScene({
         onHighlight={onHighlightProject}
         onSelect={onSelectProject}
       />
+
+      {/* Publishes the studio screen's rectangle so the overlay can sit
+          inside it. Only the two destinations that are read on that screen
+          need it. */}
+      <ScreenAnchor active={openArea === 'projects' || openArea === 'services'} />
 
       <CinematicRig stage={stage} override={cameraOverride} />
     </>
