@@ -39,10 +39,23 @@ export const AREA_ANCHORS: Record<WorkshopArea, AreaAnchor> = {
  * it with the object, so the visitor never loses their bearings.
  */
 export const AREA_POSES: Record<WorkshopArea, CameraPose> = {
+  /**
+   * Framed on the workspace display, not the bench. The interface is drawn over
+   * this screen, so the screen is what has to be centred and legible; the bench
+   * and its monitors stay in shot beneath it, which is what keeps the panel
+   * reading as part of the workstation rather than a poster.
+   *
+   * Tuned against the projected rectangle rather than computed from distance —
+   * `FRAMING` rewrites the pose by aspect before the rig applies it, so
+   * arithmetic here does not predict what lands on screen. Standing off ~9 m
+   * along the panel's own normal is what put the whole 6.8 m display in frame
+   * with its bezel visible; nearer than that and it grows past the viewport,
+   * which is the failure this pose was retuned to fix.
+   */
   projects: {
-    position: [0.6, 1.95, -25.6],
-    lookAt: [-2.6, 1.3, -29.4],
-    parallax: 0.25,
+    position: [2.6, 2.35, -23.3],
+    lookAt: [-3.25, 2.5, -30.1],
+    parallax: 0.12,
   },
   skills: {
     position: [-2.4, 2.5, -26.6],

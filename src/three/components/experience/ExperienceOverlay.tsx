@@ -80,7 +80,16 @@ export function ExperienceOverlay({
           above the controls on a phone; in both the environment stays
           visible. Positioned out of the flow so a tall panel can never push
           the controls off the bottom of the viewport. */}
-      <div className="pointer-events-none absolute inset-x-6 bottom-44 flex justify-end sm:inset-x-auto sm:top-1/2 sm:right-10 sm:bottom-auto sm:-translate-y-1/2">
+      {/* Centred on the workspace display rather than parked at the right
+          edge, because the panel is now the software running on that screen.
+
+          Anchored to a measured centre, not projected per frame. The display
+          rectangle was measured at 390, 768 and 1280 once the projects pose
+          settles; its centre sits at ~48%/45% of the viewport on a phone and
+          ~48.6%/47.5% from the `sm` breakpoint up. Static, because the panel
+          only moves while the camera eases in, and reprojecting a DOM node
+          every frame would cost a layout on every one of those frames. */}
+      <div className="pointer-events-none absolute top-[45%] left-[48%] flex -translate-x-1/2 -translate-y-1/2 justify-center sm:top-[47.5%] sm:left-[48.6%]">
         {workshop.open !== null && (
           <WorkshopPanel
             area={workshop.open}

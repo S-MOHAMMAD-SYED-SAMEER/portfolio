@@ -9,6 +9,7 @@ import { ProjectHotspots } from '@/components/3d/workshop/ProjectHotspots'
 import { WorkshopHotspots } from '@/components/3d/workshop/WorkshopHotspots'
 import { WorkshopShell } from '@/components/3d/workshop/WorkshopShell'
 import { Workstation } from '@/components/3d/workshop/Workstation'
+import { WorkspaceDisplay } from '@/components/3d/workshop/WorkspaceDisplay'
 import { ENTRANCE_PALETTE, FOG } from '@/data/entranceScene'
 import { CHARACTER_MARKS, STAGE_MARK, STAGE_REVEAL } from '@/data/journey'
 import type { CameraPose } from '@/data/cameraPoses'
@@ -127,6 +128,7 @@ const StaticWorkshop = memo(function StaticWorkshop() {
     <>
       <WorkshopShell />
       <Workstation />
+      <WorkspaceDisplay />
       <BuildStation />
       <WorkshopFittings />
     </>

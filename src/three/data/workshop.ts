@@ -69,6 +69,32 @@ export const WORKSTATION = {
   chair: { offsetZ: 1.15, seatHeight: 0.46 },
 } as const
 
+/**
+ * The workspace display: the screen the projects are actually read on.
+ *
+ * WHY IT IS ITS OWN SURFACE AND NOT THE GLAZED WALL
+ *
+ * The bright rectangle behind the bench is the back wall's glazing at
+ * z = -38, and the daylight plane beyond it is what lights this room.
+ * Painting the interface onto that would put text 16 m from the camera —
+ * unreadable — and would switch off the studio's only warm light. So the
+ * display is a separate panel hung nearer the camera, and the window carries
+ * on doing its job behind it.
+ *
+ * It takes the bench's own angle so it reads as the screen belonging to that
+ * desk rather than a rectangle floating in the room.
+ */
+export const WORKSPACE_DISPLAY = {
+  position: [-3.25, 2.62, -30.1] as Vec3,
+  /** The bench's angle, so screen and desk read as one workstation. */
+  rotationY: 0.7,
+  width: 6.8,
+  height: 3.9,
+  /** The frame standing proud of the panel, so it has an edge to catch light. */
+  bezel: 0.07,
+  depth: 0.08,
+} as const
+
 /** A slim rack against the left wall. Engineering, not decoration. */
 export const RACK = {
   position: [-6.1, 0, -33.4] as Vec3,
