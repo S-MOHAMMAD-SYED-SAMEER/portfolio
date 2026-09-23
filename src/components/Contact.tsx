@@ -45,9 +45,12 @@ export default function Contact() {
         <p className="mt-4 max-w-2xl text-body text-ink-muted">
           Customer questions that go unanswered too long, enquiries that never
           make it out of the inbox and into the CRM, a screening process that
-          cannot explain its own decisions, or a workflow still being done by
-          hand every week. Describe the situation and I'll tell you honestly
-          whether it is worth automating — and what it would take.
+          cannot explain its own decisions, invoices that still get re-keyed
+          one field at a time, documents nobody can get a trustworthy answer
+          out of, a phone that goes unanswered because nobody's free to pick
+          it up, or a workflow still being done by hand every week. Describe
+          the situation and I'll tell you honestly whether it is worth
+          automating — and what it would take.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
