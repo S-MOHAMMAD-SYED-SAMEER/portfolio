@@ -201,6 +201,7 @@ export const projects: Project[] = [
       "Docker demo packaging",
     ],
     status: "Built",
+    caseStudyHref: "/case-study-knowledgeos.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/knowledgeos",
     proof: ["88 tests", "deterministic, credential-free demo"],
     featured: true,

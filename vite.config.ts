@@ -321,6 +321,9 @@ export default defineConfig({
         caseStudyExplainableAts: fileURLToPath(
           new URL('./case-study-explainable-ats.html', import.meta.url),
         ),
+        caseStudyKnowledgeOs: fileURLToPath(
+          new URL('./case-study-knowledgeos.html', import.meta.url),
+        ),
         // The interactive portfolio demos. Real static pages like the case
         // studies, so each has a genuine URL and no SPA rewrite is required.
         demoSalesRecovery: fileURLToPath(new URL('./demo-sales-recovery.html', import.meta.url)),
