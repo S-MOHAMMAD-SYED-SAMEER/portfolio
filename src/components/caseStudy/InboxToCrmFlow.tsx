@@ -10,6 +10,8 @@
  * product.
  */
 
+import Callout from "./Callout";
+
 interface Stage {
   n: string;
   name: string;
@@ -63,14 +65,14 @@ const AFTER_APPROVAL: Stage[] = [
 function StageRow({ stage }: { stage: Stage }) {
   return (
     <li className="flex gap-4">
-      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-xs font-semibold text-indigo-700">
+      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-brand-tint text-meta font-semibold text-brand">
         {stage.n}
       </span>
       <div>
-        <p className="text-sm font-semibold text-slate-900">
+        <p className="text-small font-semibold text-ink">
           {stage.name} — {stage.plain}
         </p>
-        <p className="mt-1 text-sm text-slate-600">{stage.detail}</p>
+        <p className="mt-1 text-small text-ink-muted">{stage.detail}</p>
       </div>
     </li>
   );
@@ -78,7 +80,7 @@ function StageRow({ stage }: { stage: Stage }) {
 
 export default function InboxToCrmFlow() {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
+    <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
       <ol className="flex flex-col gap-6">
         {BEFORE_APPROVAL.map((stage) => (
           <StageRow key={stage.n} stage={stage} />
@@ -86,28 +88,21 @@ export default function InboxToCrmFlow() {
       </ol>
 
       {/* The gate. Deliberately the heaviest element on the page. */}
-      <div className="my-6 rounded-md border-2 border-indigo-200 bg-indigo-50 p-5">
-        <div className="flex gap-4">
-          <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
-            5
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-indigo-900">
-              Approve — you see exactly what it wants to do, before it does it.
-            </p>
-            <p className="mt-1 text-sm text-indigo-800">
-              Anything consequential stops here and waits. You get the proposed
-              changes side by side with what the records say now, the drafted
-              reply in full, and the choice to approve it, reject it with a
-              reason, or edit the wording first.
-            </p>
-            <p className="mt-3 text-xs text-indigo-700">
-              Nothing past this point runs on its own. Out of the box, every
-              plan waits for a person.
-            </p>
-          </div>
-        </div>
-      </div>
+      <Callout
+        badge="5"
+        heading="Approve — you see exactly what it wants to do, before it does it."
+      >
+        <p className="mt-1 text-small text-ink-muted">
+          Anything consequential stops here and waits. You get the proposed
+          changes side by side with what the records say now, the drafted
+          reply in full, and the choice to approve it, reject it with a
+          reason, or edit the wording first.
+        </p>
+        <p className="mt-3 text-meta text-ink-muted">
+          Nothing past this point runs on its own. Out of the box, every
+          plan waits for a person.
+        </p>
+      </Callout>
 
       <ol className="flex flex-col gap-6">
         {AFTER_APPROVAL.map((stage) => (
@@ -115,7 +110,7 @@ export default function InboxToCrmFlow() {
         ))}
       </ol>
 
-      <p className="mt-6 border-t border-slate-200 pt-4 text-xs text-slate-500">
+      <p className="mt-6 border-t border-line pt-4 text-meta text-ink-muted">
         The check that a plan was approved is re-run at the moment of execution,
         against the stored record rather than the screen you clicked on. An
         approval that has expired, was never given, or no longer matches the plan

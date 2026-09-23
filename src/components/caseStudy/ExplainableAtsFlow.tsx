@@ -22,6 +22,8 @@
  * numbering describes the pipeline rather than the layout.
  */
 
+import Callout from "./Callout";
+
 interface Stage {
   n: string;
   name: string;
@@ -105,14 +107,14 @@ const DETERMINISTIC: Stage[] = [
 function StageRow({ stage }: { stage: Stage }) {
   return (
     <li className="flex gap-4">
-      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-xs font-semibold text-indigo-700">
+      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-brand-tint text-meta font-semibold text-brand">
         {stage.n}
       </span>
       <div>
-        <p className="text-sm font-semibold text-slate-900">
+        <p className="text-small font-semibold text-ink">
           {stage.name} — {stage.plain}
         </p>
-        <p className="mt-1 text-sm text-slate-600">{stage.detail}</p>
+        <p className="mt-1 text-small text-ink-muted">{stage.detail}</p>
       </div>
     </li>
   );
@@ -120,7 +122,7 @@ function StageRow({ stage }: { stage: Stage }) {
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
+    <p className="text-meta font-medium uppercase tracking-wide text-ink-muted">
       {children}
     </p>
   );
@@ -128,19 +130,19 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
 
 export default function ExplainableAtsFlow() {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
+    <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
       {/* The principle, stated once, before the nine steps that implement it.
           Deliberately three short sentences in the page's existing card
           language rather than a new visual device. */}
-      <div className="mb-8 rounded-md border border-slate-200 bg-slate-50 p-5">
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
+      <div className="mb-8 rounded-control border border-line bg-canvas p-5">
+        <p className="text-meta font-medium uppercase tracking-wide text-ink-muted">
           The principle
         </p>
-        <p className="mt-2 text-sm font-semibold text-slate-900">
+        <p className="mt-2 text-small font-semibold text-ink">
           AI extracts evidence. Deterministic code turns that evidence into
           reproducible scores and rankings. A person makes the final decision.
         </p>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-small text-ink-muted">
           Input → processing → evidence → decision → audit. The model takes part
           in one of the nine steps below, and it is the step that quotes the CV
           rather than the step that judges it.
@@ -154,7 +156,7 @@ export default function ExplainableAtsFlow() {
         ))}
       </ol>
 
-      <p className="mt-8 text-xs font-medium uppercase tracking-wide text-slate-600">
+      <p className="mt-8 text-meta font-medium uppercase tracking-wide text-ink-muted">
         The one step the AI takes part in
       </p>
       <ol className="mt-4 flex flex-col gap-6">
@@ -164,28 +166,20 @@ export default function ExplainableAtsFlow() {
       </ol>
 
       {/* The boundary. The single most important idea on the page. */}
-      <div className="my-6 rounded-md border-2 border-indigo-200 bg-indigo-50 p-5">
-        <div className="flex gap-4">
-          <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-600 text-xs font-semibold text-white">
-            4
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-indigo-900">
-              Verify — every quote is checked against the real CV before it can
-              count.
-            </p>
-            <p className="mt-1 text-sm text-indigo-800">
-              A passage that cannot be found in the document, word for word, is
-              rejected. It takes no part in the score and is never shown to a
-              recruiter as evidence. A quote drawn from a masked personal detail
-              is refused for the same reason.
-            </p>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-indigo-700">
-              The AI&apos;s involvement ends here — everything below is arithmetic
-            </p>
-          </div>
-        </div>
-      </div>
+      <Callout
+        badge="4"
+        heading="Verify — every quote is checked against the real CV before it can count."
+      >
+        <p className="mt-1 text-small text-ink-muted">
+          A passage that cannot be found in the document, word for word, is
+          rejected. It takes no part in the score and is never shown to a
+          recruiter as evidence. A quote drawn from a masked personal detail
+          is refused for the same reason.
+        </p>
+        <p className="mt-3 text-meta font-semibold uppercase tracking-wide text-ink-muted">
+          The AI&apos;s involvement ends here — everything below is arithmetic
+        </p>
+      </Callout>
 
       <GroupLabel>Decided by the application, not the AI</GroupLabel>
       <ol className="mt-4 flex flex-col gap-6">
@@ -194,7 +188,7 @@ export default function ExplainableAtsFlow() {
         ))}
       </ol>
 
-      <p className="mt-6 border-t border-slate-200 pt-4 text-xs text-slate-500">
+      <p className="mt-6 border-t border-line pt-4 text-meta text-ink-muted">
         Because the judging is ordinary arithmetic over verified quotes, the same
         CV against the same role produces the same result every time — and the
         working can be reproduced by hand from what is on screen.

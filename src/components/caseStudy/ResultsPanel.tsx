@@ -55,21 +55,19 @@ export default function ResultsPanel({
         {results.map((result) => (
           <div
             key={result.label}
-            className="rounded-lg border border-slate-200 bg-white p-5"
+            className="rounded-card border border-line bg-surface p-5"
           >
-            <dt className="text-3xl font-bold tracking-tight text-slate-900">
-              {result.figure}
-            </dt>
-            <dd className="mt-2 text-sm font-semibold text-slate-800">
+            <dt className="text-section text-ink">{result.figure}</dt>
+            <dd className="mt-2 text-small font-semibold text-ink">
               {result.label}
             </dd>
-            <dd className="mt-1 text-xs leading-relaxed text-slate-500">
+            <dd className="mt-1 text-meta leading-relaxed text-ink-muted">
               {result.detail}
             </dd>
           </div>
         ))}
       </dl>
-      <p className="mt-4 text-xs leading-relaxed text-slate-500">{caption}</p>
+      <p className="mt-4 text-meta leading-relaxed text-ink-muted">{caption}</p>
     </div>
   );
 }

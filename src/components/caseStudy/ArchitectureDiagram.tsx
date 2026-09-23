@@ -23,12 +23,12 @@ function Step({
 }) {
   return (
     <li className="flex gap-4">
-      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-50 text-xs font-semibold text-indigo-700">
+      <span className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-brand-tint text-meta font-semibold text-brand">
         {n}
       </span>
       <div>
-        <p className="text-sm font-semibold text-slate-900">{title}</p>
-        <p className="mt-1 text-sm text-slate-600">{detail}</p>
+        <p className="text-small font-semibold text-ink">{title}</p>
+        <p className="mt-1 text-small text-ink-muted">{detail}</p>
       </div>
     </li>
   );
@@ -36,7 +36,7 @@ function Step({
 
 export default function ArchitectureDiagram() {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
+    <div className="rounded-card border border-line bg-surface p-6 sm:p-8">
       <ol className="flex flex-col gap-6">
         <Step
           n="1"
@@ -55,11 +55,11 @@ export default function ArchitectureDiagram() {
         />
       </ol>
 
-      <div className="my-6 grid gap-3 rounded-md border border-slate-200 bg-slate-50 p-4 sm:grid-cols-4">
+      <div className="my-6 grid gap-3 rounded-control border border-line bg-canvas p-4 sm:grid-cols-4">
         {LOOKUPS.map((lookup) => (
           <div
             key={lookup}
-            className="rounded-md border border-slate-200 bg-white px-3 py-2 text-center text-xs font-medium text-slate-700"
+            className="rounded-control border border-line bg-surface px-3 py-2 text-center text-meta font-medium text-ink-muted"
           >
             {lookup}
           </div>
@@ -79,7 +79,7 @@ export default function ArchitectureDiagram() {
         />
       </ol>
 
-      <p className="mt-6 border-t border-slate-200 pt-4 text-xs text-slate-500">
+      <p className="mt-6 border-t border-line pt-4 text-meta text-ink-muted">
         The safety check runs before the conversation is saved, so a blocked
         claim never re-enters the agent's memory of the conversation either.
       </p>

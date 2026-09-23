@@ -229,7 +229,7 @@ export default function Screenshot({
     : // No `w-full`: the width comes from `frameStyle` so the frame hugs the
       // image instead of letterboxing it. Left-aligned, so the caption lines up
       // with the image's left edge and the two read as one unit.
-      "block overflow-hidden rounded-lg border border-slate-200 bg-slate-50";
+      "block overflow-hidden rounded-card border border-line bg-canvas";
 
   const frameStyle = isCard
     ? undefined
@@ -280,9 +280,9 @@ export default function Screenshot({
     <figure className="mb-8 break-inside-avoid">
       {body}
       {caption && (
-        <figcaption className="mt-2 text-xs text-slate-600">
+        <figcaption className="mt-2 text-meta text-ink-muted">
           {caption}{" "}
-          <span className="text-slate-500">
+          <span className="text-ink-muted">
             Shown in full — click to read it at full resolution.
           </span>
         </figcaption>
