@@ -27,12 +27,14 @@ const STAGES: Stage[] = [
   {
     n: "5",
     title: "Retrieve",
-    detail: "Hybrid lexical and vector search finds candidate chunks.",
+    detail:
+      "Full-text and vector search each rank the corpus; Reciprocal Rank Fusion (k = 60) combines the two, counting only the channels a chunk actually appears in.",
   },
   {
     n: "6",
     title: "Rerank",
-    detail: "A local cross-encoder reorders the candidates.",
+    detail:
+      "A cross-encoder reorders the fused candidates. A passthrough mode ships as a real configuration for when reranking must stay model-free, so its contribution can be measured rather than assumed.",
   },
   {
     n: "7",
@@ -42,7 +44,8 @@ const STAGES: Stage[] = [
   {
     n: "8",
     title: "Cite",
-    detail: "Every citation is checked against the evidence before the answer is shown.",
+    detail:
+      "Every citation is checked against the top 8 selected chunks and the sentence it appears in before an answer can be shown.",
   },
   {
     n: "9",
