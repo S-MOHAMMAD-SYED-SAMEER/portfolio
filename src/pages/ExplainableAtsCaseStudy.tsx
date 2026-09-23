@@ -6,7 +6,7 @@ import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ExplainableAtsFlow from "../components/caseStudy/ExplainableAtsFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
-
+import Section from "../components/Section";
 
 /**
  * This page's project, from the canonical data.
@@ -95,30 +95,6 @@ const RESULTS: Result[] = [
 const RESULTS_CAPTION =
   "These are engineering results from this project's own test suite, measured against a fixed demo dataset with invented candidates. They are not customer results — the system has not been run against real applicants — and a passing test suite is evidence that the rules behave as specified, not proof of good hiring outcomes.";
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  children,
-}: {
-  id?: string;
-  eyebrow?: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="mx-auto max-w-5xl px-6 py-14 sm:py-16">
-      {eyebrow && (
-        <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-2 text-2xl font-bold text-slate-900">{title}</h2>
-      <div className="mt-6">{children}</div>
-    </section>
-  );
-}
-
 /**
  * The centrepiece: two candidates on the same score, placed differently, with
  * the reason on screen. This is the demo dataset's actual behaviour — a test
@@ -155,45 +131,45 @@ function GateComparison() {
         {candidates.map((c) => (
           <div
             key={c.label}
-            className={`rounded-lg border-2 p-5 ${
+            className={`rounded-card border-2 p-5 ${
               c.accent
-                ? "border-indigo-200 bg-indigo-50"
-                : "border-slate-200 bg-slate-50"
+                ? "border-line-strong bg-brand-tint"
+                : "border-line bg-canvas"
             }`}
           >
             <div className="flex items-baseline justify-between gap-3">
-              <p className="text-sm font-semibold text-slate-900">{c.label}</p>
-              <p className="text-3xl font-bold tracking-tight text-slate-900">
+              <p className="text-small font-semibold text-ink">{c.label}</p>
+              <p className="text-section text-ink">
                 71%
               </p>
             </div>
-            <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-600">
+            <p className="mt-1 text-meta font-medium uppercase tracking-wide text-ink-muted">
               {c.placement} · {c.tier}
             </p>
 
-            <p className="mt-4 text-xs font-medium uppercase tracking-wide text-slate-600">
+            <p className="mt-4 text-meta font-medium uppercase tracking-wide text-ink-muted">
               Essential requirement · {c.verdict}
             </p>
-            <blockquote className="mt-2 border-l-2 border-slate-300 pl-3 text-sm italic text-slate-700">
+            <blockquote className="mt-2 border-l-2 border-line-strong pl-3 text-small italic text-ink-muted">
               “{c.quote}”
             </blockquote>
-            <p className="mt-3 text-sm text-slate-600">{c.note}</p>
+            <p className="mt-3 text-small text-ink-muted">{c.note}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 rounded-lg border border-slate-200 bg-white p-6">
-        <p className="text-sm font-semibold text-slate-900">
+      <div className="mt-6 rounded-card border border-line bg-surface p-6">
+        <p className="text-small font-semibold text-ink">
           Same number. Different position. Nothing hidden.
         </p>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-small text-ink-muted">
           Both candidates score 71%, and both still show 71% after the ordering
           is applied — the score is not quietly reduced to justify the
           placement. What separates them is that one CV demonstrates the
           essential requirement and the other does not, and the list says so on
           the row rather than leaving a recruiter to infer it from the order.
         </p>
-        <p className="mt-3 text-sm text-slate-600">
+        <p className="mt-3 text-small text-ink-muted">
           That matters because the alternative is the sentence no ranking should
           ever produce: <em>strong overall, but cannot do the job</em> — with no
           way to see which half is which.
@@ -203,42 +179,42 @@ function GateComparison() {
       {/* The distinction the whole fairness story rests on. These are the exact
           labels and wording a recruiter sees in the product. */}
       <div className="mt-8">
-        <p className="text-sm font-semibold text-slate-900">
+        <p className="text-small font-semibold text-ink">
           And a third candidate might have neither
         </p>
-        <p className="mt-2 max-w-3xl text-sm text-slate-600">
+        <p className="mt-2 max-w-3xl text-small text-ink-muted">
           A CV that never mentions a requirement is not the same as one that
           mentions it and falls short. Most tools collapse the two into a single
           &ldquo;no&rdquo;. This one keeps them apart, in the words a recruiter
           actually reads:
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
-            <p className="text-sm font-semibold text-slate-900">
+          <div className="rounded-card border border-line bg-surface p-5">
+            <p className="text-small font-semibold text-ink">
               &ldquo;Does not meet&rdquo;
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-small text-ink-muted">
               We found relevant text in the CV and it does not show this.
             </p>
-            <p className="mt-3 text-xs text-slate-500">
+            <p className="mt-3 text-meta text-ink-muted">
               A finding. The candidate was assessed on this and came up short.
             </p>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
-            <p className="text-sm font-semibold text-slate-900">
+          <div className="rounded-card border border-line bg-surface p-5">
+            <p className="text-small font-semibold text-ink">
               &ldquo;Not demonstrated&rdquo;
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-small text-ink-muted">
               Nothing in the CV speaks to this either way. Worth asking about
               rather than assuming.
             </p>
-            <p className="mt-3 text-xs text-slate-500">
+            <p className="mt-3 text-meta text-ink-muted">
               A gap in the document, not a mark against the person — so they are
               held for a look rather than ruled out.
             </p>
           </div>
         </div>
-        <p className="mt-4 max-w-3xl text-sm text-slate-600">
+        <p className="mt-4 max-w-3xl text-small text-ink-muted">
           Treating silence as failure is how a good candidate disappears from a
           shortlist for something they simply did not think to write down.
         </p>
@@ -249,13 +225,13 @@ function GateComparison() {
 
 export default function ExplainableAtsCaseStudy() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-surface/80 backdrop-blur">
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         {/* This is the longest page on the site; skipping the header matters
             more here than anywhere else. */}
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-sm font-semibold text-slate-900">
+          <a href="/#projects" className="text-small font-semibold text-ink">
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
@@ -264,7 +240,7 @@ export default function ExplainableAtsCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-slate-600 hover:text-slate-900"
+              className="text-small text-ink-muted hover:text-ink"
             >
               GitHub
             </a>
@@ -279,7 +255,7 @@ export default function ExplainableAtsCaseStudy() {
               href={LIVE_DEMO_HREF}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
             >
               Live demo (read-only)
             </a>
@@ -290,13 +266,13 @@ export default function ExplainableAtsCaseStudy() {
       <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
-          <p className="text-sm font-medium uppercase tracking-wide text-indigo-600">
+          <p className="text-eyebrow uppercase text-brand">
             Case Study — Live Project
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
+          <h1 className="mt-4 max-w-3xl text-display-sm text-ink sm:text-display">
             {PROJECT.service}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-slate-600">
+          <p className="mt-6 max-w-2xl text-lg text-ink-muted">
             Ranks candidates against a role and explains every placement with the
             exact sentence from the CV that earned it — so a screening decision
             can be defended to the person it was made about.
@@ -307,7 +283,7 @@ export default function ExplainableAtsCaseStudy() {
                 start. */}
             <a
               href={INTERACTIVE_DEMO_HREF}
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
             >
               Try interactive demo
             </a>
@@ -318,7 +294,7 @@ export default function ExplainableAtsCaseStudy() {
               href={LIVE_DEMO_HREF}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               Open the live read-only demo
             </a>
@@ -326,13 +302,13 @@ export default function ExplainableAtsCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               View on GitHub
             </a>
             <a
               href={enquiryMailto("AI Recruitment Intelligence")}
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               Talk about your hiring process
             </a>
@@ -341,7 +317,7 @@ export default function ExplainableAtsCaseStudy() {
               The two limitations named here are the same ones set out in full
               further down the page; they are repeated in one line because a
               reader who opens a demo from here may never scroll that far. */}
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-4 text-meta text-ink-muted">
             The interactive demo runs in this tab — no account, nothing to
             install. The deployed application is open to read without an
             account too; signing in is required only to record a decision, and
@@ -367,7 +343,7 @@ export default function ExplainableAtsCaseStudy() {
           title="A number nobody can defend"
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 Screening tools hand back a score. Ask where it came from and the
                 answer is a model, a weighting nobody can see, and a ranking that
@@ -397,7 +373,7 @@ export default function ExplainableAtsCaseStudy() {
               ].map((point) => (
                 <li
                   key={point}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+                  className="rounded-card border border-line bg-canvas px-4 py-3 text-small text-ink-muted"
                 >
                   {point}
                 </li>
@@ -412,7 +388,7 @@ export default function ExplainableAtsCaseStudy() {
           title="The AI quotes. The application judges."
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 The split is the whole design. An AI reads the CV and pulls out
                 the passages that speak to each requirement, quoting them
@@ -431,11 +407,11 @@ export default function ExplainableAtsCaseStudy() {
                 verdict, a reason, and a sentence from their own CV.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 What that means in practice
               </p>
-              <ul className="mt-4 flex flex-col gap-3 text-sm text-slate-600">
+              <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>Every judgement points at a passage from the CV.</li>
                 <li>
                   A quote that is not in the document is discarded before it can
@@ -465,13 +441,13 @@ export default function ExplainableAtsCaseStudy() {
               here rather than only in the header a reader scrolled past. It is
               a text link, not a third button: the two actions in the hero are
               the page's calls to action and this is a way to check the claim. */}
-          <p className="mt-4 text-sm text-slate-600">
+          <p className="mt-4 text-small text-ink-muted">
             All nine steps are running in the deployed application.{" "}
             <a
               href={LIVE_DEMO_HREF}
               target="_blank"
               rel="noreferrer"
-              className="font-semibold text-indigo-700 underline underline-offset-4 hover:text-indigo-900"
+              className="text-small font-semibold text-brand underline underline-offset-4 hover:text-brand/90"
             >
               Open the live read-only demo
             </a>{" "}
@@ -486,8 +462,8 @@ export default function ExplainableAtsCaseStudy() {
           eyebrow="Trust"
           title="A quote that isn't in the CV doesn't count"
         >
-          <div className="rounded-lg border-2 border-indigo-200 bg-indigo-50 p-6 sm:p-8">
-            <p className="max-w-3xl text-base text-indigo-900">
+          <div className="rounded-card border-2 border-line-strong bg-brand-tint p-6 sm:p-8">
+            <p className="max-w-3xl text-body text-ink">
               An AI asked to quote a document will occasionally produce a passage
               that reads perfectly and does not exist. Nothing about the text
               gives it away — which is exactly why this system does not try to
@@ -513,16 +489,16 @@ export default function ExplainableAtsCaseStudy() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-md border border-indigo-200 bg-white p-4"
+                  className="rounded-control border border-line bg-surface p-4"
                 >
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-small font-semibold text-ink">
                     {item.title}
                   </p>
-                  <p className="mt-2 text-sm text-slate-600">{item.detail}</p>
+                  <p className="mt-2 text-small text-ink-muted">{item.detail}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-6 max-w-3xl text-sm text-indigo-800">
+            <p className="mt-6 max-w-3xl text-small text-ink-muted">
               This is what makes the evidence on screen safe to repeat. A
               recruiter can read a quote back to a candidate, or to a hiring
               manager, knowing it came out of the document in front of them.
@@ -536,7 +512,7 @@ export default function ExplainableAtsCaseStudy() {
           title="Personal details are removed before the CV is read"
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 Name, contact details, date of birth, nationality, gender and
                 address are masked out of the copy the reader receives. They are
@@ -557,11 +533,11 @@ export default function ExplainableAtsCaseStudy() {
                 being available.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 What this is, and what it is not
               </p>
-              <ul className="mt-4 flex flex-col gap-3 text-sm text-slate-600">
+              <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>
                   It removes a specific, listed set of personal details before
                   the reading step.
@@ -589,7 +565,7 @@ export default function ExplainableAtsCaseStudy() {
           title="Arithmetic you can check by hand"
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 No AI calculates the score. Each requirement carries a weight the
                 role set in advance; each verdict earns a share of it; the total
@@ -607,11 +583,11 @@ export default function ExplainableAtsCaseStudy() {
                 accept.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 Why it is done this way
               </p>
-              <ul className="mt-4 flex flex-col gap-3 text-sm text-slate-600">
+              <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>
                   The same inputs produce the same score on any machine, every
                   time.
@@ -647,7 +623,7 @@ export default function ExplainableAtsCaseStudy() {
           title="Everything behind a placement, on one screen"
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 Opening a candidate shows the score and their standing, then
                 every requirement the role asked for — including the ones the CV
@@ -676,7 +652,7 @@ export default function ExplainableAtsCaseStudy() {
               ].map((point) => (
                 <li
                   key={point}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+                  className="rounded-card border border-line bg-canvas px-4 py-3 text-small text-ink-muted"
                 >
                   {point}
                 </li>
@@ -691,12 +667,12 @@ export default function ExplainableAtsCaseStudy() {
             {CAPABILITIES.map((capability) => (
               <div
                 key={capability.title}
-                className="rounded-lg border border-slate-200 p-5"
+                className="rounded-card border border-line p-5"
               >
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-small font-semibold text-ink">
                   {capability.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-small leading-relaxed text-ink-muted">
                   {capability.detail}
                 </p>
               </div>
@@ -737,12 +713,12 @@ export default function ExplainableAtsCaseStudy() {
             {STACK.map((item) => (
               <div
                 key={item.name}
-                className="rounded-lg border border-slate-200 px-4 py-3"
+                className="rounded-card border border-line px-4 py-3"
               >
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-small font-semibold text-ink">
                   {item.name}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">{item.role}</p>
+                <p className="mt-1 text-meta text-ink-muted">{item.role}</p>
               </div>
             ))}
           </div>
@@ -775,12 +751,12 @@ export default function ExplainableAtsCaseStudy() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-5"
+                className="rounded-card border border-line bg-canvas p-5"
               >
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-small font-semibold text-ink">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-small leading-relaxed text-ink-muted">
                   {item.detail}
                 </p>
               </div>
@@ -790,11 +766,11 @@ export default function ExplainableAtsCaseStudy() {
 
         {/* 15. CLOSING CTA */}
         <section className="mx-auto max-w-5xl px-6 pb-20 pt-4">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-8 sm:p-10">
-            <h2 className="text-2xl font-bold text-slate-900">
+          <div className="rounded-card border border-line bg-canvas p-8 sm:p-10">
+            <h2 className="text-section text-ink">
               If you screen CVs and cannot explain the shortlist
             </h2>
-            <p className="mt-3 max-w-2xl text-slate-600">
+            <p className="mt-3 max-w-2xl text-ink-muted">
               That is the problem this was built for. If you are weighing up AI
               in your hiring process — or you have a tool whose output nobody can
               account for — it is worth a conversation.
@@ -804,18 +780,18 @@ export default function ExplainableAtsCaseStudy() {
                 href={REPO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Read the Source on GitHub
               </a>
               <a
                 href={enquiryMailto("AI Recruitment Intelligence")}
-                className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+                className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
               >
                 Start a conversation
               </a>
             </div>
-            <p className="mt-6 text-xs text-slate-500">
+            <p className="mt-6 text-meta text-ink-muted">
               The demo dataset is invented — the candidates, employers and
               personal details are examples written for this project, not real
               people. This system ranks and explains; it does not hire or reject
