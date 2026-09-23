@@ -18,25 +18,19 @@ import { services } from '../src/data/services.ts'
  * that goes nowhere, or a service claiming proof it does not have.
  */
 
-test('there are exactly six projects and four services', () => {
-  // Phase 6 approved three additional flagship projects — KnowledgeOS,
-  // DocIntel, VoiceDesk — each built and shipped as its own standalone
-  // repository. Services for them are a separate, later milestone, so the
-  // service count is unchanged for now.
+test('there are exactly six projects and seven services', () => {
+  // The service-content milestone added three services — RAG / Knowledge
+  // Systems, Document Intelligence, Voice AI — one per newly-approved
+  // project, plus a rename of the fourth existing service. No project or
+  // service was removed.
   assert.equal(projects.length, 6)
-  assert.equal(services.length, 4)
+  assert.equal(services.length, 7)
 })
 
 test('every project names a service that exists', () => {
-  // p4–p6 name a forward-looking service category — matched against the
-  // standalone project's own category — but no Service entry exists for any
-  // of them yet; that is the next, dedicated milestone. Until then
-  // Projects.tsx's serviceAnchor renders no "Proves the service…" line for
-  // them, which is not the dead link this test otherwise guards against.
-  const pendingService: ProjectId[] = ['p4', 'p5', 'p6']
-
+  // p4–p6 now have a real Service entry each, the same as p1–p3 always
+  // have: this loop no longer needs an exemption list.
   for (const project of projects) {
-    if (pendingService.includes(project.id)) continue
     const match = services.find((service) => service.name === project.service)
     assert.ok(
       match !== undefined,

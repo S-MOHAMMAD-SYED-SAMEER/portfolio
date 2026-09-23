@@ -7,6 +7,7 @@ const focus = [
   "Recover lost sales",
   "Automate support work",
   "Build reliable AI systems",
+  "Extend into knowledge, documents & voice",
 ];
 
 export default function About() {
@@ -17,7 +18,9 @@ export default function About() {
           I help small international e-commerce and D2C stores recover lost
           leads and abandoned carts, respond to customers faster, and automate
           the manual work that slows a small team down — using AI systems built
-          with production-grade engineering, not demos.
+          with production-grade engineering, not demos. The same engineering
+          also covers knowledge systems, document processing and voice — built
+          and proven, not just pitched.
         </p>
         <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
           {focus.map((item) => (

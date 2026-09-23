@@ -5,6 +5,7 @@ const links = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Capabilities" },
   { href: "#projects", label: "Projects" },
+  { href: "#services", label: "Services" },
 ];
 
 export default function Nav() {

@@ -31,7 +31,10 @@ export type ServiceId =
   | "support-recovery"
   | "inbox-crm"
   | "recruitment"
-  | "workflow-automation";
+  | "workflow-automation"
+  | "rag-knowledge"
+  | "document-intelligence"
+  | "voice-ai";
 
 export interface Service {
   id: ServiceId;
@@ -66,6 +69,9 @@ export interface Service {
 const p1 = projectById("p1");
 const p2 = projectById("p2");
 const p3 = projectById("p3");
+const p4 = projectById("p4");
+const p5 = projectById("p5");
+const p6 = projectById("p6");
 
 export const services: readonly Service[] = [
   {
@@ -103,8 +109,11 @@ export const services: readonly Service[] = [
     provenBy: "p3",
   },
   {
+    // Renamed from "Business Workflow Automation" to match the portfolio's
+    // current positioning labels exactly. Nothing about what it builds, what
+    // proves it, or its caveat changed.
     id: "workflow-automation",
-    name: "Business Workflow Automation",
+    name: "AI Workflow Automation",
     positioning: "The connective work between systems that never quite talk to each other.",
     builds:
       "Integrations against a real adapter layer — CRM, email, outbound, and LLM providers behind one interface — with approval gates, audit trails and tests.",
@@ -112,5 +121,53 @@ export const services: readonly Service[] = [
     caveat:
       "This generalises the machinery behind the Inbox-to-CRM agent rather than describing a project of its own. The adapters, approval gate and audit trail are the same ones; the workflow they are pointed at would be yours.",
     cta: { label: "Describe the workflow you want removed", href: "#contact" },
+  },
+  {
+    // p4–p6 have no interactiveDemoHref or demoHref (no case-study page or
+    // public deployment yet — that is a later milestone), so their CTA
+    // points at the one real, verified link they do have: the repository.
+    id: "rag-knowledge",
+    name: "RAG / Knowledge Systems",
+    positioning:
+      "Answers grounded in your own documents, with every citation checked before it reaches you — never a guess dressed up as a source.",
+    builds:
+      "Hybrid retrieval (full-text plus vector search) fused and reranked, generation constrained to a structured answer-and-citations contract, and every citation verified in Python against the retrieved evidence before an answer is shown.",
+    evidence: [
+      "88 tests",
+      "deterministic, credential-free demo",
+      "citations checked in Python before display",
+    ],
+    cta: { label: "View the source on GitHub", href: p4.repoHref ?? "#projects" },
+    provenBy: "p4",
+  },
+  {
+    id: "document-intelligence",
+    name: "Document Intelligence",
+    positioning:
+      "Structured data out of invoices and purchase orders, with every field checked outside the model and anything uncertain sent to a person — never silently guessed.",
+    builds:
+      "Vision-model extraction against a strict schema, deterministic validation in Python (arithmetic, dates, currency codes) regardless of what the model claims, per-field confidence scoring, and a human review queue with a correction audit trail.",
+    evidence: [
+      "494 tests",
+      "deterministic, credential-free demo",
+      "confidence-scored human review queue",
+    ],
+    cta: { label: "View the source on GitHub", href: p5.repoHref ?? "#projects" },
+    provenBy: "p5",
+  },
+  {
+    id: "voice-ai",
+    name: "Voice AI",
+    positioning:
+      "A phone line that checks the calendar before it promises a slot, and hands off to a person when it should.",
+    builds:
+      "Real-time speech in, tool-calling against a live calendar, and a database exclusion constraint that makes double-booking structurally impossible rather than merely checked for. A browser harness demonstrates the identical pipeline with no telephony credential required.",
+    evidence: [
+      "1,660 tests",
+      "double-booking prevented at the database layer",
+      "browser demo needs no telephony credential",
+    ],
+    cta: { label: "View the source on GitHub", href: p6.repoHref ?? "#projects" },
+    provenBy: "p6",
   },
 ];

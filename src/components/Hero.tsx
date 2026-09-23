@@ -48,7 +48,9 @@ export default function Hero() {
         <p className="mt-5 max-w-2xl text-body text-ink-muted sm:mt-6">
           I build AI customer support, sales-recovery, and workflow automation
           for small international e-commerce and D2C stores — outcomes, not AI
-          features.
+          features. The same engineering — agentic tool-use, retrieval and
+          knowledge systems, document workflows, voice — extends to other
+          operational bottlenecks when a client's problem calls for it.
         </p>
 
         <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
@@ -89,8 +91,8 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* SELECTED WORK. Three systems, named, with the number behind each.
-            A visitor who reads nothing else should leave knowing three
+        {/* SELECTED WORK. Six systems, named, with the number behind each.
+            A visitor who reads nothing else should leave knowing six
             different things were built and that each one is tested. */}
         <div className="mt-10 border-t border-line pt-6 sm:mt-14 sm:pt-8">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -104,7 +106,7 @@ export default function Hero() {
           </div>
 
           <p className="mt-3 text-body text-ink-muted">
-            Three AI systems built, tested and documented.
+            Six AI systems built, tested and documented.
           </p>
 
           <ul className="mt-5 grid gap-4 sm:grid-cols-3">
