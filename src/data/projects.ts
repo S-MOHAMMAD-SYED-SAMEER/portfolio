@@ -15,7 +15,7 @@
  */
 export const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
 
-export type ProjectId = "p1" | "p2" | "p3";
+export type ProjectId = "p1" | "p2" | "p3" | "p4" | "p5" | "p6";
 
 export interface Project {
   id: ProjectId;
@@ -181,6 +181,62 @@ export const projects: Project[] = [
     proof: ["346 tests", "deterministic scoring"],
     demoNote:
       "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to record a decision. First load may take up to a minute while the free-tier hosting wakes up.",
+    featured: true,
+  },
+  {
+    // Approved as a fourth flagship project, built and shipped as its own
+    // standalone repository outside this monorepo. "Built" rather than
+    // "Live": the system is complete and tested, but nothing here claims a
+    // public deployment — there is none, and demoHref stays absent rather
+    // than pointing at one that does not exist.
+    id: "p4",
+    title: "KnowledgeOS",
+    service: "RAG / Knowledge Systems",
+    description:
+      "Retrieval-grounded answers over internal documents: hybrid search and a local reranker find the evidence, and every citation is checked against it in Python before an answer is shown. A deterministic, credential-free demo replays real precomputed embedding and reranking output through the identical production query pipeline — no API key, no network call.",
+    tags: [
+      "PostgreSQL + pgvector retrieval",
+      "Citation validation",
+      "Deterministic, credential-free demo",
+      "Docker demo packaging",
+    ],
+    status: "Built",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/knowledgeos",
+    proof: ["88 tests", "deterministic, credential-free demo"],
+    featured: true,
+  },
+  {
+    id: "p5",
+    title: "DocIntel",
+    service: "Document Intelligence",
+    description:
+      "Extracts structured data from invoices and purchase orders, validates it deterministically outside the model, scores per-field confidence, and routes anything uncertain to a human review queue. A deterministic, credential-free demo provider replays committed, hand-verified answers through the same production extraction, validation and review pipeline.",
+    tags: [
+      "FastAPI + PostgreSQL pipeline",
+      "Confidence-scored human review",
+      "Deterministic, credential-free demo",
+      "Docker demo packaging",
+    ],
+    status: "Built",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
+    proof: ["494 tests", "deterministic, credential-free demo"],
+    featured: true,
+  },
+  {
+    id: "p6",
+    title: "VoiceDesk",
+    service: "Voice AI",
+    description:
+      "An AI phone receptionist: understands the caller, checks and books appointments in a real calendar, and hands off to a human when it should. A browser harness runs the identical dialogue, tool-calling and calendar pipeline with no telephony credential required — offline speech recognition and synthesis by default, bounded by a 300-second session limit and a 20-turn cap so a demo session cannot run unbounded.",
+    tags: [
+      "Real-time voice + tool-calling",
+      "PostgreSQL-backed calendar",
+      "Offline STT/TTS demo mode",
+      "Docker Compose browser demo",
+    ],
+    status: "Built",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk",
+    proof: ["1,660 tests"],
     featured: true,
   },
 ];
