@@ -6,7 +6,7 @@ import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import ArchitectureDiagram from "../components/caseStudy/ArchitectureDiagram";
 import ResultsPanel from "../components/caseStudy/ResultsPanel";
-
+import Section from "../components/Section";
 
 /**
  * This page's project, from the canonical data.
@@ -69,39 +69,15 @@ const STACK = [
   { name: "Render", role: "Hosting for the running demo" },
 ];
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  children,
-}: {
-  id?: string;
-  eyebrow?: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="mx-auto max-w-5xl px-6 py-14 sm:py-16">
-      {eyebrow && (
-        <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-2 text-2xl font-bold text-slate-900">{title}</h2>
-      <div className="mt-6">{children}</div>
-    </section>
-  );
-}
-
 export default function SalesRecoveryCaseStudy() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-surface/80 backdrop-blur">
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         {/* This is the longest page on the site; skipping the header matters
             more here than anywhere else. */}
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-sm font-semibold text-slate-900">
+          <a href="/#projects" className="text-small font-semibold text-ink">
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
@@ -110,7 +86,7 @@ export default function SalesRecoveryCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-slate-600 hover:text-slate-900"
+              className="text-small text-ink-muted hover:text-ink"
             >
               GitHub
             </a>
@@ -118,7 +94,7 @@ export default function SalesRecoveryCaseStudy() {
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
             >
               Live Demo
             </a>
@@ -129,13 +105,13 @@ export default function SalesRecoveryCaseStudy() {
       <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
-          <p className="text-sm font-medium uppercase tracking-wide text-indigo-600">
+          <p className="text-eyebrow uppercase text-brand">
             Case Study — Live Project
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
+          <h1 className="mt-4 max-w-3xl text-display-sm text-ink sm:text-display">
             {PROJECT.service}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-slate-600">
+          <p className="mt-6 max-w-2xl text-lg text-ink-muted">
             An AI support agent that helps online stores answer customer
             questions instantly, recover hesitant buyers, and cut the hours a
             small team spends retyping the same replies.
@@ -147,7 +123,7 @@ export default function SalesRecoveryCaseStudy() {
                 still described as the real thing. */}
             <a
               href={INTERACTIVE_DEMO_HREF}
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
             >
               Try interactive demo
             </a>
@@ -155,7 +131,7 @@ export default function SalesRecoveryCaseStudy() {
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               Try the Live Demo
             </a>
@@ -163,12 +139,12 @@ export default function SalesRecoveryCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               View on GitHub
             </a>
           </div>
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-4 text-meta text-ink-muted">
             The demo runs on free hosting and sleeps when idle — the first
             message can take up to a minute while it wakes up.
           </p>
@@ -186,7 +162,7 @@ export default function SalesRecoveryCaseStudy() {
         {/* 2. BUSINESS PROBLEM */}
         <Section eyebrow="The problem" title="Small stores lose sales in the gaps">
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 A small online store gets the same handful of questions every
                 day. Where is my order. Is this back in stock. How long does
@@ -214,7 +190,7 @@ export default function SalesRecoveryCaseStudy() {
               ].map((point) => (
                 <li
                   key={point}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+                  className="rounded-card border border-line bg-canvas px-4 py-3 text-small text-ink-muted"
                 >
                   {point}
                 </li>
@@ -226,7 +202,7 @@ export default function SalesRecoveryCaseStudy() {
         {/* 3. SOLUTION */}
         <Section eyebrow="The solution" title="An assistant that checks before it answers">
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 This is a support assistant that sits on a store's site and
                 handles the routine questions end to end — but the point of it
@@ -245,11 +221,11 @@ export default function SalesRecoveryCaseStudy() {
                 than having no bot at all.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 What that means in practice
               </p>
-              <ul className="mt-4 flex flex-col gap-3 text-sm text-slate-600">
+              <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>Policy answers come from the store's own documents.</li>
                 <li>Order and stock answers come from the store's own data.</li>
                 <li>
@@ -271,12 +247,12 @@ export default function SalesRecoveryCaseStudy() {
             {CAPABILITIES.map((capability) => (
               <div
                 key={capability.title}
-                className="rounded-lg border border-slate-200 p-5"
+                className="rounded-card border border-line p-5"
               >
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-small font-semibold text-ink">
                   {capability.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-small leading-relaxed text-ink-muted">
                   {capability.detail}
                 </p>
               </div>
@@ -313,11 +289,11 @@ export default function SalesRecoveryCaseStudy() {
               alt="The support agent recognising a hesitant buyer and responding to the concern they raised."
               caption="A hesitant buyer. The assistant recognises the hesitation and answers it without inventing a discount."
             />
-            <div className="mb-8 break-inside-avoid rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 Try these yourself
               </p>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-small text-ink-muted">
                 The demo runs on fictional store data, so everything is safe to
                 poke at. Ask about order 1001, whether the Ceramic Mug is in
                 stock, whether code WELCOME10 is valid, how long international
@@ -327,7 +303,7 @@ export default function SalesRecoveryCaseStudy() {
                 href={DEMO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="mt-4 inline-block rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Open the demo
               </a>
@@ -341,12 +317,12 @@ export default function SalesRecoveryCaseStudy() {
             {STACK.map((item) => (
               <div
                 key={item.name}
-                className="rounded-lg border border-slate-200 px-4 py-3"
+                className="rounded-card border border-line px-4 py-3"
               >
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-small font-semibold text-ink">
                   {item.name}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">{item.role}</p>
+                <p className="mt-1 text-meta text-ink-muted">{item.role}</p>
               </div>
             ))}
           </div>
@@ -359,11 +335,11 @@ export default function SalesRecoveryCaseStudy() {
 
         {/* 9 + 10. LIVE DEMO AND GITHUB */}
         <section className="mx-auto max-w-5xl px-6 pb-20 pt-4">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-8 sm:p-10">
-            <h2 className="text-2xl font-bold text-slate-900">
+          <div className="rounded-card border border-line bg-canvas p-8 sm:p-10">
+            <h2 className="text-section text-ink">
               Try it on your own questions
             </h2>
-            <p className="mt-3 max-w-2xl text-slate-600">
+            <p className="mt-3 max-w-2xl text-ink-muted">
               The demo is live and open — no sign-up, nothing to install. Ask it
               something a real customer of yours would ask, and watch which
               checks it runs before it answers.
@@ -373,7 +349,7 @@ export default function SalesRecoveryCaseStudy() {
                 href={DEMO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Launch the Live Demo
               </a>
@@ -381,18 +357,18 @@ export default function SalesRecoveryCaseStudy() {
                 href={REPO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+                className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
               >
                 Read the Source on GitHub
               </a>
               <a
                 href={enquiryMailto("AI Customer Support & Sales Recovery")}
-                className="rounded-md px-4 py-3 text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+                className="rounded-control px-4 py-3 text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline"
               >
                 Talk about your store
               </a>
             </div>
-            <p className="mt-6 text-xs text-slate-500">
+            <p className="mt-6 text-meta text-ink-muted">
               Demo data is fictional — the orders, products and discount codes
               are examples, not a real store. First load may take up to a minute
               while the free-tier hosting wakes up.
