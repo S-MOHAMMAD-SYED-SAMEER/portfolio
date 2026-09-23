@@ -237,8 +237,9 @@ export const projects: Project[] = [
       "Docker Compose browser demo",
     ],
     status: "Built",
+    caseStudyHref: "/case-study-voicedesk.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk",
-    proof: ["1,660 tests"],
+    proof: ["1,661 tests"],
     featured: true,
   },
 ];

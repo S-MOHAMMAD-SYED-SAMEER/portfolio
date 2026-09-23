@@ -150,7 +150,7 @@ test('the verified proof figures are unchanged', () => {
     p3: ['346 tests', 'deterministic scoring'],
     p4: ['88 tests', 'deterministic, credential-free demo'],
     p5: ['477 passing / 478 collected', 'deterministic, credential-free demo'],
-    p6: ['1,660 tests'],
+    p6: ['1,661 tests'],
   }
 
   for (const project of projects) {

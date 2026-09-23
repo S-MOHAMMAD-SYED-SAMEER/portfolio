@@ -327,6 +327,9 @@ export default defineConfig({
         caseStudyDocIntel: fileURLToPath(
           new URL('./case-study-docintel.html', import.meta.url),
         ),
+        caseStudyVoiceDesk: fileURLToPath(
+          new URL('./case-study-voicedesk.html', import.meta.url),
+        ),
         // The interactive portfolio demos. Real static pages like the case
         // studies, so each has a genuine URL and no SPA rewrite is required.
         demoSalesRecovery: fileURLToPath(new URL('./demo-sales-recovery.html', import.meta.url)),
