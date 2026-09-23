@@ -219,8 +219,9 @@ export const projects: Project[] = [
       "Docker demo packaging",
     ],
     status: "Built",
+    caseStudyHref: "/case-study-docintel.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
-    proof: ["494 tests", "deterministic, credential-free demo"],
+    proof: ["477 passing / 478 collected", "deterministic, credential-free demo"],
     featured: true,
   },
   {
