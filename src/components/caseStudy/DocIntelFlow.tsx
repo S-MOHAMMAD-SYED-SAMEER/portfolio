@@ -28,7 +28,8 @@ const STAGES: Stage[] = [
   {
     n: "5",
     title: "Vision LLM extraction",
-    detail: "A vision model reads the rendered pages.",
+    detail:
+      "A vision model reads the rendered pages through one provider interface — only one module imports the Anthropic SDK.",
   },
   {
     n: "6",
@@ -38,22 +39,26 @@ const STAGES: Stage[] = [
   {
     n: "7",
     title: "Deterministic validation",
-    detail: "Dates, currency and totals are checked in code.",
+    detail:
+      "Dates, currency codes and totals arithmetic are checked outside the model, each passed, failed, or skipped.",
   },
   {
     n: "8",
     title: "Confidence scoring",
-    detail: "Each field is scored from multiple signals.",
+    detail:
+      "Four weighted signals combine into one score per field; a failed check forces review regardless of the score.",
   },
   {
     n: "9",
     title: "Human review",
-    detail: "Uncertain fields are queued for a person.",
+    detail:
+      "Fields below threshold, or that failed a check, are queued for a person — least confident first.",
   },
   {
     n: "10",
     title: "Correction / audit trail",
-    detail: "A correction is recorded without discarding the original.",
+    detail:
+      "A correction becomes ground truth; the model's original answer is kept, never overwritten.",
   },
   {
     n: "11",
@@ -63,7 +68,8 @@ const STAGES: Stage[] = [
   {
     n: "12",
     title: "Evaluation",
-    detail: "Accuracy and reliability are measured separately.",
+    detail:
+      "A labelled dataset and a CLI harness measure accuracy, review rate, cost and latency — offline by default, or for real against Anthropic.",
   },
 ];
 
