@@ -6,7 +6,7 @@ import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
 import InboxToCrmFlow from "../components/caseStudy/InboxToCrmFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
-
+import Section from "../components/Section";
 
 /**
  * This page's project, from the canonical data.
@@ -96,39 +96,15 @@ const RESULTS: Result[] = [
 const RESULTS_CAPTION =
   "These are engineering results from this project's own test and evaluation suites, measured on a fixed set of example emails and a fictional CRM. They are not customer results — the agent has not yet been run against a real mailbox — and a fixed scenario set is a rigorous smoke test, not proof of accuracy across everything a real inbox might contain.";
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  children,
-}: {
-  id?: string;
-  eyebrow?: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="mx-auto max-w-5xl px-6 py-14 sm:py-16">
-      {eyebrow && (
-        <p className="text-xs font-medium uppercase tracking-wide text-indigo-600">
-          {eyebrow}
-        </p>
-      )}
-      <h2 className="mt-2 text-2xl font-bold text-slate-900">{title}</h2>
-      <div className="mt-6">{children}</div>
-    </section>
-  );
-}
-
 export default function InboxToCrmCaseStudy() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-surface/80 backdrop-blur">
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         {/* This is the longest page on the site; skipping the header matters
             more here than anywhere else. */}
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-sm font-semibold text-slate-900">
+          <a href="/#projects" className="text-small font-semibold text-ink">
             ← AI Business Automation
           </a>
           <div className="flex items-center gap-3">
@@ -137,7 +113,7 @@ export default function InboxToCrmCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-slate-600 hover:text-slate-900"
+              className="text-small text-ink-muted hover:text-ink"
             >
               GitHub
             </a>
@@ -145,7 +121,7 @@ export default function InboxToCrmCaseStudy() {
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
             >
               Live Demo
             </a>
@@ -156,13 +132,13 @@ export default function InboxToCrmCaseStudy() {
       <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
-          <p className="text-sm font-medium uppercase tracking-wide text-indigo-600">
+          <p className="text-eyebrow uppercase text-brand">
             Case Study — Live Project
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-bold text-slate-900 sm:text-5xl">
+          <h1 className="mt-4 max-w-3xl text-display-sm text-ink sm:text-display">
             {PROJECT.service}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-slate-600">
+          <p className="mt-6 max-w-2xl text-lg text-ink-muted">
             Turns the enquiries sitting in your inbox into tracked records with
             drafted replies — so nothing falls through the cracks, and nothing
             goes out in your name without your approval.
@@ -173,7 +149,7 @@ export default function InboxToCrmCaseStudy() {
                 account and no cold start. */}
             <a
               href={INTERACTIVE_DEMO_HREF}
-              className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+              className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
             >
               Try interactive demo
             </a>
@@ -181,7 +157,7 @@ export default function InboxToCrmCaseStudy() {
               href={DEMO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               Try the Live Demo
             </a>
@@ -189,12 +165,12 @@ export default function InboxToCrmCaseStudy() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
             >
               View on GitHub
             </a>
           </div>
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-4 text-meta text-ink-muted">
             The demo runs on free hosting and sleeps when idle — the first page
             can take up to a minute while it wakes up.
           </p>
@@ -212,7 +188,7 @@ export default function InboxToCrmCaseStudy() {
         {/* 2. BUSINESS PROBLEM */}
         <Section eyebrow="The problem" title="The enquiry nobody got back to">
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 A serious enquiry arrives on a Friday afternoon. It gets read,
                 half-answered in someone's head, and left in the inbox to deal
@@ -241,7 +217,7 @@ export default function InboxToCrmCaseStudy() {
               ].map((point) => (
                 <li
                   key={point}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
+                  className="rounded-card border border-line bg-canvas px-4 py-3 text-small text-ink-muted"
                 >
                   {point}
                 </li>
@@ -256,7 +232,7 @@ export default function InboxToCrmCaseStudy() {
           title="It does the reading and the paperwork. You keep the decisions."
         >
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex flex-col gap-4 text-slate-600">
+            <div className="flex flex-col gap-4 text-ink-muted">
               <p>
                 This reads every inbound enquiry, works out what is being asked
                 and who it is from, matches it against the records you already
@@ -274,11 +250,11 @@ export default function InboxToCrmCaseStudy() {
                 its writing was.
               </p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 What that means in practice
               </p>
-              <ul className="mt-4 flex flex-col gap-3 text-sm text-slate-600">
+              <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>Every enquiry is logged the moment it arrives.</li>
                 <li>
                   The proposed changes are shown next to what your records say
@@ -302,8 +278,8 @@ export default function InboxToCrmCaseStudy() {
           eyebrow="The safety model"
           title="Nothing goes out in your name without your approval"
         >
-          <div className="rounded-lg border-2 border-indigo-200 bg-indigo-50 p-6 sm:p-8">
-            <p className="max-w-3xl text-base text-indigo-900">
+          <div className="rounded-card border-2 border-line-strong bg-brand-tint p-6 sm:p-8">
+            <p className="max-w-3xl text-body text-ink">
               Most of the risk in automating an inbox is not that the assistant
               writes something clumsy. It is that it writes something clumsy{" "}
               <em>and sends it</em>, to a customer, signed as you — and you find
@@ -329,16 +305,16 @@ export default function InboxToCrmCaseStudy() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-md border border-indigo-200 bg-white p-4"
+                  className="rounded-control border border-line bg-surface p-4"
                 >
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-small font-semibold text-ink">
                     {item.title}
                   </p>
-                  <p className="mt-2 text-sm text-slate-600">{item.detail}</p>
+                  <p className="mt-2 text-small text-ink-muted">{item.detail}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-6 max-w-3xl text-sm text-indigo-800">
+            <p className="mt-6 max-w-3xl text-small text-ink-muted">
               In this demo, outbound sending is switched off entirely. An
               approved reply is written, recorded, and held — the outbox shows it
               as <strong>suppressed</strong>. You can watch the whole process run
@@ -361,12 +337,12 @@ export default function InboxToCrmCaseStudy() {
             {CAPABILITIES.map((capability) => (
               <div
                 key={capability.title}
-                className="rounded-lg border border-slate-200 p-5"
+                className="rounded-card border border-line p-5"
               >
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-small font-semibold text-ink">
                   {capability.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-small leading-relaxed text-ink-muted">
                   {capability.detail}
                 </p>
               </div>
@@ -414,12 +390,12 @@ export default function InboxToCrmCaseStudy() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-5"
+                className="rounded-card border border-line bg-canvas p-5"
               >
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-small font-semibold text-ink">
                   {item.title}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                <p className="mt-2 text-small leading-relaxed text-ink-muted">
                   {item.detail}
                 </p>
               </div>
@@ -458,8 +434,8 @@ export default function InboxToCrmCaseStudy() {
               alt="The full path an email takes through the agent, from the message arriving to the records it becomes."
               caption="The whole path end to end, from the email arriving to the records it becomes. Top of a much longer page."
             />
-            <div className="mb-8 break-inside-avoid rounded-lg border border-slate-200 bg-slate-50 p-6">
-              <p className="text-sm font-semibold text-slate-900">
+            <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
+              <p className="text-small font-semibold text-ink">
                 Try it yourself
               </p>
               {/* Approving is the one thing the deployed dashboard cannot let a
@@ -468,7 +444,7 @@ export default function InboxToCrmCaseStudy() {
                   genuinely operable, so the instruction to approve points
                   there. The deployed application is still linked, described as
                   what it is. */}
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="mt-2 text-small text-ink-muted">
                 The walkthrough runs on a fixed set of example emails and a
                 fictional CRM, so everything is safe to poke at. Step through an
                 email, read the plan it proposes, then approve it and watch what
@@ -477,7 +453,7 @@ export default function InboxToCrmCaseStudy() {
               </p>
               <a
                 href={INTERACTIVE_DEMO_HREF}
-                className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="mt-4 inline-block rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Open the walkthrough
               </a>
@@ -491,12 +467,12 @@ export default function InboxToCrmCaseStudy() {
             {STACK.map((item) => (
               <div
                 key={item.name}
-                className="rounded-lg border border-slate-200 px-4 py-3"
+                className="rounded-card border border-line px-4 py-3"
               >
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-small font-semibold text-ink">
                   {item.name}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">{item.role}</p>
+                <p className="mt-1 text-meta text-ink-muted">{item.role}</p>
               </div>
             ))}
           </div>
@@ -509,15 +485,15 @@ export default function InboxToCrmCaseStudy() {
 
         {/* 11. CLOSING — DEMO, GITHUB, CONTACT */}
         <section className="mx-auto max-w-5xl px-6 pb-20 pt-4">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-8 sm:p-10">
-            <h2 className="text-2xl font-bold text-slate-900">
+          <div className="rounded-card border border-line bg-canvas p-8 sm:p-10">
+            <h2 className="text-section text-ink">
               See it run on a real inbox&apos;s worth of work
             </h2>
             {/* Says what each of the two surfaces actually offers. The deployed
                 dashboard is open to anyone and needs no sign-up, but its public
                 window is read-only — a write answers 401 — so the invitation to
                 approve belongs to the walkthrough, not here. */}
-            <p className="mt-3 max-w-2xl text-slate-600">
+            <p className="mt-3 max-w-2xl text-ink-muted">
               The deployed application is live and open — no sign-up, nothing to
               install. Read the emails it has processed, the plans waiting on
               approval and the records they became, in the real dashboard running
@@ -530,7 +506,7 @@ export default function InboxToCrmCaseStudy() {
                 href={DEMO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Launch the Live Demo
               </a>
@@ -538,7 +514,7 @@ export default function InboxToCrmCaseStudy() {
                   gate here, so the link has to exist in the same row. */}
               <a
                 href={INTERACTIVE_DEMO_HREF}
-                className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+                className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
               >
                 Open the walkthrough
               </a>
@@ -546,18 +522,18 @@ export default function InboxToCrmCaseStudy() {
                 href={REPO_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-md border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:border-slate-400"
+                className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
               >
                 Read the Source on GitHub
               </a>
               <a
                 href={enquiryMailto("AI Inbox & Lead Management")}
-                className="rounded-md px-4 py-3 text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+                className="rounded-control px-4 py-3 text-small font-semibold text-ink-muted underline-offset-4 hover:text-ink hover:underline"
               >
                 Talk about your inbox
               </a>
             </div>
-            <p className="mt-6 text-xs text-slate-500">
+            <p className="mt-6 text-meta text-ink-muted">
               The demo works from a fixed set of example emails and a fictional
               CRM — it is not connected to a live mailbox, and outbound sending
               is switched off, so no message can reach anyone. First load may
