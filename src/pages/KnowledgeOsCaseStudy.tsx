@@ -46,16 +46,16 @@ const RESULTS: Result[] = [
       "test_demo_e2e.py, test_demo_fixtures.py, test_demo_reranking.py, test_demo_llm.py and test_demo_app.py — the demo-focused suite specifically, not the project's overall test count.",
   },
   {
-    figure: "1,026",
-    label: "Full suite passing, with PostgreSQL",
+    figure: "1,127",
+    label: "Full suite passing, Windows laptop (models cached)",
     detail:
-      "11 failed and 1 skipped in this documented environment. All 11 failures are pre-existing and environment-specific, not P3 regressions.",
+      "1,139 collected, 11 failed, 1 skipped. All 11 failures are pre-existing and environment-specific, not application regressions, and none touch retrieval, reranking, generation, citation validation or abstention correctness.",
   },
   {
-    figure: "588",
-    label: "Full suite passing, without PostgreSQL",
+    figure: "1,135",
+    label: "Full suite passing, CI (GitHub Actions)",
     detail:
-      "362 tests that need a database skip cleanly rather than failing.",
+      "1,139 collected, 4 skipped, 0 failed. CI intentionally skips tests needing the real BGE/CrossEncoder model weights rather than downloading them — an honest, reproducible skip, not a pass.",
   },
   {
     figure: "7 / 9",

@@ -81,7 +81,7 @@ export const services: readonly Service[] = [
       "Answer customer questions from your own policies and live data — and notice the buyer who is about to leave.",
     builds:
       "Retrieval over policy documents, tool-calling for live order/stock/discount lookups, conversation memory, deterministic buying-signal detection, and guardrails that check the reply before the customer sees it.",
-    evidence: ["206 tests", "16/16 eval", "8 guardrail policies enforced in code"],
+    evidence: ["247 tests", "16/16 eval", "8 guardrail policies enforced in code"],
     cta: { label: "Try the interactive demo", href: p1.interactiveDemoHref ?? "#projects" },
     provenBy: "p1",
   },
@@ -104,7 +104,7 @@ export const services: readonly Service[] = [
     positioning: "Screening decisions you can defend to the person they were made about.",
     builds:
       "Personal details redacted before the CV is read, evidence quoted and verified word-for-word, deterministic integer scoring, an essential-requirement gate, and a recruiter decision with a required written reason on an append-only trail.",
-    evidence: ["346 tests", "10-stage demo ending in Decision + Audit"],
+    evidence: ["389 tests", "10-stage demo ending in Decision + Audit"],
     cta: { label: "Step through the demo", href: p3.interactiveDemoHref ?? "#projects" },
     provenBy: "p3",
   },
@@ -133,7 +133,7 @@ export const services: readonly Service[] = [
     builds:
       "Hybrid retrieval (full-text plus vector search) fused and reranked, generation constrained to a structured answer-and-citations contract, and every citation verified in Python against the retrieved evidence before an answer is shown.",
     evidence: [
-      "88 tests",
+      "1,135/1,139 tests passing (CI)",
       "deterministic, credential-free demo",
       "citations checked in Python before display",
     ],
@@ -148,7 +148,7 @@ export const services: readonly Service[] = [
     builds:
       "Vision-model extraction against a strict schema, deterministic validation in Python (arithmetic, dates, currency codes) regardless of what the model claims, per-field confidence scoring, and a human review queue with a correction audit trail.",
     evidence: [
-      "494 tests",
+      "513 tests",
       "deterministic, credential-free demo",
       "confidence-scored human review queue",
     ],
@@ -163,7 +163,7 @@ export const services: readonly Service[] = [
     builds:
       "Real-time speech in, tool-calling against a live calendar, and a database exclusion constraint that makes double-booking structurally impossible rather than merely checked for. A browser harness demonstrates the identical pipeline with no telephony credential required.",
     evidence: [
-      "1,660 tests",
+      "1,661 tests",
       "double-booking prevented at the database layer",
       "browser demo needs no telephony credential",
     ],

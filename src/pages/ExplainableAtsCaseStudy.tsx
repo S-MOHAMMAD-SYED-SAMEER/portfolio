@@ -68,9 +68,9 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "346",
+    figure: "389",
     label: "Automated tests passing",
-    detail: "315 covering the server and its scoring rules, 31 covering the dashboard.",
+    detail: "337 covering the server and its scoring rules, 52 covering the dashboard.",
   },
   {
     figure: "4",

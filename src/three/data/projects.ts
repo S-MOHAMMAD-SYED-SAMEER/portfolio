@@ -32,7 +32,7 @@ function canonical(id: CanonicalId) {
 /**
  * The measured half of `proof`, parsed out of the canonical strings.
  *
- * The portfolio stores these as `["206 tests", "16/16 eval"]`; the 3D panels
+ * The portfolio stores these as `["247 tests", "16/16 eval"]`; the 3D panels
  * want a number and a ratio. Parsing rather than re-typing means the two can
  * never disagree, and an unparseable count throws at module load instead of
  * rendering "NaN tests".
@@ -264,11 +264,10 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
     ],
     links: {
-      demo: 'https://sales-recovery-agent-j0mc.onrender.com',
-      github:
-        'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/sales-recovery-agent',
+      demo: 'https://sales-recovery-agent-krk0.onrender.com',
+      github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent',
       caseStudy:
-        'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/blob/main/sales-recovery-agent/PROJECT-1.md',
+        'https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent/blob/main/PROJECT-1.md',
     },
     access: { kind: 'open' },
   },
@@ -316,8 +315,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     ],
     links: {
       demo: 'https://inbox-crm-agent.onrender.com',
-      github:
-        'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/inbox-crm-agent',
+      github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/inbox-crm-agent',
       caseStudy: null,
     },
     // Open, like P1: the deployed dashboard serves a read-only window onto the
@@ -369,8 +367,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     ],
     links: {
       demo: 'https://explainable-ats.onrender.com',
-      github:
-        'https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation/tree/main/explainable-ats',
+      github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/explainable-ats',
       caseStudy: null,
     },
     // Open, like P1 and P2. The deployment serves an allow-listed set of read

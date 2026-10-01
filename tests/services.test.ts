@@ -140,16 +140,16 @@ test('no project is presented as unfinished, because none is', () => {
 })
 
 test('the verified proof figures are unchanged', () => {
-  // These are reproduced by running each project's own suite — p1–p3 in
-  // this monorepo, p4–p6 in their own standalone repository. They are the
+  // These are reproduced by running each project's own suite, in its own
+  // standalone repository — p1–p6 all now have one. They are the
   // portfolio's load-bearing claims, so they are pinned here: changing one
   // should require changing this line and saying why.
   const expected: Record<ProjectId, string[]> = {
-    p1: ['206 tests', '16/16 eval'],
+    p1: ['247 tests', '16/16 eval'],
     p2: ['895 tests', '10/10 eval'],
-    p3: ['346 tests', 'deterministic scoring'],
-    p4: ['88 tests', 'deterministic, credential-free demo'],
-    p5: ['477 passing / 478 collected', 'deterministic, credential-free demo'],
+    p3: ['389 tests', 'deterministic scoring'],
+    p4: ['1,135/1,139 tests passing (CI)', 'deterministic, credential-free demo'],
+    p5: ['513/513 tests', 'deterministic, credential-free demo'],
     p6: ['1,661 tests'],
   }
 

@@ -97,7 +97,7 @@ index.html, 3d.html, case-study-*.html, demo-*.html   multi-page entry points
 - **Multi-page Vite build.** Every page above is a real, separately-built static entry point rather than a client-side route, so each has a genuine URL with no router or rewrite rule required.
 - **Deterministic demo presentation.** The three interactive demos run entirely client-side over fixed, invented data, deliberately kept separate from the deployed production applications they describe.
 - **Isolated 3D experience.** The 3D code path is self-contained by design — its own data and component tree, reachable only from `3d.html` — so the cost of Three.js and React Three Fiber is never paid by a visitor reading a case study.
-- **Single source of project data.** Project facts (status, links, proof points) live once in `src/data/projects.ts` and are read by the homepage cards, the case studies, and the demo pages alike, rather than being duplicated across each.
+- **Project facts live in `src/data/projects.ts`.** The homepage cards, case studies, and demo pages all read from it rather than restating facts individually. The embedded 3D experience (`/3d.html`) is the one exception: it reads its own, separate registry at `src/three/data/projects.ts`, covering only the three projects (Sales Recovery, Inbox-to-CRM, Explainable ATS) that have an interactive demo — keeping the two in sync is a manual step, not an enforced invariant.
 
 ## Demo Disclosure
 

@@ -8,12 +8,16 @@
  * has no other job, so nothing else can move it.
  */
 /**
- * The repository. One monorepo holds all three projects and this portfolio, so
- * the same URL was previously written into each project entry and again into
- * the site footer — four copies of one fact. Exported because the footer's
- * "GitHub" link is the same destination, not a different one.
+ * This portfolio site's own repository.
+ *
+ * Each of the six projects now links to its own standalone repository via
+ * `repoHref` below — they were previously split out of a shared monorepo
+ * that also held this portfolio, which is what `REPO_URL` used to point at.
+ * It still exists only because the footer's "GitHub repository" link needs
+ * one fixed destination, and the most accurate one left for a link with no
+ * associated project is this site's own source.
  */
-export const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/ai-business-automation";
+export const REPO_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER/portfolio";
 
 export type ProjectId = "p1" | "p2" | "p3" | "p4" | "p5" | "p6";
 
@@ -111,15 +115,15 @@ export const projects: Project[] = [
     status: "Live",
     caseStudyHref: "/case-study-sales-recovery.html",
     interactiveDemoHref: "/demo-sales-recovery.html",
-    demoHref: "https://sales-recovery-agent-j0mc.onrender.com",
-    repoHref: REPO_URL,
+    demoHref: "https://sales-recovery-agent-krk0.onrender.com",
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent",
     screenshot: {
       src: "/images/p1-grounded-answer.png",
       width: 942,
       height: 872,
       alt: "The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying.",
     },
-    proof: ["206 tests", "16/16 eval"],
+    proof: ["247 tests", "16/16 eval"],
     demoNote:
       "The production demo is open to anyone. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
@@ -140,7 +144,7 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-inbox-crm.html",
     interactiveDemoHref: "/demo-inbox-crm.html",
     demoHref: "https://inbox-crm-agent.onrender.com",
-    repoHref: REPO_URL,
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/inbox-crm-agent",
     screenshot: {
       src: "/images/p2-inbox-full-workflow.png",
       width: 1415,
@@ -171,14 +175,14 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-explainable-ats.html",
     interactiveDemoHref: "/demo-explainable-ats.html",
     demoHref: "https://explainable-ats.onrender.com",
-    repoHref: REPO_URL,
+    repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/explainable-ats",
     screenshot: {
       src: "/images/p3-candidate-ranking.png",
       width: 1900,
       height: 3005,
       alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
     },
-    proof: ["346 tests", "deterministic scoring"],
+    proof: ["389 tests", "deterministic scoring"],
     demoNote:
       "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to record a decision. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
@@ -203,7 +207,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-knowledgeos.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/knowledgeos",
-    proof: ["88 tests", "deterministic, credential-free demo"],
+    proof: ["1,135/1,139 tests passing (CI)", "deterministic, credential-free demo"],
     featured: true,
   },
   {
@@ -221,7 +225,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-docintel.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
-    proof: ["477 passing / 478 collected", "deterministic, credential-free demo"],
+    proof: ["513/513 tests", "deterministic, credential-free demo"],
     featured: true,
   },
   {

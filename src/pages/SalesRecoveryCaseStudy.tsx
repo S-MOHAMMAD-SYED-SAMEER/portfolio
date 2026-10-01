@@ -24,9 +24,9 @@ import Section from "../components/Section";
  * the committed lockfile (P7A.1) — not from the repository's own
  * documentation alone. Where a figure describes a mock-mode result, it says
  * so; the documented real-Gemini result is named as a historical claim,
- * not re-presented as independently verified. The hosted demo's current
- * live status could not be independently confirmed and is not asserted
- * here either way.
+ * not re-presented as independently verified. The hosted demo's live
+ * status was independently verified during the portfolio audit: its
+ * health endpoint returned 200 at the URL now linked below.
  */
 const PROJECT = projectById("p1");
 const DEMO_URL = requiredLink(PROJECT, "demoHref");
@@ -41,7 +41,7 @@ const STACK = [
   { name: "Local embeddings (Xenova/all-MiniLM-L6-v2)", role: "Runs in-process for RAG — no embeddings API call" },
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
   { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/index.html) — no framework, no build step" },
-  { name: "Node's built-in test runner (node --test)", role: "The 206-test automated suite" },
+  { name: "Node's built-in test runner (node --test)", role: "The 247-test automated suite" },
   { name: "Render", role: "Hosting for the documented deployment — see Production boundary" },
 ];
 
@@ -54,10 +54,10 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "206 / 206",
+    figure: "247 / 247",
     label: "Automated tests passing",
     detail:
-      "Full suite, freshly run with dependencies installed from the committed lockfile — 18 files, zero failures, zero skips.",
+      "Full suite, freshly run with dependencies installed from the committed lockfile — 21 files, zero failures, zero skips.",
   },
   {
     figure: "16 / 16",
@@ -538,7 +538,7 @@ export default function SalesRecoveryCaseStudy() {
             days&rdquo;) where the expected-keyword check used a plain
             hyphen, so a fully correct answer registered as a miss. The fix
             — normalizing common Unicode dash variants before comparing — is
-            covered by its own regression test, which is part of the 206
+            covered by its own regression test, which is part of the 247
             tests verified in this audit.
           </p>
         </Section>
@@ -582,7 +582,7 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             The full agent pipeline (history, signals, tool-calling, RAG,
             guardrails, persistence), the provider abstraction across Gemini
-            and Anthropic, and the 206-test automated suite plus the
+            and Anthropic, and the 247-test automated suite plus the
             deterministic evaluation harness.
           </p>
           <p className="mt-6 max-w-3xl text-small font-semibold text-ink">
@@ -599,9 +599,10 @@ export default function SalesRecoveryCaseStudy() {
             Deployment status
           </p>
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
-            A hosted Render URL is documented in the project, but its
-            current live status could not be independently confirmed during
-            this audit.
+            The hosted Render URL's live status was independently verified
+            during the portfolio audit — its health endpoint returned 200.
+            That is a liveness check, not a claim about production scale,
+            uptime guarantees, or real customer traffic.
           </p>
         </Section>
 
@@ -629,9 +630,9 @@ export default function SalesRecoveryCaseStudy() {
                   "The guardrail fallback and the agent's own language say a person will help — no tool or mechanism actually connects one.",
               },
               {
-                title: "Deployment status unresolved",
+                title: "Live, but a liveness check only",
                 detail:
-                  "A hosted Render URL is documented; current live availability was not independently confirmed for this case study.",
+                  "The hosted Render URL's health endpoint was independently verified to return 200 during the portfolio audit. That confirms the deployment is up — not production scale, uptime guarantees, or real customer traffic.",
               },
               {
                 title: "Mock evaluation is not live-model evaluation",

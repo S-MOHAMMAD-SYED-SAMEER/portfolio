@@ -30,7 +30,7 @@ const STACK = [
   { name: "Anthropic SDK", role: "Vision extraction, behind a provider interface" },
   { name: "pypdfium2 + Pillow", role: "Page rendering" },
   { name: "Docker + Compose", role: "Demo and deployment packaging" },
-  { name: "pytest", role: "478 tests collected, an autouse guard against real API calls" },
+  { name: "pytest", role: "513 tests collected, an autouse guard against real API calls" },
 ];
 
 /**
@@ -40,16 +40,16 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "477",
+    figure: "513",
     label: "Tests passing",
     detail:
-      "478 collected; one known environment-specific failure (tests/test_eval_cli.py::test_json_output_is_machine_readable — a log/capture interleaving issue, not an extraction-quality defect).",
+      "513 collected, 513 pass. A previously-reported environment-specific flake (tests/test_eval_cli.py::test_json_output_is_machine_readable — a log/capture interleaving issue, not an extraction-quality defect) did not reproduce in the most recently verified run.",
   },
   {
-    figure: "260 / 218",
+    figure: "278 / 235",
     label: "No-PostgreSQL run",
     detail:
-      "260 pass, 218 skip — tests needing a database skip cleanly rather than failing.",
+      "278 pass, 235 skip — 513 collected either way; tests needing a database skip cleanly rather than failing.",
   },
   {
     figure: "6",
