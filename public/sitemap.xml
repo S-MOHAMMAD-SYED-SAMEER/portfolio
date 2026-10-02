@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  The nine public pages, and nothing else.
+  The fourteen public pages, and nothing else.
 
   No <lastmod>: the honest value is the deployment date, which this file has no
   way to know, and a wrong one teaches a crawler to distrust the rest. No
@@ -13,30 +13,45 @@
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/home.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/home.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/3d.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/3d.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/case-study-sales-recovery.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/projects.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/case-study-inbox-crm.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/services.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/case-study-explainable-ats.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-sales-recovery.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/demo-sales-recovery.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-inbox-crm.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/demo-inbox-crm.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-explainable-ats.html</loc>
   </url>
   <url>
-    <loc>https://porfolio-sigma-woad.vercel.app/demo-explainable-ats.html</loc>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-knowledgeos.html</loc>
+  </url>
+  <url>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-docintel.html</loc>
+  </url>
+  <url>
+    <loc>https://portfolio-azure-six-79.vercel.app/case-study-voicedesk.html</loc>
+  </url>
+  <url>
+    <loc>https://portfolio-azure-six-79.vercel.app/demo-sales-recovery.html</loc>
+  </url>
+  <url>
+    <loc>https://portfolio-azure-six-79.vercel.app/demo-inbox-crm.html</loc>
+  </url>
+  <url>
+    <loc>https://portfolio-azure-six-79.vercel.app/demo-explainable-ats.html</loc>
   </url>
 </urlset>

@@ -78,8 +78,8 @@ export default function VoiceDeskCaseStudy() {
       <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-small font-semibold text-ink">
-            ← AI Business Automation
+          <a href="/projects.html" className="text-small font-semibold text-ink">
+            ← All projects
           </a>
           <div className="flex items-center gap-3">
             <ThemeToggle />
@@ -523,16 +523,6 @@ export default function VoiceDeskCaseStudy() {
               </div>
             ))}
           </div>
-        </Section>
-
-        {/* 13. SCREENSHOTS */}
-        <Section eyebrow="The product" title="Seeing it work">
-          <p className="max-w-3xl text-body text-ink-muted">
-            No screenshots exist yet. Future evidence targets: the
-            /harness page mid-conversation, a check_availability →
-            book_appointment exchange, the evaluation CLI&apos;s summary
-            output, and the /ready endpoint&apos;s response.
-          </p>
         </Section>
 
         {/* 14. CLOSING CTA */}

@@ -6,4 +6,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://porfolio-sigma-woad.vercel.app/sitemap.xml
+Sitemap: https://portfolio-azure-six-79.vercel.app/sitemap.xml

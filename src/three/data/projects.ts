@@ -22,7 +22,14 @@ function canonical(id: CanonicalId) {
     status: (project.demoHref === undefined ? 'demo-pending' : 'live') as ProjectStatus,
     links: {
       demo: project.demoHref ?? null,
-      github: REPO_URL,
+      // Each project's own repository, not this portfolio's. This used to
+      // hardcode REPO_URL (the portfolio repo) for every project, so all
+      // three GitHub buttons here opened the wrong source — a visitor
+      // looking at Sales Recovery's panel landed on the portfolio's own
+      // README. `repoHref` is the per-project field `src/data/projects.ts`
+      // already carries correctly; REPO_URL remains only as the fallback
+      // for a project that has none.
+      github: project.repoHref ?? REPO_URL,
       caseStudy: project.caseStudyHref ?? null,
     },
     interactiveDemo: project.interactiveDemoHref !== undefined,

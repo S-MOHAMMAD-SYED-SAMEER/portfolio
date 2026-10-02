@@ -13,7 +13,10 @@ import { projects } from "../data/projects";
 // so a figure cannot drift out of step with the card that shows it. The counts
 // themselves come from `npm test` in each project's own folder.
 
-const selected = projects.filter((project) => project.featured);
+// All six, not `projects.filter((p) => p.featured)`: `featured` now means
+// "shown in full in the Projects section grid", a home-page display concern
+// unrelated to this strip's own job of naming every system that was built.
+const selected = projects;
 
 /** The first proof entry is the test count; the rest belong on the card. */
 function testCount(proof: string[] | undefined): string {

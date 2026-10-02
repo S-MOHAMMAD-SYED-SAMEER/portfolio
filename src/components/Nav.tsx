@@ -4,8 +4,11 @@ import ThemeToggle from "./ThemeToggle";
 const links = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Capabilities" },
-  { href: "#projects", label: "Projects" },
-  { href: "#services", label: "Services" },
+  // These two used to scroll within this page. They now point at the full
+  // catalogs: the homepage only shows four of six projects and four of
+  // seven services, so the nav's own link should land where all of them are.
+  { href: "/projects.html", label: "Projects" },
+  { href: "/services.html", label: "Services" },
 ];
 
 export default function Nav() {

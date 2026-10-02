@@ -90,8 +90,8 @@ export default function SalesRecoveryCaseStudy() {
             more here than anywhere else. */}
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-small font-semibold text-ink">
-            ← AI Business Automation
+          <a href="/projects.html" className="text-small font-semibold text-ink">
+            ← All projects
           </a>
           <div className="flex items-center gap-3">
             <ThemeToggle />

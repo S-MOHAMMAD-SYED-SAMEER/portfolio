@@ -3,7 +3,6 @@ import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
-import Screenshot from "../components/Screenshot";
 import DocIntelFlow from "../components/caseStudy/DocIntelFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 import Section from "../components/Section";
@@ -68,8 +67,8 @@ export default function DocIntelCaseStudy() {
       <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-small font-semibold text-ink">
-            ← AI Business Automation
+          <a href="/projects.html" className="text-small font-semibold text-ink">
+            ← All projects
           </a>
           <div className="flex items-center gap-3">
             <ThemeToggle />
@@ -126,15 +125,6 @@ export default function DocIntelCaseStudy() {
             deterministic, credential-free demo runs the real pipeline
             locally — no API key, no network call.
           </p>
-          <div className="mt-10">
-            <Screenshot
-              src="/images/p5-review-queue.png"
-              width={1600}
-              height={900}
-              alt="The review queue, once captured."
-              caption="Screenshots are added in a later milestone."
-            />
-          </div>
         </section>
 
         {/* 2. PROBLEM */}
@@ -468,17 +458,6 @@ export default function DocIntelCaseStudy() {
           </div>
         </Section>
 
-        {/* 13. SCREENSHOTS */}
-        <Section eyebrow="The product" title="Seeing it work">
-          <p className="max-w-3xl text-body text-ink-muted">
-            Screenshots of the review queue and the interactive API docs are
-            added in a later milestone. The verified target routes are
-            /review and /docs. Because most of the workflow is API-driven
-            rather than page-driven, JSON responses — an export, a
-            review-queue listing — may also be captured later as supporting
-            evidence alongside the two pages.
-          </p>
-        </Section>
 
         {/* 14. CLOSING CTA */}
         <section className="mx-auto max-w-5xl px-6 pb-20 pt-4">

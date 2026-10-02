@@ -226,7 +226,7 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-docintel.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
     proof: ["513/513 tests", "deterministic, credential-free demo"],
-    featured: true,
+    featured: false,
   },
   {
     id: "p6",
@@ -244,7 +244,7 @@ export const projects: Project[] = [
     caseStudyHref: "/case-study-voicedesk.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk",
     proof: ["1,661 tests"],
-    featured: true,
+    featured: false,
   },
 ];
 

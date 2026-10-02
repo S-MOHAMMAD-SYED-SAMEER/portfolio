@@ -112,17 +112,16 @@ test('the case study a service points at is the one the project owns', () => {
 })
 
 test('no project is presented as unfinished, because none is', () => {
-  // The homepage renders an "In development" group for any project that is not
-  // featured. Every project is currently complete and featured, so that group
-  // is empty — and it must stay empty rather than being filled to populate a
-  // filter. If this ever fails, the data changed and the claim should be
-  // checked before the UI is.
+  // No project's status is "In development" — every one of the six is either
+  // deployed ("Live") or complete and source-available ("Built"). If this
+  // ever fails, the data changed and the claim should be checked before the
+  // UI is.
   //
-  // "Live" is a stricter claim than "featured": it additionally asserts a
-  // public deployment exists. p1–p3 still make that claim; p4–p6 do not —
-  // there is no public deployment to claim — so their status is "Built",
-  // never "In development", and Projects.tsx already renders that honestly
-  // (no "· Deployed" badge, no demo button).
+  // "Live" is a stricter claim than "Built": it additionally asserts a public
+  // deployment exists. p1–p3 make that claim; p4–p6 do not — there is no
+  // public deployment to claim — so their status is "Built", never "In
+  // development", and Projects.tsx already renders that honestly (no
+  // "· Deployed" badge, no demo button).
   const deployed: ProjectId[] = ['p1', 'p2', 'p3']
 
   for (const project of projects) {
@@ -135,7 +134,24 @@ test('no project is presented as unfinished, because none is', () => {
         `project "${project.id}" is presented as unfinished`,
       )
     }
-    assert.equal(project.featured, true, `project "${project.id}" is no longer featured`)
+  }
+})
+
+test('featured marks exactly the four projects the homepage grid shows in full', () => {
+  // `featured` is a display decision, not a finishedness claim: the homepage
+  // grid shows these four in full and summarises the rest in a "+N more"
+  // line linking to the full catalog at /projects.html, where every project
+  // — featured or not — renders with the same card and the same links. A
+  // project being unfeatured here says nothing about whether it is finished;
+  // the test above already covers that separately.
+  const featuredIds: ProjectId[] = ['p1', 'p2', 'p3', 'p4']
+
+  for (const project of projects) {
+    assert.equal(
+      project.featured,
+      featuredIds.includes(project.id),
+      `project "${project.id}" has the wrong featured value`,
+    )
   }
 })
 

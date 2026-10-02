@@ -48,12 +48,12 @@ import { GITHUB_PROFILE_URL, LINKEDIN_URL } from './src/data/contact.ts'
  * The deployed origin. No trailing slash — every route below supplies its own
  * leading one, which is what keeps `//` out of the result.
  *
- * Spelled exactly as the deployment is. The subdomain reads "porfolio", and
- * that is deliberate: it is the host that actually serves the site, and a
- * canonical tag pointing at a corrected-but-nonexistent domain would be worse
- * than none at all.
+ * Points at the current production deployment. The previous value,
+ * `porfolio-sigma-woad.vercel.app`, is a different, still-live Vercel
+ * deployment that this change does not touch and does not redirect — it is
+ * simply no longer the one this site's own metadata claims to be.
  */
-const SITE_ORIGIN = 'https://porfolio-sigma-woad.vercel.app'
+const SITE_ORIGIN = 'https://portfolio-azure-six-79.vercel.app'
 
 /** One card for the whole site: identity, not per-page artwork. */
 const OG_IMAGE = `${SITE_ORIGIN}/og-image.png`
@@ -350,6 +350,11 @@ export default defineConfig({
         caseStudyVoiceDesk: fileURLToPath(
           new URL('./case-study-voicedesk.html', import.meta.url),
         ),
+        // The full catalogs behind the homepage's featured subsets: four
+        // projects and four services there link out to all six and all seven
+        // here.
+        projects: fileURLToPath(new URL('./projects.html', import.meta.url)),
+        services: fileURLToPath(new URL('./services.html', import.meta.url)),
         // The interactive portfolio demos. Real static pages like the case
         // studies, so each has a genuine URL and no SPA rewrite is required.
         demoSalesRecovery: fileURLToPath(new URL('./demo-sales-recovery.html', import.meta.url)),

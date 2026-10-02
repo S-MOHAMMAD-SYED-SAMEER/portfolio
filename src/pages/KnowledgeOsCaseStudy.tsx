@@ -3,7 +3,6 @@ import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
-import Screenshot from "../components/Screenshot";
 import KnowledgeOsFlow from "../components/caseStudy/KnowledgeOsFlow";
 import Callout from "../components/caseStudy/Callout";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
@@ -74,8 +73,8 @@ export default function KnowledgeOsCaseStudy() {
       <header className="sticky top-0 z-50 border-b border-line bg-surface/80 backdrop-blur">
         <SkipLink />
         <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <a href="/#projects" className="text-small font-semibold text-ink">
-            ← AI Business Automation
+          <a href="/projects.html" className="text-small font-semibold text-ink">
+            ← All projects
           </a>
           <div className="flex items-center gap-3">
             <ThemeToggle />
@@ -129,15 +128,6 @@ export default function KnowledgeOsCaseStudy() {
             deterministic, credential-free demo runs the real query pipeline
             locally — no API key, no network call.
           </p>
-          <div className="mt-10">
-            <Screenshot
-              src="/images/p4-query-answer.png"
-              width={1600}
-              height={900}
-              alt="The query and answer view, once captured."
-              caption="Screenshots are added in a later milestone."
-            />
-          </div>
         </section>
 
         {/* 2. PROBLEM */}
@@ -448,17 +438,6 @@ export default function KnowledgeOsCaseStudy() {
               </div>
             ))}
           </div>
-        </Section>
-
-        {/* 13. SCREENSHOTS */}
-        <Section eyebrow="The product" title="Seeing it work">
-          <p className="max-w-3xl text-body text-ink-muted">
-            Screenshots of the query box, an answer with its citations, the
-            document list, and the evaluation-results page are added in a
-            later milestone. The verified target routes are the UI&apos;s
-            own: /ui/, /ui/documents/…, /ui/query, /ui/answers/… and
-            /ui/evals.
-          </p>
         </Section>
 
         {/* 14. CLOSING CTA */}
