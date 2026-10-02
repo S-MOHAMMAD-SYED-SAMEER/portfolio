@@ -39,7 +39,7 @@ export default function Hero() {
           unchanged, so the desktop hero is exactly as reviewed. */}
       <div className="mx-auto max-w-5xl px-6 pb-14 pt-14 sm:pb-24 sm:pt-28">
         <p className="text-eyebrow uppercase text-brand">
-          AI Automation Engineer
+          AI & Automation Engineer
         </p>
         <h1 className="mt-4 max-w-3xl text-display-sm text-balance text-ink sm:mt-5 sm:text-display">
           Recover lost leads and cut manual work with AI systems built for

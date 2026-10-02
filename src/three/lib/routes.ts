@@ -10,8 +10,13 @@ import { projectById, type ProjectId } from '../../data/projects'
  * moves moves in one file.
  */
 export const ROUTES = {
+  // The 2D gateway, where a visitor chooses a mode. Unused elsewhere in this
+  // module, but kept as the literal, accurate answer to "where does `/`
+  // go" now that it is the gateway rather than the professional portfolio.
   landing: '/',
-  normal: '/',
+  // The professional portfolio itself — moved off `/` and onto its own page
+  // once `/` became the gateway above.
+  normal: '/home.html',
   experience: '/3d.html',
 } as const
 

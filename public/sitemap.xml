@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  The eight public pages, and nothing else.
+  The nine public pages, and nothing else.
 
   No <lastmod>: the honest value is the deployment date, which this file has no
   way to know, and a wrong one teaches a crawler to distrust the rest. No
@@ -14,6 +14,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://porfolio-sigma-woad.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://porfolio-sigma-woad.vercel.app/home.html</loc>
   </url>
   <url>
     <loc>https://porfolio-sigma-woad.vercel.app/3d.html</loc>

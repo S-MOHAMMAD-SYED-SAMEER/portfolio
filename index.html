@@ -1,30 +1,329 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="S Mohammad Syed Sameer, AI Automation Engineer — recover lost leads, speed up response, cut manual work with AI systems built for e-commerce and D2C stores."
-    />
-    <title>S Mohammad Syed Sameer — AI Automation Engineer</title>
-    <script>
-      // Sets the theme before first paint so no page flashes the wrong one.
-      // Dark is the default; only a stored choice overrides it. Deliberately
-      // does not read prefers-color-scheme.
-      (function () {
-        try {
-          var t = localStorage.getItem('theme');
-          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
-        } catch (e) {
-          document.documentElement.dataset.theme = 'dark';
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S Mohammad Syed Sameer — AI &amp; Automation Engineer</title>
+<meta name="description" content="S Mohammad Syed Sameer, AI &amp; Automation Engineer. Choose how to explore the portfolio: the professional page or the 3D experience.">
+<link rel="canonical" href="https://porfolio-sigma-woad.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="S Mohammad Syed Sameer — AI &amp; Automation Engineer">
+<meta property="og:description" content="AI systems for customer support, inboxes and hiring — built, tested and documented.">
+<meta property="og:image" content="https://porfolio-sigma-woad.vercel.app/og-image.png">
+<meta property="og:url" content="https://porfolio-sigma-woad.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<script>
+  /* ---- Edit these if your paths change ---- */
+  window.GATE = {
+    pro: "/home.html",   // the normal / professional portfolio
+    three: "/3d.html"    // the 3D experience
+  };
+  // Old deep links such as /#projects or /#contact skip this page
+  // and go straight to the matching section of the professional page.
+  if (location.hash.length > 1) location.replace(window.GATE.pro + location.hash);
+</script>
+
+<style>
+  :root {
+    --bg: #0a0b10;
+    --surface: #11131a;
+    --surface-2: #161923;
+    --border: #242833;
+    --text: #e9ebf1;
+    --muted: #9ba1ae;
+    --indigo: #6366f1;
+    --indigo-soft: rgba(99, 102, 241, .16);
+    --teal: #5ee0c4;
+    --teal-soft: rgba(94, 224, 196, .14);
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 2D background: dot grid + two glows that react to the hovered choice */
+  .bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .bg::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 80%);
+  }
+  .glow { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(90px); opacity: .35; transition: opacity .5s ease, transform .8s ease; }
+  .glow.indigo { background: var(--indigo); left: -25vmax; top: -10vmax; }
+  .glow.teal   { background: var(--teal);   right: -28vmax; bottom: -25vmax; opacity: .18; }
+  body.hover-pro   .glow.indigo { opacity: .5;  transform: translateX(4vmax); }
+  body.hover-pro   .glow.teal   { opacity: .08; }
+  body.hover-three .glow.teal   { opacity: .38; transform: translateX(-4vmax); }
+  body.hover-three .glow.indigo { opacity: .15; }
+
+  main {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    max-width: 980px; margin: 0 auto;
+    padding: 64px 24px 40px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .hello {
+    margin: 0 0 18px;
+    font-size: 14px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hello .wave { display: inline-block; transform-origin: 70% 70%; animation: wave 2.4s ease-in-out 0.6s 2; }
+  @keyframes wave { 0%,60%,100%{transform:rotate(0)} 10%,30%{transform:rotate(14deg)} 20%{transform:rotate(-8deg)} 40%{transform:rotate(-4deg)} 50%{transform:rotate(10deg)} }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(32px, 5.4vw, 58px);
+    line-height: 1.08; letter-spacing: -0.025em; font-weight: 750;
+  }
+  h1 .name {
+    background: linear-gradient(90deg, #fff 0%, #c7c9ff 55%, #a5f3e4 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-right: .06em; margin-right: -.06em; /* stops the last letter being clipped */
+  }
+  .lede {
+    margin: 20px 0 40px; max-width: 640px;
+    font-size: clamp(16px, 1.9vw, 19px); line-height: 1.6; color: var(--muted);
+  }
+  .lede strong { color: var(--text); font-weight: 600; }
+  .lede .ask { display: block; margin-top: 14px; color: var(--text); }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .card {
+    position: relative; display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .card:hover, .card:focus-visible { transform: translateY(-4px); }
+  .card.pro:hover,   .card.pro:focus-visible   { border-color: var(--indigo); box-shadow: 0 18px 50px -20px var(--indigo); }
+  .card.three:hover, .card.three:focus-visible { border-color: var(--teal);   box-shadow: 0 18px 50px -20px var(--teal); }
+  .card:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+
+  .art { height: 168px; border-bottom: 1px solid var(--border); position: relative; }
+  .card.pro .art   { background: radial-gradient(120% 90% at 30% 0%, var(--indigo-soft), transparent 70%); }
+  .card.three .art { background: radial-gradient(120% 90% at 50% 40%, var(--teal-soft), transparent 70%); }
+  .art svg { width: 100%; height: 100%; display: block; }
+
+  /* hover motion inside the previews */
+  .wire-cards rect { transition: transform .35s ease; }
+  .card.pro:hover .wire-cards rect:nth-child(1) { transform: translateY(-4px); }
+  .card.pro:hover .wire-cards rect:nth-child(2) { transform: translateY(-6px); transition-delay: .05s; }
+  .card.pro:hover .wire-cards rect:nth-child(3) { transform: translateY(-4px); transition-delay: .1s; }
+  .door-glow { transition: opacity .4s ease; opacity: .55; }
+  .card.three:hover .door-glow { opacity: 1; }
+  .walker { transition: transform .9s ease; }
+  .card.three:hover .walker { transform: translateY(-14px) scale(.8); transform-origin: 160px 128px; }
+
+  .body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .tag {
+    align-self: flex-start;
+    font-size: 12px; font-weight: 600; letter-spacing: .02em;
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .pro .tag   { color: #c7c9ff; background: var(--indigo-soft); }
+  .three .tag { color: #a5f3e4; background: var(--teal-soft); }
+  .card h2 { margin: 6px 0 0; font-size: 24px; letter-spacing: -0.01em; }
+  .card p  { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15.5px; }
+  .go {
+    margin-top: auto; padding-top: 14px;
+    font-weight: 650; font-size: 16px; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .pro .go   { color: #b4b6ff; }
+  .three .go { color: var(--teal); }
+  .go .arrow { transition: transform .25s ease; }
+  .card:hover .go .arrow { transform: translateX(5px); }
+
+  kbd {
+    position: absolute; top: 14px; right: 14px;
+    font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--muted); padding: 5px 7px; border-radius: 6px;
+    border: 1px solid var(--border); background: rgba(10,11,16,.7);
+  }
+  .last {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 11.5px; color: var(--text); padding: 4px 9px; border-radius: 999px;
+    background: rgba(10,11,16,.75); border: 1px solid var(--border);
+    display: none;
+  }
+  .card.was-last .last { display: inline-block; }
+
+  .foot {
+    margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px 24px;
+    justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 14.5px;
+  }
+  .foot a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+  .foot a:hover { border-color: var(--text); }
+  .hint { opacity: .8; }
+
+  /* entrance animation */
+  .rise { opacity: 0; transform: translateY(12px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  .d1 { animation-delay: .05s } .d2 { animation-delay: .18s } .d3 { animation-delay: .32s }
+  .d4 { animation-delay: .46s } .d5 { animation-delay: .58s } .d6 { animation-delay: .72s }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* phones and small tablets */
+  @media (max-width: 760px) {
+    main { padding: 40px 16px 32px; justify-content: flex-start; }
+    .choices { grid-template-columns: 1fr; gap: 16px; }
+    .art { height: 130px; }
+    kbd, .hint { display: none; }
+    .lede { margin-bottom: 28px; }
+  }
+  @media (hover: none) { kbd, .hint { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rise { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body>
+<div class="bg" aria-hidden="true"><div class="glow indigo"></div><div class="glow teal"></div></div>
+
+<main>
+  <p class="hello rise d1"><span class="wave" aria-hidden="true">👋</span> Hello — welcome</p>
+
+  <h1 class="rise d2">I'm <span class="name">S Mohammad Syed Sameer</span>,<br>an AI &amp; Automation Engineer.</h1>
+
+  <p class="lede rise d3">
+    I build <strong>AI agents, GenAI applications, and intelligent automation systems</strong> —
+    designed, tested, and documented for real-world use.
+    <span class="ask">How would you like to explore?</span>
+  </p>
+
+  <div class="choices">
+    <!-- PROFESSIONAL -->
+    <a class="card pro rise d4" id="choice-pro" data-choice="pro" href="/home.html">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 320 168" preserveAspectRatio="xMidYMid meet">
+          <rect x="56" y="22" width="208" height="128" rx="10" fill="#0d0f15" stroke="#2a2e3a"/>
+          <rect x="56" y="22" width="208" height="16" rx="10" fill="#151823"/>
+          <circle cx="68" cy="30" r="2.5" fill="#3a3f4d"/><circle cx="77" cy="30" r="2.5" fill="#3a3f4d"/><circle cx="86" cy="30" r="2.5" fill="#3a3f4d"/>
+          <rect x="72" y="50" width="54" height="5" rx="2.5" fill="#6366f1" opacity=".8"/>
+          <rect x="72" y="62" width="150" height="9" rx="4" fill="#e9ebf1" opacity=".85"/>
+          <rect x="72" y="76" width="118" height="9" rx="4" fill="#e9ebf1" opacity=".85"/>
+          <rect x="72" y="92" width="44" height="12" rx="6" fill="#6366f1"/>
+          <rect x="122" y="92" width="40" height="12" rx="6" fill="none" stroke="#3a3f4d"/>
+          <g class="wire-cards">
+            <rect x="72"  y="114" width="54" height="26" rx="5" fill="#181b26" stroke="#2a2e3a"/>
+            <rect x="133" y="114" width="54" height="26" rx="5" fill="#181b26" stroke="#2a2e3a"/>
+            <rect x="194" y="114" width="54" height="26" rx="5" fill="#181b26" stroke="#2a2e3a"/>
+          </g>
+        </svg>
+      </div>
+      <span class="last">Last visit</span>
+      <kbd>1</kbd>
+      <div class="body">
+        <span class="tag">For recruiters &amp; clients</span>
+        <h2>Professional Portfolio</h2>
+        <p>Explore my AI projects, case studies, live demos, skills, and services in a focused professional portfolio.</p>
+        <span class="go">View professional portfolio <span class="arrow" aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    <!-- 3D -->
+    <a class="card three rise d5" id="choice-three" data-choice="three" href="/3d.html">
+      <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 320 168" preserveAspectRatio="xMidYMid meet">
+          <!-- corridor frames converging on a lit door -->
+          <g fill="none" stroke="#2c3240">
+            <rect x="40"  y="10" width="240" height="150"/>
+            <rect x="80"  y="30" width="160" height="104" stroke="#283040"/>
+            <rect x="112" y="46" width="96"  height="70"  stroke="#252c3a"/>
+            <rect x="134" y="57" width="52"  height="44"  stroke="#232a37"/>
+          </g>
+          <g stroke="#5ee0c4" stroke-opacity=".35">
+            <line x1="40" y1="160" x2="134" y2="101"/>
+            <line x1="280" y1="160" x2="186" y2="101"/>
+            <line x1="160" y1="160" x2="160" y2="101" stroke-dasharray="5 6"/>
+          </g>
+          <defs>
+            <radialGradient id="dg" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#5ee0c4" stop-opacity=".9"/>
+              <stop offset="1" stop-color="#5ee0c4" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle class="door-glow" cx="160" cy="80" r="34" fill="url(#dg)"/>
+          <rect x="150" y="64" width="20" height="37" rx="1.5" fill="#d9fff6" opacity=".9"/>
+          <!-- the walker -->
+          <g class="walker">
+            <circle cx="160" cy="118" r="4" fill="#e9ebf1"/>
+            <rect x="156.5" y="123" width="7" height="13" rx="3" fill="#e9ebf1"/>
+          </g>
+        </svg>
+      </div>
+      <span class="last">Last visit</span>
+      <kbd>2</kbd>
+      <div class="body">
+        <span class="tag">Best on a larger screen</span>
+        <h2>3D Portfolio Experience</h2>
+        <p>Walk into a studio and explore my work one room at a time.</p>
+        <span class="go">Step inside <span class="arrow" aria-hidden="true">→</span></span>
+      </div>
+    </a>
+  </div>
+
+  <div class="foot rise d6">
+    <span>Short on time?
+      <a href="mailto:mohammadsyedsameer20@gmail.com">Email</a> ·
+      <a href="https://www.linkedin.com/in/mohammad-syed-sameer-s-a879a235a" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a href="https://github.com/S-MOHAMMAD-SYED-SAMEER" target="_blank" rel="noopener">GitHub</a>
+    </span>
+    <span class="hint">Press <b>1</b> or <b>2</b> to choose · you can switch any time</span>
+  </div>
+</main>
+
+<script>
+  (function () {
+    var G = window.GATE;
+    var pro = document.getElementById("choice-pro");
+    var three = document.getElementById("choice-three");
+    pro.href = G.pro;
+    three.href = G.three;
+
+    // Remember the last choice only to label it. Never auto-redirect,
+    // so nobody gets trapped on one version.
+    var KEY = "portfolio-entry-choice";
+    try {
+      var last = localStorage.getItem(KEY);
+      if (last === "pro") pro.classList.add("was-last");
+      if (last === "three") three.classList.add("was-last");
+    } catch (e) {}
+    [pro, three].forEach(function (el) {
+      el.addEventListener("click", function () {
+        try { localStorage.setItem(KEY, el.dataset.choice); } catch (e) {}
+      });
+      el.addEventListener("mouseenter", function () { document.body.classList.add("hover-" + el.dataset.choice); });
+      el.addEventListener("mouseleave", function () { document.body.classList.remove("hover-" + el.dataset.choice); });
+      el.addEventListener("focus", function () { document.body.classList.add("hover-" + el.dataset.choice); });
+      el.addEventListener("blur", function () { document.body.classList.remove("hover-" + el.dataset.choice); });
+    });
+
+    // Keyboard shortcuts: 1 = professional, 2 = 3D
+    document.addEventListener("keydown", function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "1") pro.click();
+      if (e.key === "2") three.click();
+    });
+  })();
+</script>
+</body>
 </html>

@@ -127,8 +127,11 @@ function structuredData(file: string, title: string, description: string): unkno
     '@type': 'Person',
     '@id': `${SITE_ORIGIN}/#person`,
     name: 'S Mohammad Syed Sameer',
-    jobTitle: 'AI Automation Engineer',
-    url: `${SITE_ORIGIN}/`,
+    jobTitle: 'AI & Automation Engineer',
+    // Points at the professional portfolio itself, not the 2D gateway at
+    // `/` — the gateway is a one-off chooser with no content of its own to
+    // be the canonical page for a person.
+    url: `${SITE_ORIGIN}/home.html`,
     // `sameAs` is how a search engine reconciles this person across the web, so
     // it takes the two profiles that are the person — the ones the Contact
     // section already links. It used to hold the monorepo URL, which is a
@@ -137,7 +140,11 @@ function structuredData(file: string, title: string, description: string): unkno
     sameAs: [GITHUB_PROFILE_URL, LINKEDIN_URL],
   }
 
-  if (file === 'index.html') {
+  // `home.html` is the professional portfolio — moved off `/` once the 2D
+  // gateway took over the site root, but still the site's substantive
+  // front door for a crawler, so it keeps the `WebSite`/`Person` graph that
+  // used to live on `index.html`.
+  if (file === 'home.html') {
     return {
       '@context': 'https://schema.org',
       '@graph': [
@@ -145,7 +152,7 @@ function structuredData(file: string, title: string, description: string): unkno
         {
           '@type': 'WebSite',
           '@id': `${SITE_ORIGIN}/#website`,
-          url: `${SITE_ORIGIN}/`,
+          url: `${SITE_ORIGIN}/home.html`,
           name: title,
           description,
           publisher: { '@id': `${SITE_ORIGIN}/#person` },
@@ -233,6 +240,15 @@ function socialMetadata(): Plugin {
       // After other plugins, so the tags land in the finished head.
       order: 'post',
       handler(html, ctx) {
+        // `index.html` is the 2D gateway — a one-off chooser page, hand-
+        // authored with its own complete canonical/OG/Twitter tags already
+        // in its source. Every other page relies on this plugin to derive
+        // those tags from its own `<title>`/description; the gateway does
+        // not, and running it through the same logic would print a second,
+        // conflicting copy of each tag rather than filling in a gap.
+        const entryFile = ctx.path.split('/').pop() || 'index.html'
+        if (entryFile === 'index.html') return html
+
         const title = read(html, /<title>([\s\S]*?)<\/title>/, '<title>')
         const description = read(
           html,
@@ -243,11 +259,11 @@ function socialMetadata(): Plugin {
         // The route this entry point becomes once built. `ctx.path` is the
         // entry's own path, so the canonical URL is the file's real address
         // rather than a hand-kept mapping that could fall out of step with
-        // `build.rollupOptions.input`. The homepage is the one special case:
-        // it is served at `/`, not at `/index.html`, and declaring the latter
-        // would point every crawler at a duplicate of the site's front door.
-        const file = ctx.path.split('/').pop() || 'index.html'
-        const canonical = `${SITE_ORIGIN}/${file === 'index.html' ? '' : file}`
+        // `build.rollupOptions.input`. `index.html` already returned above —
+        // it is the one page served at `/` rather than at its own filename,
+        // which is exactly the case this function no longer has to handle.
+        const file = entryFile
+        const canonical = `${SITE_ORIGIN}/${file}`
 
         const tags = [
           `<link rel="canonical" href="${canonical}" />`,
@@ -311,7 +327,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        // `main` is the 2D gateway at `/` — a visitor's first choice between
+        // the professional portfolio and the 3D experience. `home` is the
+        // professional portfolio itself, previously served at `/` directly.
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        home: fileURLToPath(new URL('./home.html', import.meta.url)),
         caseStudySalesRecovery: fileURLToPath(
           new URL('./case-study-sales-recovery.html', import.meta.url),
         ),
