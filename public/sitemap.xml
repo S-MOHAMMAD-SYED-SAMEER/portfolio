@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  The fourteen public pages, and nothing else.
+  The thirteen public pages, and nothing else.
 
   No <lastmod>: the honest value is the deployment date, which this file has no
   way to know, and a wrong one teaches a crawler to distrust the rest. No
@@ -17,9 +17,6 @@
   </url>
   <url>
     <loc>https://portfolio-azure-six-79.vercel.app/home.html</loc>
-  </url>
-  <url>
-    <loc>https://portfolio-azure-six-79.vercel.app/3d.html</loc>
   </url>
   <url>
     <loc>https://portfolio-azure-six-79.vercel.app/projects.html</loc>

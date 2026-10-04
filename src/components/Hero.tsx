@@ -76,12 +76,12 @@ export default function Hero() {
               below 640px, and this is the one thing on the page a client is
               unlikely to guess at.
 
-              A plain same-origin link: the page is a separate document, so
+              A plain link to the separate 3D site: it is another document, so
               there is nothing to intercept, and it works with JavaScript off.
               The arrow marks it as leaving this page, unlike the two anchors
               beside it which scroll within it. */}
           <a
-            href="/3d.html"
+            href="https://sameer-3d-portfolio-amber.vercel.app/3d"
             className="group inline-flex h-control-lg items-center gap-2 rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
           >
             Explore 3D Portfolio
