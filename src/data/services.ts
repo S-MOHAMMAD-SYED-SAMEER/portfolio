@@ -133,7 +133,7 @@ export const services: readonly Service[] = [
     builds:
       "Hybrid retrieval (full-text plus vector search) fused and reranked, generation constrained to a structured answer-and-citations contract, and every citation verified in Python against the retrieved evidence before an answer is shown.",
     evidence: [
-      "1,135/1,139 tests passing (CI)",
+      "1,135 tests · CI green (4 skipped: need model weights)",
       "deterministic, credential-free demo",
       "citations checked in Python before display",
     ],

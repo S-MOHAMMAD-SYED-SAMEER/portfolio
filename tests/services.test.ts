@@ -164,7 +164,7 @@ test('the verified proof figures are unchanged', () => {
     p1: ['247 tests', '16/16 eval'],
     p2: ['895 tests', '10/10 eval'],
     p3: ['389 tests', 'deterministic scoring'],
-    p4: ['1,135/1,139 tests passing (CI)', 'deterministic, credential-free demo'],
+    p4: ['1,135 tests · CI green (4 skipped: need model weights)', 'deterministic, credential-free demo'],
     p5: ['513/513 tests', 'deterministic, credential-free demo'],
     p6: ['1,661 tests'],
   }
