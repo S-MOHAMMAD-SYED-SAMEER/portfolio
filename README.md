@@ -106,5 +106,5 @@ The interactive project demos in this portfolio are deterministic presentation/d
 ## Links
 
 - GitHub profile: [github.com/S-MOHAMMAD-SYED-SAMEER](https://github.com/S-MOHAMMAD-SYED-SAMEER)
-- LinkedIn: [linkedin.com/in/mohammad-syed-sameer-s-a879a235a](https://www.linkedin.com/in/mohammad-syed-sameer-s-a879a235a)
+- LinkedIn: [linkedin.com/in/mohammad-syed-sameer-s](https://www.linkedin.com/in/mohammad-syed-sameer-s)
 - Email: mohammadsyedsameer20@gmail.com

@@ -143,7 +143,7 @@ export const P3_SCENARIOS: Scenario[] = [
               { label: "PostgreSQL", value: "Met", note: "Verified quote", tone: "positive" },
               { label: "Node.js / TypeScript", value: "Met", note: "Verified quote", tone: "positive" },
               { label: "Distributed systems", value: "Met", note: "Verified quote", tone: "positive" },
-              { label: "Kubernetes", value: "Not evidenced", note: "Desirable — does not block" },
+              { label: "Kubernetes", value: "Not demonstrated", note: "Desirable — does not block" },
               { label: "Mentoring", value: "Met", note: "Verified quote", tone: "positive" },
             ],
           },

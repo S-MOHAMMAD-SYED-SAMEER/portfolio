@@ -48,10 +48,9 @@ import { GITHUB_PROFILE_URL, LINKEDIN_URL } from './src/data/contact.ts'
  * The deployed origin. No trailing slash — every route below supplies its own
  * leading one, which is what keeps `//` out of the result.
  *
- * Points at the current production deployment. The previous value,
- * `porfolio-sigma-woad.vercel.app`, is a different, still-live Vercel
- * deployment that this change does not touch and does not redirect — it is
- * simply no longer the one this site's own metadata claims to be.
+ * Points at the current production deployment. An earlier deployment on a
+ * different Vercel hostname is still live; this site does not touch it or
+ * redirect it, and its own metadata no longer claims to be it.
  */
 const SITE_ORIGIN = 'https://portfolio-azure-six-79.vercel.app'
 

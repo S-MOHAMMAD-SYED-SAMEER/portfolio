@@ -53,7 +53,7 @@ const CAPABILITIES = [
   {
     title: "Keeps the decision with the recruiter",
     detail:
-      "Advance, reject or hold, each recorded with a written reason. The system produces the evidence and the ordering; a person makes the call.",
+      "Shortlist, reject or hold, each recorded with a written reason. The system produces the evidence and the ordering; a person makes the call.",
   },
 ];
 
@@ -599,7 +599,7 @@ export default function ExplainableAtsCaseStudy() {
                 someone making a decision but available to someone checking one.
               </p>
               <p>
-                The decision is recorded there too: advance, reject or hold, each
+                The decision is recorded there too: shortlist, reject or hold, each
                 requiring a written reason that stays on the record alongside the
                 full history of how the assessment was produced.
               </p>
