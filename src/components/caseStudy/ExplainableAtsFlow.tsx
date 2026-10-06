@@ -93,7 +93,7 @@ const DETERMINISTIC: Stage[] = [
     name: "Decide",
     plain: "A person makes the call, and writes down why.",
     detail:
-      "Advance, reject or hold for review — each recorded with a written reason that stays on the record. The system ranks and explains; it does not hire or reject anyone.",
+      "Shortlist, reject or hold — each recorded with a written reason that stays on the record. The system ranks and explains; it does not hire or reject anyone.",
   },
   {
     n: "9",
