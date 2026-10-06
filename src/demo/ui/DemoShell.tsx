@@ -70,10 +70,10 @@ export function DemoShell({
    *
    * Previously this was the title as a bare string, and the three links beside
    * it were three more strings passed in from the demo page — which meant every
-   * demo page restated the case-study path, the production URL and the
-   * repository that `projects.ts` already held. Taking the project itself makes
-   * those links derived rather than repeated, and there is now exactly one
-   * place where a moved deployment has to be edited.
+   * demo page restated the case-study path and the repository that
+   * `projects.ts` already held. Taking the project itself makes those links
+   * derived rather than repeated, and there is now exactly one place where a
+   * moved page has to be edited.
    *
    * What is NOT taken from here is the demo's own content: the scenarios, the
    * tagline and the disclosure below stay with the demo, because they describe

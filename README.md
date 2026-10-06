@@ -44,7 +44,7 @@ An AI phone receptionist that understands the caller, checks and books appointme
 - **Technologies:** speech-to-text/text-to-speech, telephony integration, PostgreSQL
 - **Repository:** [voicedesk](https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk)
 
-Sales Recovery, Inbox-to-CRM, and Explainable ATS each have a public deployment linked from their case-study page. KnowledgeOS, DocIntel, and VoiceDesk are complete, tested systems without a public deployment — their case studies link to the source repository and, where one exists, a credential-free demo mode documented in that project's own README.
+None of the six projects has a hosted instance. Each case study links to the project's source repository, whose README has a one-command "Run it locally" section (or, for KnowledgeOS, DocIntel and VoiceDesk, a credential-free demo mode documented in that project's own README). Sales Recovery, Inbox-to-CRM, and Explainable ATS also have an interactive in-browser demo on this site.
 
 ## Interactive Experience
 

@@ -29,7 +29,7 @@ const STACK = [
   { name: "Anthropic SDK", role: "Vision extraction, behind a provider interface" },
   { name: "pypdfium2 + Pillow", role: "Page rendering" },
   { name: "Docker + Compose", role: "Demo and deployment packaging" },
-  { name: "pytest", role: "513 tests collected, an autouse guard against real API calls" },
+  { name: "pytest", role: "521 tests collected, an autouse guard against real API calls" },
 ];
 
 /**
@@ -39,16 +39,16 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "513",
+    figure: "521",
     label: "Tests passing",
     detail:
-      "513 collected, 513 pass. A previously-reported environment-specific flake (tests/test_eval_cli.py::test_json_output_is_machine_readable — a log/capture interleaving issue, not an extraction-quality defect) did not reproduce in the most recently verified run.",
+      "521 collected, 521 pass, with PostgreSQL available.",
   },
   {
-    figure: "278 / 235",
+    figure: "279 / 242",
     label: "No-PostgreSQL run",
     detail:
-      "278 pass, 235 skip — 513 collected either way; tests needing a database skip cleanly rather than failing.",
+      "279 pass, 242 skip — 521 collected either way; tests needing a database skip cleanly rather than failing.",
   },
   {
     figure: "6",
