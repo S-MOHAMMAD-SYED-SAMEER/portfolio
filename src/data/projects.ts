@@ -143,7 +143,7 @@ export const projects: Project[] = [
       height: 3005,
       alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
     },
-    proof: ["389 tests", "deterministic scoring"],
+    proof: ["689 tests", "deterministic scoring"],
     featured: true,
   },
   {
@@ -183,7 +183,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-docintel.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
-    proof: ["513 tests", "deterministic, credential-free demo"],
+    proof: ["521 tests", "deterministic, credential-free demo"],
     featured: false,
   },
   {
@@ -201,7 +201,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-voicedesk.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk",
-    proof: ["1,661 tests"],
+    proof: ["1,659 tests"],
     featured: false,
   },
 ];
@@ -218,6 +218,21 @@ export function projectById(id: ProjectId): Project {
   const found = projects.find((project) => project.id === id);
   if (!found) throw new Error(`No project with id "${id}"`);
   return found;
+}
+
+/**
+ * The project's test-count line, e.g. "247 tests".
+ *
+ * Always `proof[0]`. Every surface that quotes a project's count — the card, the
+ * services list, the 3D scene — reads it through here, so the number has one
+ * home and changing it in `proof` changes it everywhere. Throws rather than
+ * returning an empty string for a project with no proof, because a blank where
+ * a figure belongs is a bug, not a state.
+ */
+export function testCountOf(project: Project): string {
+  const head = project.proof?.[0];
+  if (head === undefined) throw new Error(`Project "${project.id}" has no test count`);
+  return head;
 }
 
 /**

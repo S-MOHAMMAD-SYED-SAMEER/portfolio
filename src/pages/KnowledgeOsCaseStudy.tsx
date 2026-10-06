@@ -39,8 +39,8 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "88",
-    label: "P3 demo-suite tests passing",
+    figure: "95",
+    label: "Demo-suite tests passing",
     detail:
       "test_demo_e2e.py, test_demo_fixtures.py, test_demo_reranking.py, test_demo_llm.py and test_demo_app.py — the demo-focused suite specifically, not the project's overall test count.",
   },
@@ -259,7 +259,7 @@ export default function KnowledgeOsCaseStudy() {
             </li>
           </ul>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            <strong className="text-ink">88 tests passed</strong> refers to
+            <strong className="text-ink">95 tests passed</strong> refers to
             this demo-focused suite specifically — not the project&apos;s
             overall test count (see Engineering evidence below).
           </p>

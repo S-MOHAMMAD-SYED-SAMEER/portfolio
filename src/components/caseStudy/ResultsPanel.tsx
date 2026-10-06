@@ -18,7 +18,7 @@ export interface Result {
 
 const SALES_RECOVERY_RESULTS: Result[] = [
   {
-    figure: "206",
+    figure: "247",
     label: "Automated tests passing",
     detail: "Covering retrieval, lookups, memory, signals and the safety layer.",
   },

@@ -50,10 +50,10 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "1,661",
+    figure: "1,659",
     label: "Tests passing",
     detail:
-      "1,661 collected, with a PostgreSQL database available — the repository's own documented, database-backed count.",
+      "1,661 collected, with a PostgreSQL database available; 1,659 pass. Two timing-sensitive realtime tests (barge-in and the telephony reader) failed intermittently in full-suite runs and passed when run on their own.",
   },
   {
     figure: "1,053 / 608",
