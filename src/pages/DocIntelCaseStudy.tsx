@@ -42,7 +42,7 @@ const RESULTS: Result[] = [
     figure: "521",
     label: "Tests passing",
     detail:
-      "521 collected, 521 pass, with PostgreSQL available. A previously-reported environment-specific flake (tests/test_eval_cli.py::test_json_output_is_machine_readable — a log/capture interleaving issue, not an extraction-quality defect) did not reproduce in the most recently verified run.",
+      "521 collected, 521 pass, with PostgreSQL available.",
   },
   {
     figure: "279 / 242",
