@@ -64,7 +64,7 @@ export interface Service {
 
 /**
  * The demo, dashboard and case-study links come from the canonical project
- * data rather than being restated, so a moved deployment moves in one file.
+ * data rather than being restated, so a moved page moves in one file.
  */
 const p1 = projectById("p1");
 const p2 = projectById("p2");
