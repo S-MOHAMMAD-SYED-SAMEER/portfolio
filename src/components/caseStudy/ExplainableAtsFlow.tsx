@@ -52,7 +52,7 @@ const BEFORE_MODEL: Stage[] = [
     name: "Redact",
     plain: "Personal details are removed before anything reads the CV.",
     detail:
-      "Name, contact details, date of birth, nationality, gender and address are masked out first. This is ordinary pattern-matching, not a model. The reader never receives them, so they cannot influence what it finds.",
+      "Name, contact details, age and date of birth, gender, nationality, marital status, religion, photo references and address are masked out first. This is ordinary pattern-matching, not a model. The reader never receives them, so they cannot influence what it finds.",
   },
 ];
 

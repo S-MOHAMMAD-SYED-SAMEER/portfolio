@@ -33,7 +33,7 @@ const CAPABILITIES = [
   {
     title: "Reads a CV without the personal details",
     detail:
-      "Name, contact details, date of birth, nationality, gender and address are removed before the reader sees the document, so they are not available to influence what it finds.",
+      "Name, contact details, age and date of birth, gender, nationality, marital status, religion, photo references and address are removed before the reader sees the document, so they are not available to influence what it finds.",
   },
   {
     title: "Separates silence from shortfall",
@@ -75,7 +75,7 @@ const RESULTS: Result[] = [
     figure: "4",
     label: "Distinct ranking outcomes",
     detail:
-      "Meets everything, worth a look, missing an essential, and not yet assessed — each with its own wording.",
+      "Meets every must-have, worth a look, missing an essential, and not yet assessed — each with its own wording.",
   },
   {
     figure: "0",
@@ -105,7 +105,7 @@ function GateComparison() {
     {
       label: "Candidate A",
       placement: "Placed higher",
-      tier: "Meets every essential",
+      tier: "Meets every must-have",
       verdict: "Met",
       quote:
         "Running PostgreSQL at scale for a multi-tenant billing system.",
@@ -414,7 +414,7 @@ export default function ExplainableAtsCaseStudy() {
             >
               Try the interactive demo
             </a>{" "}
-            to step through a simplified version of this flow in your browser —
+            to step through this flow in your browser, run by the project&apos;s own screening code on invented candidates —
             no account needed.
           </p>
         </Section>
@@ -476,8 +476,8 @@ export default function ExplainableAtsCaseStudy() {
           <div className="grid gap-8 sm:grid-cols-2">
             <div className="flex flex-col gap-4 text-ink-muted">
               <p>
-                Name, contact details, date of birth, nationality, gender and
-                address are masked out of the copy the reader receives. They are
+                Name, contact details, age and date of birth, gender,
+                nationality, marital status, religion, photo references and address are masked out of the copy the reader receives. They are
                 not filtered afterwards and the reader is not instructed to
                 ignore them — they are simply not in the text it is given.
               </p>
