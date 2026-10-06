@@ -18,7 +18,7 @@
 export const EMAIL = "mohammadsyedsameer20@gmail.com";
 
 export const LINKEDIN_URL =
-  "https://www.linkedin.com/in/mohammad-syed-sameer-s-a879a235a";
+  "https://www.linkedin.com/in/mohammad-syed-sameer-s";
 
 /** The account the three projects are hosted under; see `projects.ts`. */
 export const GITHUB_PROFILE_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER";
