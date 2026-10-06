@@ -33,10 +33,10 @@ export default function ServicesPage() {
             All seven, in one place
           </h1>
           <p className="mt-6 max-w-2xl text-body text-ink-muted">
-            Four of these are proven by one of the six systems above; one
-            generalises machinery built for another project rather than
-            pointing at a build of its own, and that is said plainly on its
-            own card rather than implied.
+            Six of these are each proven by one of the six systems above; the
+            seventh, AI Workflow Automation, generalises the Inbox-to-CRM
+            adapter layer rather than pointing at a build of its own, and that
+            is said plainly on its own card rather than implied.
           </p>
         </section>
 
@@ -66,16 +66,8 @@ export default function ServicesPage() {
               <h2 className="text-subhead text-ink">FAQ</h2>
               <dl className="mt-3 flex flex-col gap-4 text-small text-ink-muted">
                 <div>
-                  <dt className="font-semibold text-ink">Are the live demos real?</dt>
-                  <dd className="mt-1">
-                    Yes. The three deployed systems above are the actual
-                    applications, open to anyone with the link. First load
-                    may take up to a minute while free-tier hosting wakes up.
-                  </dd>
-                </div>
-                <div>
                   <dt className="font-semibold text-ink">
-                    What about the three with no public deployment?
+                    What about the three without an in-browser demo?
                   </dt>
                   <dd className="mt-1">
                     They're complete and source-available, and each one runs

@@ -92,10 +92,8 @@ export const services: readonly Service[] = [
       "Turn the enquiries sitting in your inbox into tracked CRM records with drafted replies — nothing sent without your approval.",
     builds:
       "An 8-stage pipeline (ingest → understand → resolve → decide → policy → approve → execute → revise), CRM matching, a human approval gate, prompt-injection containment, and an append-only audit trail.",
-    evidence: ["895 tests", "10/10 eval", "live read-only demo, no account needed"],
-    // The one service whose proof a client can open without installing,
-    // signing up or waiting for a walkthrough, so it leads to the real thing.
-    cta: { label: "Open the live dashboard", href: p2.demoHref ?? "#projects" },
+    evidence: ["895 tests", "10/10 eval", "interactive in-browser demo"],
+    cta: { label: "Try the interactive demo", href: p2.interactiveDemoHref ?? "#projects" },
     provenBy: "p2",
   },
   {
@@ -123,9 +121,9 @@ export const services: readonly Service[] = [
     cta: { label: "Describe the workflow you want removed", href: "#contact" },
   },
   {
-    // p4–p6 have no interactiveDemoHref or demoHref (no case-study page or
-    // public deployment yet — that is a later milestone), so their CTA
-    // points at the one real, verified link they do have: the repository.
+    // p4–p6 have no interactiveDemoHref (there is no in-browser simulation
+    // of them), so their CTA points at the one demo-like link they do have:
+    // the repository.
     id: "rag-knowledge",
     name: "RAG / Knowledge Systems",
     positioning:

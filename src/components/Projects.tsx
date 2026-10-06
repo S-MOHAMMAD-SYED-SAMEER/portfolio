@@ -30,7 +30,7 @@ export default function Projects() {
       id="projects"
       eyebrow="Projects"
       title="Working systems, not concepts"
-      intro="Four systems, each built end to end, tested and documented. Three are live and testable right now; the fourth ships its own deterministic, credential-free demo."
+      intro="Six systems, each built end to end, tested and documented, with the source on GitHub. Four are shown in full below; three of the six also have an interactive demo you can try in the browser."
       ground="surface"
       size="large"
     >

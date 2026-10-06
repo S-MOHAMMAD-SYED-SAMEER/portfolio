@@ -5,19 +5,17 @@ import SkipLink from "../components/SkipLink";
 import ThemeToggle from "../components/ThemeToggle";
 import { projects, type Project } from "../data/projects";
 
-type Filter = "All" | "Agents" | "RAG" | "Document AI" | "Voice" | "Live";
+type Filter = "All" | "Agents" | "RAG" | "Document AI" | "Voice";
 
-const FILTERS: Filter[] = ["All", "Agents", "RAG", "Document AI", "Voice", "Live"];
+const FILTERS: Filter[] = ["All", "Agents", "RAG", "Document AI", "Voice"];
 
 /**
- * Which filter chips a project answers to, derived from fields `projects.ts`
- * already carries — `service` and `status` — rather than a new category
- * field invented for this page. A project can match more than one: every
- * live project is also an agent, RAG system, etc. according to its service.
+ * Which filter chips a project answers to, derived from the `service` field
+ * `projects.ts` already carries rather than a new category field invented for
+ * this page.
  */
 function matches(project: Project, filter: Filter): boolean {
   if (filter === "All") return true;
-  if (filter === "Live") return project.status === "Live";
   if (filter === "RAG") return project.service.includes("RAG");
   if (filter === "Document AI") return project.service.includes("Document Intelligence");
   if (filter === "Voice") return project.service.includes("Voice");
@@ -61,10 +59,9 @@ export default function ProjectsPage() {
             All six systems
           </h1>
           <p className="mt-6 max-w-2xl text-body text-ink-muted">
-            Every system built, in one place — the three that are deployed
-            and live-testable right now, and the three that are complete,
-            source-available and run their own deterministic, credential-free
-            demo.
+            Every system built, in one place. All six are complete,
+            source-available and documented; three of them also have an
+            interactive demo you can try in the browser.
           </p>
         </section>
 

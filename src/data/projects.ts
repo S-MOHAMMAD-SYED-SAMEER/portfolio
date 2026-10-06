@@ -27,21 +27,17 @@ export interface Project {
   service: string;
   description: string;
   tags: string[];
-  status: "In development" | "Built" | "Live";
+  status: "In development" | "Built";
   /** In-site case-study page. Only projects with a written case study have one. */
   caseStudyHref?: string;
   /**
    * The portfolio's own interactive demo of this workflow.
    *
-   * Deliberately distinct from `demoHref`. This one is a simulation that runs
-   * in the visitor's browser on invented data — no account, no backend, no
-   * waiting — and it exists because two of the three deployed applications sit
-   * behind a sign-in a prospective client will not create. `demoHref` remains
-   * the real thing, linked and labelled as such.
+   * A simulation that runs in the visitor's browser on invented data — no
+   * account, no backend, no waiting. Only some projects have one; for the rest
+   * the case study and the repository are the whole presentation.
    */
   interactiveDemoHref?: string;
-  /** Deployed, publicly reachable demo. Absent means there is nothing to open. */
-  demoHref?: string;
   /** Public source repository. */
   repoHref?: string;
   /**
@@ -67,31 +63,6 @@ export interface Project {
    * nothing rounded up.
    */
   proof?: string[];
-  /**
-   * What a visitor needs to know before opening the DEPLOYED application.
-   *
-   * Two things are worth saying in advance and neither is visible from the
-   * button: each deployment answers to a stranger differently — one is fully
-   * open, two serve a read-only view of synthetic data and ask for a sign-in
-   * only to change something — and all three are on free-tier hosting that
-   * sleeps, so the first request after a quiet spell is slow. A visitor who
-   * waits a minute and then meets a password has been misled by a link that
-   * said "Live demo" and nothing else.
-   *
-   * THE SINGLE SOURCE FOR THIS DISCLOSURE
-   *
-   * Both surfaces that link to a deployment render this exact string: the
-   * homepage card and the interactive demo page. Until Phase 2 the demo pages
-   * passed their own `liveDemoNote`, which stated the same fact in different
-   * words — two wordings that had to be kept in step by hand, with nothing to
-   * catch it when they drifted.
-   *
-   * It describes the DEPLOYMENT only. Nothing about the portfolio's own
-   * in-browser demo belongs here: that demo needs no account and has no cold
-   * start, and `DemoShell` says so itself, because it is the only surface for
-   * which that is true.
-   */
-  demoNote?: string;
   /** Complete work, shown with the full card treatment. */
   featured?: boolean;
 }
@@ -112,10 +83,9 @@ export const projects: Project[] = [
       "Buying-signal detection",
       "Eval-tested",
     ],
-    status: "Live",
+    status: "Built",
     caseStudyHref: "/case-study-sales-recovery.html",
     interactiveDemoHref: "/demo-sales-recovery.html",
-    demoHref: "https://sales-recovery-agent-krk0.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent",
     screenshot: {
       src: "/images/p1-grounded-answer.png",
@@ -124,8 +94,6 @@ export const projects: Project[] = [
       alt: "The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying.",
     },
     proof: ["247 tests", "16/16 eval"],
-    demoNote:
-      "The production demo is open to anyone. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
   },
   {
@@ -140,10 +108,9 @@ export const projects: Project[] = [
       "Prompt-injection contained",
       "Eval-tested",
     ],
-    status: "Live",
+    status: "Built",
     caseStudyHref: "/case-study-inbox-crm.html",
     interactiveDemoHref: "/demo-inbox-crm.html",
-    demoHref: "https://inbox-crm-agent.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/inbox-crm-agent",
     screenshot: {
       src: "/images/p2-inbox-full-workflow.png",
@@ -152,14 +119,9 @@ export const projects: Project[] = [
       alt: "An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer.",
     },
     proof: ["895 tests", "10/10 eval"],
-    demoNote:
-      "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to approve or change anything. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
   },
   {
-    // "Live" now that there is a deployed URL to send someone to. The status
-    // word and the demo link move together: this file exists to stop one
-    // claiming something the other cannot back up.
     id: "p3",
     title: "Explainable ATS",
     service: "AI Recruitment Intelligence",
@@ -171,10 +133,9 @@ export const projects: Project[] = [
       "Personal details masked first",
       "Recruiter decides, on the record",
     ],
-    status: "Live",
+    status: "Built",
     caseStudyHref: "/case-study-explainable-ats.html",
     interactiveDemoHref: "/demo-explainable-ats.html",
-    demoHref: "https://explainable-ats.onrender.com",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/explainable-ats",
     screenshot: {
       src: "/images/p3-candidate-ranking.png",
@@ -183,16 +144,13 @@ export const projects: Project[] = [
       alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
     },
     proof: ["389 tests", "deterministic scoring"],
-    demoNote:
-      "Open to anyone: the deployed dashboard runs in read-only demo mode on synthetic data, so no account is needed to look around. Signing in is only required to record a decision. First load may take up to a minute while the free-tier hosting wakes up.",
     featured: true,
   },
   {
     // Approved as a fourth flagship project, built and shipped as its own
-    // standalone repository outside this monorepo. "Built" rather than
-    // "Live": the system is complete and tested, but nothing here claims a
-    // public deployment — there is none, and demoHref stays absent rather
-    // than pointing at one that does not exist.
+    // standalone repository outside this monorepo. It has no in-browser
+    // interactive demo on this site, so `interactiveDemoHref` stays absent
+    // rather than pointing at a page that does not exist.
     id: "p4",
     title: "KnowledgeOS",
     service: "RAG / Knowledge Systems",
@@ -267,17 +225,17 @@ export function projectById(id: ProjectId): Project {
  *
  * WHY THIS EXISTS RATHER THAN THE FIELDS BEING REQUIRED
  *
- * The four link fields are optional on `Project` and have to stay that way.
+ * The three link fields are optional on `Project` and have to stay that way.
  * `status` admits "In development" and "Built", `Projects.tsx` renders a
  * separate card for work that is not finished, and every link it draws is
- * already conditional — so a project with no deployment is a state this
- * portfolio models on purpose. Marking `demoHref` required would force a
- * future in-development project to carry a URL that does not exist yet, which
- * is exactly the kind of claim `projects.ts` exists to prevent.
+ * already conditional — so a project with no interactive demo is a state this
+ * portfolio models on purpose. Marking `interactiveDemoHref` required would
+ * force a project without one to carry a URL that does not exist, which is
+ * exactly the kind of claim `projects.ts` exists to prevent.
  *
  * What IS guaranteed is narrower and belongs to the caller: the case-study
- * page for P1 is written for a project that has a deployment, a repository and
- * an interactive demo. Asserting that once, at the top of that page, keeps the
+ * page for P1 is written for a project that has a repository and an
+ * interactive demo. Asserting that once, at the top of that page, keeps the
  * page's links plain strings without weakening the shared type.
  *
  * Throws rather than substituting anything. A fallback URL would render a
@@ -286,7 +244,7 @@ export function projectById(id: ProjectId): Project {
  */
 export function requiredLink(
   project: Project,
-  key: "demoHref" | "repoHref" | "caseStudyHref" | "interactiveDemoHref",
+  key: "repoHref" | "caseStudyHref" | "interactiveDemoHref",
 ): string {
   const value = project[key];
   if (!value) throw new Error(`Project "${project.id}" has no ${key}`);

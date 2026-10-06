@@ -8,8 +8,8 @@ import {
  * The facts this project shares with the rest of the site.
  *
  * The portfolio's `src/data/projects.ts` is the source of truth for every value
- * another surface also states — title, deployment status, the three live URLs,
- * the test count and the evaluation result. Restating any of them here would
+ * another surface also states — title, links, the test count and the
+ * evaluation result. Restating any of them here would
  * make a second copy that drifts silently.
  */
 function canonical(id: CanonicalId) {
@@ -17,11 +17,10 @@ function canonical(id: CanonicalId) {
 
   return {
     title: project.title,
-    // The 3D status vocabulary is narrower: it only needs to know whether
-    // there is something deployed to open.
-    status: (project.demoHref === undefined ? 'demo-pending' : 'live') as ProjectStatus,
+    // The 3D status vocabulary is narrower than the canonical one: every
+    // project here is complete and source-available, so there is one state.
+    status: 'built' as ProjectStatus,
     links: {
-      demo: project.demoHref ?? null,
       // Each project's own repository, not this portfolio's. This used to
       // hardcode REPO_URL (the portfolio repo) for every project, so all
       // three GitHub buttons here opened the wrong source — a visitor
@@ -59,12 +58,10 @@ function canonicalProof(id: CanonicalId): { tests: number; evaluation: string | 
 
 export type ProjectId = 'p1' | 'p2' | 'p3'
 
-/** Deployment state of a project. */
+/** State of a project. */
 export type ProjectStatus =
-  /** Publicly reachable live demo. */
-  | 'live'
-  /** Complete and source-available, no public demo deployed yet. */
-  | 'demo-pending'
+  /** Complete, tested and source-available. */
+  'built'
 
 export interface ProjectProof {
   /** Number of automated tests in the project's suite. */
@@ -79,8 +76,6 @@ export interface ProjectProof {
 }
 
 export interface ProjectLinks {
-  /** Live deployment. `null` until one exists. */
-  demo: string | null
   /** Source repository. `null` until the URL is filled in. */
   github: string | null
   /** Long-form write-up. `null` until the URL is filled in. */
@@ -88,26 +83,9 @@ export interface ProjectLinks {
 }
 
 /**
- * What a visitor needs in order to use the live demo.
- *
- * `public-demo` is the only variant that carries credentials, and it exists
- * for an account deliberately created to be shared in public. Nothing that
- * belongs to a real person or a real customer goes in here, and no value is
- * ever guessed: a project with no known access simply leaves `access` unset
- * and the demo link behaves like any other link.
- */
-export type ProjectAccess =
-  /** Open to anyone with the link. */
-  | { kind: 'open' }
-  /** Needs an account. The portfolio says so rather than pretending. */
-  | { kind: 'sign-in-required'; note?: string }
-  /** A shared account made for the demo. Only ever filled in by hand. */
-  | { kind: 'public-demo'; username: string; password: string; note?: string }
-
-/**
  * A screenshot of the project actually running.
  *
- * Real captures from the deployed or locally-run application — never a mockup
+ * Real captures of the running application — never a mockup
  * and never an illustration, because a drawing presented as a screenshot
  * misrepresents what the thing looks like.
  *
@@ -132,7 +110,7 @@ export interface ProjectShot {
 export type ProjectActionEmphasis = 'primary' | 'secondary'
 
 export interface ProjectAction {
-  id: 'interactiveDemo' | 'demo' | 'github' | 'caseStudy'
+  id: 'interactiveDemo' | 'github' | 'caseStudy'
   label: string
   href: string
   emphasis: ProjectActionEmphasis
@@ -187,17 +165,12 @@ export interface Project {
   links: ProjectLinks
   /** Absent until written. See `ProjectCaseStudy`. */
   caseStudy?: ProjectCaseStudy
-  /** How the demo is reached. Absent while unknown. */
-  access?: ProjectAccess
   /**
    * Whether this portfolio hosts an interactive demo of the project.
    *
    * A capability rather than a URL, which is why it is not in `ProjectLinks`:
    * the address is derived from the project's own id, so there is nothing to
-   * store and nothing that can point at the wrong place. `links.demo` means
-   * something different and must not be confused with it — that is a deployed
-   * instance of the real system, reached over the network, and it is what the
-   * "Live deployment" action opens.
+   * store and nothing that can point at the wrong place.
    *
    * Absent means no demo, which is the state of every project that has not had
    * one built.
@@ -207,10 +180,10 @@ export interface Project {
 
 /**
  * What this file authors on its own: the category label, the technology list,
- * the verified properties, the screenshot captions and the access note. None
- * of these appear anywhere else in the site.
+ * the verified properties and the screenshot captions. None of these appear
+ * anywhere else in the site.
  *
- * The values below that DO appear elsewhere — title, status, the live URLs,
+ * The values below that DO appear elsewhere — title, status, the links,
  * the test count, the evaluation — are overridden by `PROJECTS` beneath this
  * array, which reads them from the portfolio's canonical project data. They
  * are left in place only so this array still satisfies `Project`; nothing
@@ -243,11 +216,10 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       'Chroma',
       'Hugging Face Transformers',
       'SQLite',
-      'Render',
     ],
     shortDescription:
       'An AI system that handles customer support conversations and recovers sales that would otherwise be lost.',
-    status: 'live',
+    status: 'built',
     proof: {
       properties: [
         'Eight guardrail policies enforced in code, not prompt text',
@@ -271,12 +243,10 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
     ],
     links: {
-      demo: 'https://sales-recovery-agent-krk0.onrender.com',
       github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent',
       caseStudy:
         'https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent/blob/main/PROJECT-1.md',
     },
-    access: { kind: 'open' },
   },
   {
     id: 'p2',
@@ -293,11 +263,10 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       'React',
       'Vite',
       'Tailwind CSS',
-      'Render',
     ],
     shortDescription:
       'An inbox-to-CRM system that triages incoming mail and moves qualified leads into the CRM.',
-    status: 'live',
+    status: 'built',
     proof: {
       properties: [
         'No value reaches the database without text quoted from the email',
@@ -321,17 +290,9 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
     ],
     links: {
-      demo: 'https://inbox-crm-agent.onrender.com',
       github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/inbox-crm-agent',
       caseStudy: null,
     },
-    // Open, like P1: the deployed dashboard serves a read-only window onto the
-    // demo data to anyone with the link, so no account is needed to look
-    // around. Signing in is required only to approve or change something, which
-    // is not what a visitor following this link is here to do. It said
-    // sign-in-required until now, which understated the one deployment a
-    // visitor can open with no friction at all.
-    access: { kind: 'open' },
   },
   {
     id: 'p3',
@@ -349,13 +310,13 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       'Tailwind CSS',
     ],
     // Not "an applicant tracking system", which is what this said until now.
-    // The deployed application reads assessments and records one thing: a
+    // The application reads assessments and records one thing: a
     // recruiter's decision, with its reason. It does not take in CVs, create
     // roles or manage a pipeline, so naming the category claimed a product
     // several times the size of the one that exists.
     shortDescription:
       'An explainable screening workflow that ranks candidates against a job spec and keeps the recruiter’s decision, with its reason, on the record.',
-    status: 'live',
+    status: 'built',
     proof: {
       properties: [
         'Deterministic integer scoring — no floating point in the scoring path',
@@ -373,24 +334,12 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
     ],
     links: {
-      demo: 'https://explainable-ats.onrender.com',
       github: 'https://github.com/S-MOHAMMAD-SYED-SAMEER/explainable-ats',
       caseStudy: null,
     },
-    // Open, like P1 and P2. The deployment serves an allow-listed set of read
-    // routes to anonymous callers over the invented dataset, so a visitor
-    // following this link reaches the running application rather than the
-    // authentication wall this entry used to warn about.
-    //
-    // `open` rather than a fourth union member: the read-only nuance — that
-    // recording a decision still needs a sign-in — is a sentence, and it
-    // already lives in the canonical `demoNote` that the homepage card and
-    // the demo pages both render. A variant carrying its own copy would be a
-    // second place for that sentence to drift.
-    access: { kind: 'open' },
     // The pipeline also runs in the browser from the project's own source,
     // so the workflow can be stepped through here without leaving the
-    // portfolio. The deployment above is the application itself.
+    // portfolio.
     interactiveDemo: true,
   },
 ] as const
@@ -411,8 +360,7 @@ export const PROJECTS: readonly Project[] = AUTHORED_PROJECTS.map((project) => (
 
 /** Human-readable labels for each status, for use in UI. */
 export const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
-  live: 'Live',
-  'demo-pending': 'Demo pending',
+  built: 'Built',
 }
 
 export function getProject(id: ProjectId): Project | undefined {
@@ -443,8 +391,9 @@ export function projectHighlights(project: Project): string[] {
  * The actions a project can actually offer.
  *
  * Built from the links that exist, so a missing URL produces no button at
- * all rather than one that goes nowhere. The demo leads because it is the
- * thing a visitor most wants; source and write-up follow.
+ * all rather than one that goes nowhere. The interactive demo leads when there
+ * is one, because it is the thing a visitor can act on at once; source and
+ * write-up follow.
  */
 export function projectActions(project: Project): ProjectAction[] {
   const candidates: (ProjectAction | null)[] = [
@@ -458,16 +407,6 @@ export function projectActions(project: Project): ProjectAction[] {
           emphasis: 'primary',
           external: false,
           accessibleName: `Open the interactive demo of ${project.title}`,
-        },
-    project.links.demo === null
-      ? null
-      : {
-          id: 'demo',
-          label: 'Live demo',
-          href: project.links.demo,
-          emphasis: 'primary',
-          external: true,
-          accessibleName: `Open the live demo for ${project.title} in a new tab`,
         },
     project.links.github === null
       ? null

@@ -12,7 +12,7 @@ import Section from "../components/Section";
  * This page's project, from the canonical data.
  *
  * Everything below that identifies the project — its service name in the
- * heading and all four links — is read from here rather than restated, so this
+ * heading and its links — is read from here rather than restated, so this
  * page cannot drift from what the homepage and the interactive demo claim about
  * the same project. `projectById` throws on a bad id, so a typo fails loudly at
  * startup instead of rendering a page with dead buttons.
@@ -23,7 +23,6 @@ import Section from "../components/Section";
 const PROJECT = projectById("p3");
 const REPO_URL = requiredLink(PROJECT, "repoHref");
 const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
-const LIVE_DEMO_HREF = requiredLink(PROJECT, "demoHref");
 
 const CAPABILITIES = [
   {
@@ -244,21 +243,6 @@ export default function ExplainableAtsCaseStudy() {
             >
               GitHub
             </a>
-            {/* Same filled slot the other two case studies give their
-                deployment, so the three pages read alike. The label carries the
-                constraint rather than leaving it behind: this header is sticky,
-                so it follows the reader down a very long page, and a bare "Live
-                Demo" would keep promising something that stops at a sign-in
-                the reader has no way through. The hero below still leads with
-                the interactive demo, which needs no account. */}
-            <a
-              href={LIVE_DEMO_HREF}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
-            >
-              Live demo (read-only)
-            </a>
           </div>
         </nav>
       </header>
@@ -266,9 +250,7 @@ export default function ExplainableAtsCaseStudy() {
       <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
-          <p className="text-eyebrow uppercase text-brand">
-            Case Study — Live Project
-          </p>
+          <p className="text-eyebrow uppercase text-brand">Case Study</p>
           <h1 className="mt-4 max-w-3xl text-display-sm text-ink sm:text-display">
             {PROJECT.service}
           </h1>
@@ -287,17 +269,6 @@ export default function ExplainableAtsCaseStudy() {
             >
               Try interactive demo
             </a>
-            {/* The deployed application. Secondary rather than primary because
-                it runs on hosting that sleeps — the button above is the one a
-                reader can act on with no wait at all. */}
-            <a
-              href={LIVE_DEMO_HREF}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
-            >
-              Open the live read-only demo
-            </a>
             <a
               href={REPO_URL}
               target="_blank"
@@ -313,16 +284,13 @@ export default function ExplainableAtsCaseStudy() {
               Talk about your hiring process
             </a>
           </div>
-          {/* What each button actually gets you, said before it is pressed.
-              The two limitations named here are the same ones set out in full
-              further down the page; they are repeated in one line because a
-              reader who opens a demo from here may never scroll that far. */}
+          {/* What the demo actually gets you, said before it is pressed. The
+              limitations named here are the same ones set out in full further
+              down the page; they are repeated in one line because a reader who
+              opens the demo from here may never scroll that far. */}
           <p className="mt-4 text-meta text-ink-muted">
             The interactive demo runs in this tab — no account, nothing to
-            install. The deployed application is open to read without an
-            account too; signing in is required only to record a decision, and
-            its free hosting sleeps, so a first load can take up to a minute.
-            Both run on an invented dataset with a deterministic stand-in
+            install. It uses an invented dataset and a deterministic stand-in
             reader: no real applicants have been screened, and no customer
             outcomes are claimed.
           </p>
@@ -437,23 +405,17 @@ export default function ExplainableAtsCaseStudy() {
         >
           <ExplainableAtsFlow />
 
-          {/* The diagram describes a running system, so the link to it belongs
-              here rather than only in the header a reader scrolled past. It is
-              a text link, not a third button: the two actions in the hero are
-              the page's calls to action and this is a way to check the claim. */}
+          {/* A text link, not another button: the actions in the hero are the
+              page's calls to action and this is a way to see the flow move. */}
           <p className="mt-4 text-small text-ink-muted">
-            All nine steps are running in the deployed application.{" "}
             <a
-              href={LIVE_DEMO_HREF}
-              target="_blank"
-              rel="noreferrer"
+              href={INTERACTIVE_DEMO_HREF}
               className="text-small font-semibold text-brand underline underline-offset-4 hover:text-brand/90"
             >
-              Open the live read-only demo
+              Try the interactive demo
             </a>{" "}
-            to read the ranking, the quoted evidence and the audit trail for
-            yourself — no account needed. Recording a decision is the one
-            action that asks you to sign in.
+            to step through a simplified version of this flow in your browser —
+            no account needed.
           </p>
         </Section>
 
@@ -733,11 +695,6 @@ export default function ExplainableAtsCaseStudy() {
         <Section eyebrow="Where it stands" title="What this is not, yet">
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              {
-                title: "The hosting sleeps",
-                detail:
-                  "The deployed dashboard can be read without an account, but it runs on a free tier that sleeps when idle, so the first request after a quiet spell can take up to a minute. Recording a decision still needs an operator sign-in.",
-              },
               {
                 title: "The reader is a deterministic stand-in",
                 detail:

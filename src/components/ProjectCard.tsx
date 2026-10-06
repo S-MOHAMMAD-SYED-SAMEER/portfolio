@@ -42,8 +42,6 @@ export default function ProjectCard({
   project: Project;
   onLinkClick?: () => void;
 }) {
-  const deployed = Boolean(project.demoHref);
-
   return (
     <article className="flex flex-col gap-5 rounded-card border border-line bg-canvas p-6 shadow-resting sm:p-7">
       {project.screenshot && (
@@ -60,19 +58,10 @@ export default function ProjectCard({
         <div className="flex items-center gap-2">
           <span
             aria-hidden="true"
-            className={`h-1.5 w-1.5 rounded-pill ${
-              deployed ? "bg-brand" : "bg-line-strong"
-            }`}
+            className="h-1.5 w-1.5 rounded-pill bg-line-strong"
           />
-          {/* "Deployed" is appended only when there is something to open, so a
-              built-but-unhosted project cannot claim a deployment it lacks. */}
-          <span
-            className={`text-eyebrow uppercase ${
-              deployed ? "text-brand" : "text-ink-muted"
-            }`}
-          >
+          <span className="text-eyebrow uppercase text-ink-muted">
             {project.status}
-            {deployed ? " · Deployed" : ""}
           </span>
         </div>
 
@@ -123,7 +112,7 @@ export default function ProjectCard({
         {/* WHY EVERY ACTION HERE CARRIES AN aria-label
             A page can render several of these cards, so a screen reader
             listing its links hears "Try interactive demo", "View case
-            study", "Live demo" and "GitHub" several times over, with
+            study" and "GitHub" several times over, with
             nothing saying which project each belongs to. The card heading
             supplies that visually; a link list has no headings in it.
             Each label OPENS with the visible text verbatim, which is what
@@ -148,17 +137,6 @@ export default function ProjectCard({
             View case study
           </a>
         )}
-        {project.demoHref && (
-          <a
-            href={project.demoHref}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Live demo: ${project.title}`}
-            className="inline-flex h-control items-center rounded-control border border-line-strong px-4 text-small font-semibold text-ink hover:border-ink-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-          >
-            Live demo
-          </a>
-        )}
         {project.repoHref && (
           <a
             href={project.repoHref}
@@ -171,16 +149,6 @@ export default function ProjectCard({
           </a>
         )}
       </div>
-
-      {/* Said before the click, not after it: the button alone cannot tell a
-          visitor what a deployment will let them do without an account, or that
-          a sleeping free-tier instance takes a moment to answer. Quiet by
-          design — it qualifies the action above it rather than competing. */}
-      {project.demoHref && project.demoNote && (
-        <p className="mt-3 text-meta text-ink-muted">
-          <span className="font-semibold">Live demo:</span> {project.demoNote}
-        </p>
-      )}
     </article>
   );
 }

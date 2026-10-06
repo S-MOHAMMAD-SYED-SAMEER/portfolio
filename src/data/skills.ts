@@ -47,7 +47,7 @@ export const skillGroups: SkillGroup[] = [
   {
     outcome: "Ship it as working software",
     detail:
-      "Deployed, documented systems with automated tests — built to be handed over and maintained, not demonstrated once.",
+      "Documented systems with automated tests — built to be handed over and maintained, not demonstrated once.",
     technologies: [
       "Python / FastAPI / PostgreSQL / SQLAlchemy / Alembic",
       "React / TypeScript / Vite / Tailwind CSS",

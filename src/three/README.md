@@ -41,9 +41,8 @@ the site:
   portfolio's names for text colour and card borders.
 - `src/data/projects.ts` — the canonical project record. `data/projects.ts` in
   this directory authors only what the scene alone uses (category, technology
-  list, verified properties, screenshot captions, access note) and reads title,
-  status, the three live URLs, the test counts and the evaluation results from
-  the canonical file.
+  list, verified properties, screenshot captions) and reads title, status, the
+  links, the test counts and the evaluation results from the canonical file.
 
 ## `3d.html` is a Vite entry point, not a stray file
 

@@ -31,16 +31,16 @@ interface ProjectsPanelProps {
  * Names what is behind the row, rather than describing the click.
  *
  * "Inspect" tells a visitor nothing about where they are going, and the
- * destinations — a written case study, an in-browser demo, the deployed
- * application, the source — are the reason to go. The list is derived from
- * `projectActions`, so a project without one of them never advertises it and
- * nothing here is a second copy of the link data.
+ * destinations — a written case study, an in-browser demo, the source — are
+ * the reason to go. The list is derived from `projectActions`, so a project
+ * without one of them never advertises it and nothing here is a second copy of
+ * the link data.
  */
 function destinationSummary(project: Project): string {
   const ids = new Set(projectActions(project).map((action) => action.id))
   const parts: string[] = []
   if (ids.has('caseStudy')) parts.push('Case study')
-  if (ids.has('interactiveDemo') || ids.has('demo')) parts.push('demos')
+  if (ids.has('interactiveDemo')) parts.push('demos')
   if (ids.has('github')) parts.push('source')
   if (parts.length === 0) return 'Inspect'
   if (parts.length === 1) return parts[0]!
