@@ -119,8 +119,8 @@ const OG_SITE_NAME = 'S Mohammad Syed Sameer'
  * data" in as many words.
  *
  * The case studies use `about: SoftwareApplication` instead, because there the
- * page really is a document ABOUT a deployed system, and the URL it points at
- * is that system's own.
+ * page really is a document ABOUT a software system, and the URL it points at
+ * is that system's own source repository.
  */
 function structuredData(file: string, title: string, description: string): unknown {
   const person = {
@@ -204,7 +204,7 @@ function structuredData(file: string, title: string, description: string): unkno
       // The one place a browser is genuinely required, and the only
       // operating-system-ish claim that is true of all three.
       operatingSystem: 'Web browser',
-      ...(project.demoHref ? { url: project.demoHref } : {}),
+      ...(project.repoHref ? { url: project.repoHref } : {}),
       author: { '@id': `${SITE_ORIGIN}/#person` },
     },
   }

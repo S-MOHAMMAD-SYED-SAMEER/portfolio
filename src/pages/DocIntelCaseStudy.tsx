@@ -12,8 +12,8 @@ import Section from "../components/Section";
  * on the other four case studies for why the lookup goes through the id
  * rather than any string that could independently drift.
  *
- * DocIntel has no `demoHref` or `interactiveDemoHref` — there is no public
- * deployment and no in-browser simulation, so this page is GitHub-first
+ * DocIntel has no `interactiveDemoHref` — there is no in-browser
+ * simulation of it on this site, so this page is GitHub-first
  * throughout. Only `repoHref` is asserted with `requiredLink`.
  */
 const PROJECT = projectById("p5");
@@ -72,9 +72,8 @@ export default function DocIntelCaseStudy() {
           </a>
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            {/* GitHub-first: this project has no live deployment, so the
-                filled primary slot the other case studies give their demo
-                goes to the repository instead. */}
+            {/* GitHub-first: this project has no in-browser interactive demo,
+                so the repository is the filled primary action here. */}
             <a
               href={REPO_URL}
               target="_blank"

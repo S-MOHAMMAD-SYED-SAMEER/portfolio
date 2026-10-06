@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is the source for the portfolio site of S Mohammad Syed Sameer, an AI Automation Engineer. It presents six AI engineering projects — three with live, publicly reachable deployments and three shipped as tested, standalone systems — each backed by real source code, automated tests, and (where applicable) a running demo.
+This repository is the source for the portfolio site of S Mohammad Syed Sameer, an AI Automation Engineer. It presents six AI engineering projects — each shipped as a tested, standalone system with its own repository — each backed by real source code and automated tests, and three with an interactive in-browser demo on this site.
 
 The work represented here centers on retrieval-augmented generation, tool-calling agents, document intelligence, voice AI, and the deterministic validation and evaluation layers that make an LLM-backed system trustworthy enough to ship. Every claim on the site is written to be checked against the linked repository behind it — nothing here is aspirational.
 
@@ -95,7 +95,7 @@ index.html, 3d.html, case-study-*.html, demo-*.html   multi-page entry points
 ## Engineering Notes
 
 - **Multi-page Vite build.** Every page above is a real, separately-built static entry point rather than a client-side route, so each has a genuine URL with no router or rewrite rule required.
-- **Deterministic demo presentation.** The three interactive demos run entirely client-side over fixed, invented data, deliberately kept separate from the deployed production applications they describe.
+- **Deterministic demo presentation.** The three interactive demos run entirely client-side over fixed, invented data, deliberately kept separate from the real applications they describe, which are run locally from each project's repository.
 - **Isolated 3D experience.** The 3D code path is self-contained by design — its own data and component tree, reachable only from `3d.html` — so the cost of Three.js and React Three Fiber is never paid by a visitor reading a case study.
 - **Project facts live in `src/data/projects.ts`.** The homepage cards, case studies, and demo pages all read from it rather than restating facts individually. The embedded 3D experience (`/3d.html`) is the one exception: it reads its own, separate registry at `src/three/data/projects.ts`, covering only the three projects (Sales Recovery, Inbox-to-CRM, Explainable ATS) that have an interactive demo — keeping the two in sync is a manual step, not an enforced invariant.
 

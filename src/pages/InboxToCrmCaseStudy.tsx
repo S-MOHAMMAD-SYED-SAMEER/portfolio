@@ -12,13 +12,12 @@ import Section from "../components/Section";
  * This page's project, from the canonical data.
  *
  * Everything below that identifies the project — its service name in the
- * heading and all four links — is read from here rather than restated, so this
+ * heading and its links — is read from here rather than restated, so this
  * page cannot drift from what the homepage and the interactive demo claim about
  * the same project. `projectById` throws on a bad id, so a typo fails loudly at
  * startup instead of rendering a page with dead buttons.
  */
 const PROJECT = projectById("p2");
-const DEMO_URL = requiredLink(PROJECT, "demoHref");
 const REPO_URL = requiredLink(PROJECT, "repoHref");
 const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
 
@@ -117,14 +116,6 @@ export default function InboxToCrmCaseStudy() {
             >
               GitHub
             </a>
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
-            >
-              Live Demo
-            </a>
           </div>
         </nav>
       </header>
@@ -132,9 +123,7 @@ export default function InboxToCrmCaseStudy() {
       <main id="main" tabIndex={-1}>
         {/* 1. HERO */}
         <section className="mx-auto max-w-5xl px-6 pb-4 pt-16 sm:pt-20">
-          <p className="text-eyebrow uppercase text-brand">
-            Case Study — Live Project
-          </p>
+          <p className="text-eyebrow uppercase text-brand">Case Study</p>
           <h1 className="mt-4 max-w-3xl text-display-sm text-ink sm:text-display">
             {PROJECT.service}
           </h1>
@@ -144,22 +133,14 @@ export default function InboxToCrmCaseStudy() {
             goes out in your name without your approval.
           </p>
           <div className="flex flex-wrap gap-4 pt-8">
-            {/* Leads, because the deployed dashboard below is behind a sign-in
-                and this is not: it runs in this tab on synthetic data, with no
-                account and no cold start. */}
+            {/* Leads, because it is the action a reader can take right now: it
+                runs in this tab on synthetic data, with no account and no cold
+                start. */}
             <a
               href={INTERACTIVE_DEMO_HREF}
               className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
             >
               Try interactive demo
-            </a>
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
-            >
-              Try the Live Demo
             </a>
             <a
               href={REPO_URL}
@@ -170,10 +151,6 @@ export default function InboxToCrmCaseStudy() {
               View on GitHub
             </a>
           </div>
-          <p className="mt-4 text-meta text-ink-muted">
-            The demo runs on free hosting and sleeps when idle — the first page
-            can take up to a minute while it wakes up.
-          </p>
           <div className="mt-10">
             <Screenshot
               src="/images/p2-inbox-full-workflow.png"
@@ -438,18 +415,14 @@ export default function InboxToCrmCaseStudy() {
               <p className="text-small font-semibold text-ink">
                 Try it yourself
               </p>
-              {/* Approving is the one thing the deployed dashboard cannot let a
-                  visitor do: its public window is read-only and a write answers
-                  401. The walkthrough on this site is where the gate is
-                  genuinely operable, so the instruction to approve points
-                  there. The deployed application is still linked, described as
-                  what it is. */}
+              {/* The walkthrough on this site is where the approval gate is
+                  operable, so the instruction to approve points there. */}
               <p className="mt-2 text-small text-ink-muted">
                 The walkthrough runs on a fixed set of example emails and a
                 fictional CRM, so everything is safe to poke at. Step through an
                 email, read the plan it proposes, then approve it and watch what
-                changes — the approval gate is live in the walkthrough, and it is
-                the surface where you can work the controls yourself.
+                changes — the approval gate works in the walkthrough, so you can
+                try the controls yourself.
               </p>
               <a
                 href={INTERACTIVE_DEMO_HREF}
@@ -489,32 +462,20 @@ export default function InboxToCrmCaseStudy() {
             <h2 className="text-section text-ink">
               See it run on a real inbox&apos;s worth of work
             </h2>
-            {/* Says what each of the two surfaces actually offers. The deployed
-                dashboard is open to anyone and needs no sign-up, but its public
-                window is read-only — a write answers 401 — so the invitation to
-                approve belongs to the walkthrough, not here. */}
+            {/* Says what the walkthrough offers: the emails, the plans waiting
+                on approval and the records they become, with the approval gate
+                operable. */}
             <p className="mt-3 max-w-2xl text-ink-muted">
-              The deployed application is live and open — no sign-up, nothing to
-              install. Read the emails it has processed, the plans waiting on
-              approval and the records they became, in the real dashboard running
-              on synthetic data. It is read-only from here, so nothing you do can
-              change it; to work the approval gate yourself, use the walkthrough
-              on this site.
+              No sign-up, nothing to install. Step through the emails it
+              processes, the plans waiting on approval and the records they
+              became, on synthetic data in your browser. To work the approval
+              gate yourself, use the walkthrough; to run the full application,
+              the source is on GitHub.
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
-              >
-                Launch the Live Demo
-              </a>
-              {/* The copy above sends anyone who wants to work the approval
-                  gate here, so the link has to exist in the same row. */}
-              <a
                 href={INTERACTIVE_DEMO_HREF}
-                className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
+                className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Open the walkthrough
               </a>
@@ -536,8 +497,7 @@ export default function InboxToCrmCaseStudy() {
             <p className="mt-6 text-meta text-ink-muted">
               The demo works from a fixed set of example emails and a fictional
               CRM — it is not connected to a live mailbox, and outbound sending
-              is switched off, so no message can reach anyone. First load may
-              take up to a minute while the free-tier hosting wakes up.
+              is switched off, so no message can reach anyone.
             </p>
           </div>
         </section>

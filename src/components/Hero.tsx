@@ -23,14 +23,8 @@ function testCount(proof: string[] | undefined): string {
   return proof?.[0] ?? "";
 }
 
-// Two independent facts, each counted from the field that establishes it.
-//
-// The previous version derived the second as `total − live`, which was only
-// ever correct while some project lacked a deployment. All three are deployed
-// now, so that subtraction reports "0 built" — true arithmetic about the wrong
-// quantity. What is actually worth saying is that every one of them can also be
-// tried here, in the browser, with no account and no cold start.
-const liveCount = selected.filter((project) => project.demoHref).length;
+// Counted from the field that establishes it, not restated: how many of these
+// systems can be tried here, in the browser, with no account and no cold start.
 const interactiveCount = selected.filter(
   (project) => project.interactiveDemoHref,
 ).length;
@@ -100,11 +94,10 @@ export default function Hero() {
         <div className="mt-10 border-t border-line pt-6 sm:mt-14 sm:pt-8">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <p className="text-eyebrow uppercase text-brand">Selected work</p>
-            {/* Stated plainly rather than implied. All three are deployed, and
-                all three also have an interactive demo on this site that needs
-                no account — which is the one a visitor can act on immediately. */}
+            {/* Stated plainly rather than implied: these demos run on this
+                site and need no account, so a visitor can act on them at once. */}
             <p className="text-meta text-ink-muted">
-              {liveCount} live · {interactiveCount} interactive demos
+              {interactiveCount} interactive demos
             </p>
           </div>
 

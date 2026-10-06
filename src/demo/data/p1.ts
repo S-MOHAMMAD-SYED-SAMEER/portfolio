@@ -10,7 +10,7 @@ import type { Scenario } from "../ui/DemoShell";
  * The figures are what a fixture says, not a measurement of anything. The
  * stages mirror the shape of the real pipeline — understand, retrieve, ground,
  * detect, act — but this file is a description of that shape, not the pipeline
- * itself. The deployed application is linked separately.
+ * itself.
  */
 
 const STORE = "Northlight Supply";

@@ -13,7 +13,7 @@ import Section from "../components/Section";
  * This page's project, from the canonical data.
  *
  * Everything below that identifies the project — its service name in the
- * heading and all four links — is read from here rather than restated, so this
+ * heading and its links — is read from here rather than restated, so this
  * page cannot drift from what the homepage and the interactive demo claim about
  * the same project. `projectById` throws on a bad id, so a typo fails loudly at
  * startup instead of rendering a page with dead buttons.
@@ -24,12 +24,9 @@ import Section from "../components/Section";
  * the committed lockfile (P7A.1) — not from the repository's own
  * documentation alone. Where a figure describes a mock-mode result, it says
  * so; the documented real-Gemini result is named as a historical claim,
- * not re-presented as independently verified. The hosted demo's live
- * status was independently verified during the portfolio audit: its
- * health endpoint returned 200 at the URL now linked below.
+ * not re-presented as independently verified.
  */
 const PROJECT = projectById("p1");
-const DEMO_URL = requiredLink(PROJECT, "demoHref");
 const REPO_URL = requiredLink(PROJECT, "repoHref");
 const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
 
@@ -42,7 +39,6 @@ const STACK = [
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
   { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/index.html) — no framework, no build step" },
   { name: "Node's built-in test runner (node --test)", role: "The 247-test automated suite" },
-  { name: "Render", role: "Hosting for the documented deployment — see Production boundary" },
 ];
 
 /**
@@ -103,14 +99,6 @@ export default function SalesRecoveryCaseStudy() {
             >
               GitHub
             </a>
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
-            >
-              Hosted Demo
-            </a>
           </div>
         </nav>
       </header>
@@ -137,20 +125,12 @@ export default function SalesRecoveryCaseStudy() {
           <div className="flex flex-wrap gap-4 pt-8">
             {/* Leads, because it is the action a reader can take right now: it
                 runs in this tab on synthetic data, with no account and no cold
-                start. The hosted instance is still linked beside it. */}
+                start. */}
             <a
               href={INTERACTIVE_DEMO_HREF}
               className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
             >
               Try interactive demo
-            </a>
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-control border border-line-strong px-6 py-3 text-small font-semibold text-ink hover:border-ink-muted"
-            >
-              Try the Hosted Demo
             </a>
             <a
               href={REPO_URL}
@@ -162,8 +142,8 @@ export default function SalesRecoveryCaseStudy() {
             </a>
           </div>
           <p className="mt-4 text-meta text-ink-muted">
-            Demo and deployment status are described precisely in Production
-            boundary below.
+            What is implemented, and what has actually been run, is described
+            precisely in Production boundary below.
           </p>
           <div className="mt-10">
             <Screenshot
@@ -595,15 +575,6 @@ export default function SalesRecoveryCaseStudy() {
             production-scale operation, and an independently reproduced
             live-Gemini evaluation benchmark.
           </p>
-          <p className="mt-6 max-w-3xl text-small font-semibold text-ink">
-            Deployment status
-          </p>
-          <p className="mt-2 max-w-3xl text-small text-ink-muted">
-            The hosted Render URL's live status was independently verified
-            during the portfolio audit — its health endpoint returned 200.
-            That is a liveness check, not a claim about production scale,
-            uptime guarantees, or real customer traffic.
-          </p>
         </Section>
 
         {/* 13. HONEST LIMITATIONS */}
@@ -628,11 +599,6 @@ export default function SalesRecoveryCaseStudy() {
                 title: "No real human handoff",
                 detail:
                   "The guardrail fallback and the agent's own language say a person will help — no tool or mechanism actually connects one.",
-              },
-              {
-                title: "Live, but a liveness check only",
-                detail:
-                  "The hosted Render URL's health endpoint was independently verified to return 200 during the portfolio audit. That confirms the deployment is up — not production scale, uptime guarantees, or real customer traffic.",
               },
               {
                 title: "Mock evaluation is not live-model evaluation",
@@ -727,15 +693,12 @@ export default function SalesRecoveryCaseStudy() {
               </p>
               <p className="mt-2 text-small text-ink-muted">
                 The demo runs on fictional store data, so everything is safe
-                to poke at. Ask about order 1001, whether the Ceramic Mug is
-                in stock, whether code WELCOME10 is valid, how long
-                international delivery takes — then try telling it you are
-                still deciding.
+                to poke at. Step through a stock question, an order-status
+                question and a hesitant buyer, and watch which checks run
+                before each reply.
               </p>
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noreferrer"
+                href={INTERACTIVE_DEMO_HREF}
                 className="mt-4 inline-block rounded-control bg-brand px-4 py-2 text-small font-semibold text-white hover:bg-brand/90"
               >
                 Open the demo
@@ -750,19 +713,16 @@ export default function SalesRecoveryCaseStudy() {
               Try it on your own questions
             </h2>
             <p className="mt-3 max-w-2xl text-ink-muted">
-              A hosted instance of this agent exists — see Production
-              boundary above for what's currently confirmed about it. Ask it
-              something a real customer of yours would ask, and watch which
-              checks it runs before it answers.
+              Step through the kind of question a real customer of yours would
+              ask, and watch which checks the agent runs before it answers. The
+              full source, with a one-command local setup, is on GitHub.
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noreferrer"
+                href={INTERACTIVE_DEMO_HREF}
                 className="rounded-control bg-brand px-6 py-3 text-small font-semibold text-white hover:bg-brand/90"
               >
-                Open the Hosted Demo
+                Open the interactive demo
               </a>
               <a
                 href={REPO_URL}
@@ -782,7 +742,7 @@ export default function SalesRecoveryCaseStudy() {
             <p className="mt-6 text-meta text-ink-muted">
               Demo data is fictional — the orders, products and discount
               codes are examples, not a real store. See Production boundary
-              above for the current, verified deployment status.
+              above for what has been verified.
             </p>
           </div>
         </section>

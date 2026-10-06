@@ -112,28 +112,11 @@ test('the case study a service points at is the one the project owns', () => {
 })
 
 test('no project is presented as unfinished, because none is', () => {
-  // No project's status is "In development" — every one of the six is either
-  // deployed ("Live") or complete and source-available ("Built"). If this
-  // ever fails, the data changed and the claim should be checked before the
-  // UI is.
-  //
-  // "Live" is a stricter claim than "Built": it additionally asserts a public
-  // deployment exists. p1–p3 make that claim; p4–p6 do not — there is no
-  // public deployment to claim — so their status is "Built", never "In
-  // development", and Projects.tsx already renders that honestly (no
-  // "· Deployed" badge, no demo button).
-  const deployed: ProjectId[] = ['p1', 'p2', 'p3']
-
+  // No project's status is "In development" — every one of the six is
+  // complete and source-available, so every status is "Built". If this ever
+  // fails, the data changed and the claim should be checked before the UI is.
   for (const project of projects) {
-    if (deployed.includes(project.id)) {
-      assert.equal(project.status, 'Live', `project "${project.id}" is no longer live`)
-    } else {
-      assert.notEqual(
-        project.status,
-        'In development',
-        `project "${project.id}" is presented as unfinished`,
-      )
-    }
+    assert.equal(project.status, 'Built', `project "${project.id}" is not presented as built`)
   }
 })
 
@@ -174,17 +157,17 @@ test('the verified proof figures are unchanged', () => {
   }
 })
 
-test('every project keeps all four of its destinations', () => {
+test('every project keeps all three of its destinations', () => {
   // p1–p3 are the original, fully-showcased flagships: a case study, an
-  // in-browser demo, a deployed instance and a repository. p4–p6 are
-  // approved but have no case-study page or in-browser demo built yet, and
-  // no public deployment to link — deliberate, not a lost link — so only
-  // repoHref is required of them for now.
+  // in-browser demo and a repository. p4–p6 have no in-browser demo, so only
+  // repoHref is required of them. Nothing links to a hosted instance: none
+  // exists.
   const fullyLinked: ProjectId[] = ['p1', 'p2', 'p3']
-  const allDestinations = ['caseStudyHref', 'interactiveDemoHref', 'demoHref', 'repoHref'] as const
+  const allDestinations = ['caseStudyHref', 'interactiveDemoHref', 'repoHref'] as const
+  const noDemo = ['repoHref'] as const
 
   for (const project of projects) {
-    const keys = fullyLinked.includes(project.id) ? allDestinations : (['repoHref'] as const)
+    const keys = fullyLinked.includes(project.id) ? allDestinations : noDemo
     for (const key of keys) {
       const value = project[key]
       assert.ok(

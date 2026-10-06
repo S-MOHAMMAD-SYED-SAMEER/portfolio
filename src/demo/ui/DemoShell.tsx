@@ -15,8 +15,8 @@ import ThemeToggle from "../../components/ThemeToggle";
  * invented data, with no network call, no model, no account and no backend of
  * any kind. That is stated once, prominently and without being asked, because
  * a demonstration a client mistakes for the production system is worse than no
- * demonstration at all — the production deployments are linked separately and
- * described as what they are.
+ * demonstration at all — the repository and case study describe the real
+ * system as what it is.
  *
  * WHY THE STAGES ARE NUMBERED
  *
@@ -286,28 +286,18 @@ export function DemoShell({
           </h2>
           <p className="mt-3 max-w-2xl text-body text-ink-muted">
             What you just stepped through is a simulation of how the system works. The case
-            study explains how it is built, and the deployed application is linked separately.
+            study explains how it is built, and the source is on GitHub.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             {/* Each link is rendered only if the project actually has one, so
-                a project with no deployment shows no button rather than one
-                pointing nowhere. All three currently have all three. */}
+                a project without it shows no button rather than one pointing
+                nowhere. All three demo projects currently have both. */}
             {project.caseStudyHref && (
               <a
                 href={project.caseStudyHref}
                 className="inline-flex h-control-lg items-center rounded-control bg-brand px-6 text-small font-semibold text-white shadow-resting hover:bg-brand/90"
               >
                 View case study
-              </a>
-            )}
-            {project.demoHref && (
-              <a
-                href={project.demoHref}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-control-lg items-center rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
-              >
-                Open the deployed application
               </a>
             )}
             {project.repoHref && (
@@ -327,13 +317,10 @@ export function DemoShell({
               Discuss a similar workflow
             </a>
           </div>
-          {/* The deployment's disclosure comes from the project data, so this
-              page and the homepage card say the same thing. The sentence after
-              it is this component's own: it is the only surface where the
+          {/* This component's own statement: it is the only surface where the
               in-browser demo exists, so it is the only one that can truthfully
               say the demo needs nothing. */}
           <p className="mt-5 text-meta text-ink-muted">
-            {project.demoNote && <>{project.demoNote} </>}
             The interactive demo above needs no account and no waiting — it runs
             entirely in this browser.
           </p>
