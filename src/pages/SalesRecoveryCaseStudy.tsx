@@ -39,7 +39,7 @@ const STACK = [
   { name: "Local embeddings (Xenova/all-MiniLM-L6-v2)", role: "Runs in-process for RAG — no embeddings API call" },
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
   { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/index.html) — no framework, no build step" },
-  { name: "Node's built-in test runner (node --test)", role: "The 367-test automated suite" },
+  { name: "Node's built-in test runner (node --test)", role: "The 372-test automated suite" },
 ];
 
 /**
@@ -49,7 +49,7 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "367 / 367",
+    figure: "372 / 372",
     label: "Automated tests passing",
     detail:
       "Full suite, run with dependencies installed from the committed lockfile — 29 files, zero failures, zero skips. It also runs in CI on every push, on Node 22.13 and 24.",
@@ -67,10 +67,10 @@ const RESULTS: Result[] = [
       "The same 21 cases against scripted answers, with no API key and no running Chroma server. It checks the harness and the code around the model, not a model.",
   },
   {
-    figure: "0 / 41",
-    label: "Guardrail false positives (was 2 / 41)",
+    figure: "0 / 84",
+    label: "Clean replies the guardrails blocked (was 2 / 41)",
     detail:
-      "On 41 real drafts checked by hand against the tools and knowledge base, the guardrails blocked two good replies; after the fix, none, and none of 15 held-out drafts. One known gap: an unsupported claim about promotions is not caught.",
+      "On 84 real drafts checked by hand across five samples, the guardrails now block no good reply; the first sample blocked two (4.9%). The promotion-claim gap is closed. One unrelated unsupported claim in the same data is still missed.",
   },
 ];
 
@@ -523,13 +523,19 @@ export default function SalesRecoveryCaseStudy() {
             is in stock&rdquo; — the second being the &ldquo;I&apos;m still
             deciding&rdquo; message answered with &ldquo;I&apos;m not
             confident that answer is correct&rdquo;. The policies now count a
-            match only when it is not a refusal, an offer or a conditional,
-            and a refusal cannot excuse a claim beside it: 0 of 41
-            afterwards, and 0 of 15 on prompts written after the fix. The
-            same sample showed a gap in the other direction: two replies
-            asserted promotions no tool supports and nothing caught them,
-            because the discount policy only recognises a percentage or a
-            code. That is open.
+            match only when it is not a refusal, an offer or a conditional.
+            The same sample showed a gap the other way: two replies asserted
+            promotions no tool supports and nothing caught them. A first fix,
+            written from those two drafts, then blocked 6 of 11 on fresh
+            prompts, five of them honest &ldquo;I don&apos;t have
+            information&rdquo; answers (50% false positives). It was revised
+            to separate the agent speaking about what it knows from the store
+            speaking about what it has, and checked on a further fresh set.
+            Over all 89 real drafts on file it blocks 0 of 84 clean ones and
+            misses none of four promotion claims; one unrelated unsupported
+            claim (how items are sold) is still missed. Each round of fresh
+            data found another shape, which is why the check that a tool ran
+            stays the main defence.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             <strong className="text-ink">Injection, the judge and the quota.</strong>{" "}
@@ -586,7 +592,7 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             The full agent pipeline (history, signals, tool-calling, RAG,
             guardrails, persistence), the provider abstraction across Gemini
-            and Anthropic, and the 367-test automated suite plus the
+            and Anthropic, and the 372-test automated suite plus the
             evaluation harness, run in mock mode and on Gemini.
           </p>
           <p className="mt-6 max-w-3xl text-small font-semibold text-ink">
@@ -636,9 +642,9 @@ export default function SalesRecoveryCaseStudy() {
                   "Two runs on Gemini 3.5 Flash-Lite (18/21 under the original grader, 21/21 on the corrected one) and ten injection attempts: a smoke test, not a benchmark. The Anthropic adapter is implemented and has not yet been run at all.",
               },
               {
-                title: "Guardrails miss unsupported promotion claims",
+                title: "Guardrails still miss some claims",
                 detail:
-                  "In a held-out sample, two replies asserted promotions that no tool supports and no policy caught them, because the discount policy only recognises a percentage or a code. Open.",
+                  "They are patterns over English text. After the promotion-claim fix they miss none of four such claims in the recorded drafts, but one unrelated unsupported claim among 89 drafts still gets through, and every round of fresh data has found a new shape.",
               },
               {
                 title: "RAG retrieval isn't comprehensively benchmarked",
