@@ -81,7 +81,7 @@ export const services: readonly Service[] = [
       "Answer customer questions from your own policies and live data — and notice the buyer who is about to leave.",
     builds:
       "Retrieval over policy documents, tool-calling for live order/stock/discount lookups, conversation memory, deterministic buying-signal detection, and guardrails that check the reply before the customer sees it.",
-    evidence: [testCountOf(p1), "21/21 eval (mock)", "8 guardrail policies enforced in code"],
+    evidence: [testCountOf(p1), "21/21 eval (live Gemini)", "8 guardrail policies enforced in code"],
     cta: { label: "Try the interactive demo", href: p1.interactiveDemoHref ?? "#projects" },
     provenBy: "p1",
   },
