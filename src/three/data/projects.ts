@@ -38,7 +38,7 @@ function canonical(id: CanonicalId) {
 /**
  * The measured half of `proof`, parsed out of the canonical strings.
  *
- * The portfolio stores these as `["367 tests", "21/21 eval (live Gemini)"]`; the 3D panels
+ * The portfolio stores these as `["372 tests", "21/21 eval (live Gemini)"]`; the 3D panels
  * want a number and a ratio. Parsing rather than re-typing means the two can
  * never disagree, and an unparseable count throws at module load instead of
  * rendering "NaN tests".
