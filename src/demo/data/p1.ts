@@ -17,11 +17,11 @@ import type { Scenario } from "../ui/DemoShell";
  *
  * WHAT THIS IS NOT
  *
- * No language model is involved, here or in the captured runs. With a real model
- * (Gemini or Claude) the wording of a reply and the choice of tools come from
- * the model; the signals, the tools, the retrieval and the guardrails around it
- * are the same code. That run has not been recorded yet, so nothing below is a
- * claim about a model's behaviour.
+ * No language model is involved in the replayed runs. With a real model (Gemini
+ * or Claude) the wording of a reply and the choice of tools come from the model;
+ * the signals, the tools, the retrieval and the guardrails around it are the same
+ * code. The one place this file shows what a real model did is marked: the
+ * hesitating-buyer scenario quotes a recorded Gemini reply (2026-10-13).
  *
  * The earlier version of this file described a store with its own name, orders
  * and offers, a "frustration" signal, a proactive discount, a follow-up task and
@@ -372,8 +372,8 @@ export const P1_SCENARIOS: Scenario[] = [
         panels: [
           {
             kind: "note",
-            title: "What a real model might do",
-            body: "Told to address likely concerns, a real model may look up shipping or returns information on its own. That behaviour has not been recorded yet, so this demo does not show it.",
+            title: "What a real model did",
+            body: "Told to address likely concerns, Gemini 3.5 Flash-Lite (recorded 2026-10-13, not part of this replay) searched the knowledge base on its own and answered with the real 30-day return policy, as in the screenshot in the case study. The demo provider just replies with the fixed text.",
           },
           {
             kind: "note",
@@ -420,6 +420,12 @@ export const P1_SCENARIOS: Scenario[] = [
             from: "Support assistant",
             meta: "Demo provider · toolsUsed: none",
             body: "No worries — it's a big decision! I'm happy to check stock, look up a discount code, or answer a shipping or returns question for you. Just let me know what would help.",
+          },
+          {
+            kind: "quote",
+            title: "A real model's reply to the same kind of message",
+            text: "Take your time deciding! If you do end up ordering, we offer a 30-day return window for items that are unused, unwashed, and in their original packaging with tags attached. Let me know if you have any questions about it!",
+            source: "Gemini 3.5 Flash-Lite, recorded 2026-10-13 · after a searchKnowledgeBase call · not what this demo provider says",
           },
           {
             kind: "note",
