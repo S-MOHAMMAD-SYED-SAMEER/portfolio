@@ -38,7 +38,7 @@ function canonical(id: CanonicalId) {
 /**
  * The measured half of `proof`, parsed out of the canonical strings.
  *
- * The portfolio stores these as `["247 tests", "16/16 eval"]`; the 3D panels
+ * The portfolio stores these as `["349 tests", "21/21 eval (mock)"]`; the 3D panels
  * want a number and a ratio. Parsing rather than re-typing means the two can
  * never disagree, and an unparseable count throws at module load instead of
  * rendering "NaN tests".
@@ -49,11 +49,13 @@ function canonicalProof(id: CanonicalId): { tests: number; evaluation: string | 
   if (!Number.isFinite(tests)) throw new Error(`Project ${id} has no parseable test count`)
 
   // Anchored at the start but NOT at the end. The canonical strings are
-  // "16/16 eval" and "10/10 eval", so requiring the ratio to be the whole
-  // string matched neither, and every 3D panel silently dropped a true and
-  // verified figure. The trailing word boundary still rejects "16/16x".
-  const ratio = /^([0-9]+\/[0-9]+)\b/.exec(project.proof?.[1] ?? '')
-  return { tests, evaluation: ratio === null ? null : ratio[1]! }
+  // "21/21 eval (mock)" and "10/10 eval", so requiring the ratio to be the
+  // whole string matched neither, and every 3D panel silently dropped a true
+  // and verified figure. The trailing word boundary still rejects "21/21x".
+  // A "(mock)" qualifier is carried through: a result that replays scripted
+  // answers must not be shown as if it were a live-model result.
+  const ratio = /^([0-9]+\/[0-9]+)\b(?: eval)?( \(mock\))?/.exec(project.proof?.[1] ?? '')
+  return { tests, evaluation: ratio === null ? null : `${ratio[1]!}${ratio[2] ?? ''}` }
 }
 
 export type ProjectId = 'p1' | 'p2' | 'p3'
@@ -223,7 +225,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     proof: {
       properties: [
         'Eight guardrail policies enforced in code, not prompt text',
-        'Evaluated against the live model, not only mocked responses',
+        'Mock evaluation only so far: the real-model run is still to be re-run',
       ],
     },
     screenshots: [
@@ -236,8 +238,8 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
       {
         src: '/images/p1-buying-signal-recovery.png',
-        alt: 'A customer writes “I like this but I’m still deciding if I need it.” The assistant declines to answer and offers to connect them with the support team, tagged “Checked store information” and “Noticed: hesitation”.',
-        caption: 'Hesitation is noticed — and an answer it cannot back is refused rather than guessed.',
+        alt: 'A customer writes “I like this but I’m still deciding if I need it.” The reply is the guardrails’ fixed fallback, which offers the support team, tagged “Checked store information” and “Noticed: hesitation”.',
+        caption: 'Hesitation is noticed, but the model’s answer was blocked and the customer got no real recovery. To be replaced after the real-model run.',
         width: 912,
         height: 608,
       },
