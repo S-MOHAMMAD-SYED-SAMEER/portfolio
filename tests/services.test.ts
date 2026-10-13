@@ -144,7 +144,7 @@ test('the verified proof figures are unchanged', () => {
   // portfolio's load-bearing claims, so they are pinned here: changing one
   // should require changing this line and saying why.
   const expected: Record<ProjectId, string[]> = {
-    p1: ['247 tests', '16/16 eval'],
+    p1: ['349 tests', '21/21 eval (mock)'],
     p2: ['895 tests', '10/10 eval'],
     p3: ['689 tests', 'deterministic scoring'],
     p4: ['1,135 tests · CI green (4 skipped: need model weights)', 'deterministic, credential-free demo'],

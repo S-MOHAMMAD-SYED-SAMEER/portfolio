@@ -18,24 +18,24 @@ export interface Result {
 
 const SALES_RECOVERY_RESULTS: Result[] = [
   {
-    figure: "247",
+    figure: "349",
     label: "Automated tests passing",
     detail: "Covering retrieval, lookups, memory, signals and the safety layer.",
   },
   {
-    figure: "16 / 16",
-    label: "Evaluation cases passing",
-    detail: "A fixed scenario set the whole agent is graded against, end to end.",
+    figure: "21 / 21",
+    label: "Evaluation cases passing (mock)",
+    detail: "A fixed scenario set graded end to end with scripted answers: it checks the code around the model, not a model.",
   },
   {
     figure: "100%",
-    label: "Evaluation pass rate",
+    label: "Evaluation pass rate (mock)",
     detail: "Graded by exact comparison, not by asking a model to mark its own work.",
   },
   {
     figure: "0%",
     label: "Hallucination rate",
-    detail: "No answer in the evaluation stated something it had not actually looked up.",
+    detail: "No scripted answer in the mock evaluation stated something it had not actually looked up.",
   },
 ];
 

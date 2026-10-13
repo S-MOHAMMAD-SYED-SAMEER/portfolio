@@ -23,8 +23,8 @@ import Section from "../components/Section";
  * a freshly-reproduced test/evaluation run with dependencies installed from
  * the committed lockfile (P7A.1) — not from the repository's own
  * documentation alone. Where a figure describes a mock-mode result, it says
- * so; the documented real-Gemini result is named as a historical claim,
- * not re-presented as independently verified.
+ * so; no real-model result is claimed anywhere on this page (the real-model
+ * run is still to be re-run, and its output will be recorded when it is).
  */
 const PROJECT = projectById("p1");
 const REPO_URL = requiredLink(PROJECT, "repoHref");
@@ -33,50 +33,49 @@ const INTERACTIVE_DEMO_HREF = requiredLink(PROJECT, "interactiveDemoHref");
 const STACK = [
   { name: "Node.js + Express", role: "Application server (JavaScript, ES modules — no TypeScript in this repository)" },
   { name: "Google Gemini", role: "Default LLM provider, behind a provider interface" },
-  { name: "Anthropic Claude", role: "Second supported provider, behind the same interface" },
+  { name: "Anthropic Claude", role: "Second provider behind the same interface — implemented, not yet run against the live API" },
   { name: "Chroma", role: "Vector store for the store's knowledge base" },
   { name: "Local embeddings (Xenova/all-MiniLM-L6-v2)", role: "Runs in-process for RAG — no embeddings API call" },
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
   { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/index.html) — no framework, no build step" },
-  { name: "Node's built-in test runner (node --test)", role: "The 247-test automated suite" },
+  { name: "Node's built-in test runner (node --test)", role: "The 349-test automated suite" },
 ];
 
 /**
  * Verified engineering figures, reproduced directly against the current
- * repository (see P7A.1) — a real, freshly-run `npm test`, and the
- * deterministic mock-mode evaluation harness. Deliberately not the
- * documented real-Gemini evaluation result, which was not independently
- * reproduced for this case study; see the caption and Evaluation below.
+ * repository — a real, freshly-run `npm test`, and the deterministic mock-mode
+ * evaluation harness. There is deliberately no real-model figure here: the
+ * real-model run is still to be re-run (see the caption and Evaluation below).
  */
 const RESULTS: Result[] = [
   {
-    figure: "247 / 247",
+    figure: "349 / 349",
     label: "Automated tests passing",
     detail:
-      "Full suite, freshly run with dependencies installed from the committed lockfile — 21 files, zero failures, zero skips.",
+      "Full suite, run with dependencies installed from the committed lockfile — 28 files, zero failures, zero skips. It also runs in CI on every push.",
   },
   {
-    figure: "16 / 16",
-    label: "Deterministic evaluation — mock mode",
+    figure: "21 / 21",
+    label: "Evaluation cases passing — mock mode",
     detail:
-      "100% pass rate against the scripted-response harness. Needs no API key and no running Chroma server; it validates the harness and the surrounding pipeline, not the model.",
+      "100% pass rate against the scripted-response harness, including five prompt-injection and refusal cases. Needs no API key and no running Chroma server; it checks the harness and the code around the model, not the model.",
   },
   {
-    figure: "11/11 · 13/13 · 9/9 · 1/1 · 5/5",
+    figure: "14/14 · 16/16 · 11/11 · 1/1 · 10/10",
     label: "Per-metric mock-mode breakdown",
     detail:
       "Tool-selection, signal-detection, grounded-answer, unsupported-answer and guardrail/safety accuracy — each 100% in mock mode, each with its own denominator.",
   },
   {
-    figure: "0 / 13",
+    figure: "0 / 18",
     label: "Hallucination metric — mock mode",
     detail:
-      "Of the 13 mock-mode cases where a factual claim was checkable at all, none stated something ungrounded or unsafe.",
+      "Of the 18 mock-mode cases where a factual claim was checkable at all, none stated something ungrounded or unsafe. The mock replays scripted answers, so this says nothing about a live model.",
   },
 ];
 
 const RESULTS_CAPTION =
-  "These are the project's own test and evaluation figures, reproduced directly against the current repository — not customer outcomes. The mock-mode evaluation is fully deterministic and reproducible; it validates this codebase's guard, tool-routing and calendar logic, not a live model's judgment. A separate real-mode run against the live Gemini model is documented in the repository but was not independently reproduced for this case study — see Evaluation and Production boundary.";
+  "These are the project's own test and evaluation figures, reproduced directly against the current repository — not customer outcomes. The mock-mode evaluation is fully deterministic and reproducible; it checks this codebase's guardrail, tool-routing and signal logic, not a live model's judgment. A run against a real model is still to be re-run and recorded — see Evaluation and Production boundary.";
 
 export default function SalesRecoveryCaseStudy() {
   return (
@@ -227,8 +226,8 @@ export default function SalesRecoveryCaseStudy() {
             <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
               <li>
                 A provider-agnostic LLM interface — Gemini by default,
-                Anthropic as a fully-implemented second option behind the
-                same call.
+                Anthropic as a second option behind the same call
+                (implemented, not yet run against the live API).
               </li>
               <li>
                 A tool-calling loop, bounded to three model/tool round-trips,
@@ -279,10 +278,9 @@ export default function SalesRecoveryCaseStudy() {
             request/response shape into three shared callbacks, and hand
             them to one provider-agnostic loop — the loop itself never
             touches a Gemini- or Anthropic-shaped object directly. Gemini is
-            the active default; Anthropic is fully implemented behind the
-            same interface but has not been the provider these evaluation
-            figures were measured against — the two have not been
-            independently benchmarked against each other here.
+            the default; Anthropic is implemented behind the same interface
+            but has not yet been run against the live API, and no evaluation
+            figure here was measured with either provider.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             A real multi-provider compatibility problem surfaced while
@@ -504,22 +502,22 @@ export default function SalesRecoveryCaseStudy() {
             made here.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            An earlier repository record documents a 16/16 Gemini run, but
-            that result was not independently reproduced during the current
-            audit — no credentials or running Chroma server were available
-            to do so. It is named here as a documented historical claim, not
-            re-presented beside the verified mock-mode figures as though
-            both were current measurements.
+            <strong className="text-ink">The real-model run is still to be re-run.</strong>{" "}
+            An earlier run against Gemini was reported at 16/16 on the
+            original 16 cases, but its output was not kept, so no real-model
+            result is claimed on this page. A recorded run is the next step;
+            until it exists, the figures above are mock-mode figures and are
+            labelled as such everywhere on this site.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            The same documented real run also surfaced a genuine bug in the
-            harness&apos;s own grading, not in the agent: a correct,
+            That earlier run is also where a genuine bug in the harness&apos;s
+            own grading was found, not a bug in the agent: a correct,
             grounded reply used a typographic en dash (&ldquo;7–12 business
             days&rdquo;) where the expected-keyword check used a plain
             hyphen, so a fully correct answer registered as a miss. The fix
             — normalizing common Unicode dash variants before comparing — is
-            covered by its own regression test, which is part of the 247
-            tests verified in this audit.
+            covered by its own regression test, which is part of the 349
+            tests verified here.
           </p>
         </Section>
 
@@ -562,7 +560,7 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             The full agent pipeline (history, signals, tool-calling, RAG,
             guardrails, persistence), the provider abstraction across Gemini
-            and Anthropic, and the 247-test automated suite plus the
+            and Anthropic, and the 349-test automated suite plus the
             deterministic evaluation harness.
           </p>
           <p className="mt-6 max-w-3xl text-small font-semibold text-ink">
@@ -572,8 +570,8 @@ export default function SalesRecoveryCaseStudy() {
             Real customer traffic, real revenue impact, a real Shopify or
             CRM integration, an actual human handoff (the assistant can only
             state that a person will help — nothing here connects one),
-            production-scale operation, and an independently reproduced
-            live-Gemini evaluation benchmark.
+            production-scale operation, and an recorded
+            real-model evaluation run (still to be re-run).
           </p>
         </Section>
 
@@ -603,12 +601,12 @@ export default function SalesRecoveryCaseStudy() {
               {
                 title: "Mock evaluation is not live-model evaluation",
                 detail:
-                  "The 16/16 mock-mode result validates this codebase's own logic against scripted responses — it says nothing about live Gemini's judgment.",
+                  "The 21/21 mock-mode result checks this codebase's own logic against scripted responses — it says nothing about a live model's judgment.",
               },
               {
-                title: "Historical Gemini result not independently reproduced",
+                title: "Real-model run: to be re-run",
                 detail:
-                  "A documented real-mode 16/16 run exists in the repository's own record; it was not re-run for this audit.",
+                  "An earlier Gemini run was reported but its output was not kept, so no real-model result is claimed. A recorded run is the next step. The Anthropic adapter is implemented and has not yet been run at all.",
               },
               {
                 title: "RAG retrieval isn't comprehensively benchmarked",
@@ -626,9 +624,9 @@ export default function SalesRecoveryCaseStudy() {
                   "They confirm the right category of tool ran, not that a specific stated value is numerically correct.",
               },
               {
-                title: "No CI workflow currently verified",
+                title: "CI covers the tests and the mock evaluation only",
                 detail:
-                  "Every figure above comes from a manual run against the current checkout, not an automated, continuously-verified pipeline.",
+                  "GitHub Actions runs the tests, the mock evaluation and npm audit on every push. No CI job runs a real model.",
               },
             ].map((item) => (
               <div
@@ -684,8 +682,8 @@ export default function SalesRecoveryCaseStudy() {
               src="/images/p1-buying-signal-recovery.png"
               width={912}
               height={608}
-              alt="The support agent recognising a hesitant buyer and responding to the concern they raised."
-              caption="A detected purchase_hesitation signal shaping tone — the reply addresses the concern without inventing a discount."
+              alt="The support agent's reply to a hesitant buyer: the fixed fallback message offering the support team, tagged Checked store information and Noticed: hesitation."
+              caption="The purchase_hesitation signal was detected (the “Noticed: hesitation” badge), but the model's answer was replaced by the guardrail fallback, so the customer got no real recovery. This screenshot will be replaced after the real-model run, which will also measure how often the guardrails block a good answer."
             />
             <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
               <p className="text-small font-semibold text-ink">
@@ -694,8 +692,8 @@ export default function SalesRecoveryCaseStudy() {
               <p className="mt-2 text-small text-ink-muted">
                 The demo runs on fictional store data, so everything is safe
                 to poke at. Step through a stock question, an order-status
-                question and a hesitant buyer, and watch which checks run
-                before each reply.
+                question, a returns question and a hesitant buyer, and watch
+                which checks run before each reply.
               </p>
               <a
                 href={INTERACTIVE_DEMO_HREF}
