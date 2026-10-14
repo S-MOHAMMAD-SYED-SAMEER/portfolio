@@ -322,7 +322,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     status: 'built',
     proof: {
       properties: [
-        'Deterministic integer scoring — no floating point in the scoring path',
+        'Deterministic integer scoring — integer arithmetic with one floor-division',
         'Every citation verified character-for-character against the submitted CV',
         'Protected attributes redacted before the model sees the text',
       ],
