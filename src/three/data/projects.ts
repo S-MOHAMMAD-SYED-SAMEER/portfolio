@@ -38,7 +38,7 @@ function canonical(id: CanonicalId) {
 /**
  * The measured half of `proof`, parsed out of the canonical strings.
  *
- * The portfolio stores these as `["247 tests", "16/16 eval"]`; the 3D panels
+ * The portfolio stores these as `["372 tests", "21/21 eval (live Gemini)"]`; the 3D panels
  * want a number and a ratio. Parsing rather than re-typing means the two can
  * never disagree, and an unparseable count throws at module load instead of
  * rendering "NaN tests".
@@ -49,11 +49,14 @@ function canonicalProof(id: CanonicalId): { tests: number; evaluation: string | 
   if (!Number.isFinite(tests)) throw new Error(`Project ${id} has no parseable test count`)
 
   // Anchored at the start but NOT at the end. The canonical strings are
-  // "16/16 eval" and "10/10 eval", so requiring the ratio to be the whole
-  // string matched neither, and every 3D panel silently dropped a true and
-  // verified figure. The trailing word boundary still rejects "16/16x".
-  const ratio = /^([0-9]+\/[0-9]+)\b/.exec(project.proof?.[1] ?? '')
-  return { tests, evaluation: ratio === null ? null : ratio[1]! }
+  // "21/21 eval (live Gemini)" and "10/10 eval", so requiring the ratio to be the
+  // whole string matched neither, and every 3D panel silently dropped a true
+  // and verified figure. The trailing word boundary still rejects "21/21x".
+  // A parenthesised qualifier, "(mock)" or "(live Gemini)", is carried through: a
+  // result that replays scripted answers must not be shown as if it were a
+  // live-model result, and a live one should say which model.
+  const ratio = /^([0-9]+\/[0-9]+)\b(?: eval)?( \([A-Za-z ]+\))?/.exec(project.proof?.[1] ?? '')
+  return { tests, evaluation: ratio === null ? null : `${ratio[1]!}${ratio[2] ?? ''}` }
 }
 
 export type ProjectId = 'p1' | 'p2' | 'p3'
@@ -223,7 +226,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     proof: {
       properties: [
         'Eight guardrail policies enforced in code, not prompt text',
-        'Evaluated against the live model, not only mocked responses',
+        'Evaluated on a live model (Gemini), not only mocked responses, with the first result and the grader fix both reported',
       ],
     },
     screenshots: [
@@ -236,10 +239,10 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       },
       {
         src: '/images/p1-buying-signal-recovery.png',
-        alt: 'A customer writes “I like this but I’m still deciding if I need it.” The assistant declines to answer and offers to connect them with the support team, tagged “Checked store information” and “Noticed: hesitation”.',
-        caption: 'Hesitation is noticed — and an answer it cannot back is refused rather than guessed.',
-        width: 912,
-        height: 608,
+        alt: 'A real conversation with the live model: a stock question answered from a tool, then a hesitating buyer reassured with the store’s 30-day return policy, tagged “Checked store information” and “Noticed: hesitation”.',
+        caption: 'A real recovery: hesitation is noticed, the store’s own return policy is checked, and the customer is reassured without an invented discount.',
+        width: 940,
+        height: 433,
       },
     ],
     links: {

@@ -93,7 +93,7 @@ export const projects: Project[] = [
       height: 872,
       alt: "The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying.",
     },
-    proof: ["247 tests", "16/16 eval"],
+    proof: ["372 tests", "21/21 eval (live Gemini)"],
     featured: true,
   },
   {
@@ -165,7 +165,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-knowledgeos.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/knowledgeos",
-    proof: ["1,135 tests · CI green (4 skipped: need model weights)", "deterministic, credential-free demo"],
+    proof: ["1,259 passing (CI)", "deterministic, credential-free demo"],
     featured: true,
   },
   {
@@ -221,7 +221,7 @@ export function projectById(id: ProjectId): Project {
 }
 
 /**
- * The project's test-count line, e.g. "247 tests".
+ * The project's test-count line, e.g. "372 tests".
  *
  * Always `proof[0]`. Every surface that quotes a project's count — the card, the
  * services list, the 3D scene — reads it through here, so the number has one

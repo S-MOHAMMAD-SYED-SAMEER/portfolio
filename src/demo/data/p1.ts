@@ -1,143 +1,119 @@
 import type { Scenario } from "../ui/DemoShell";
 
 /**
- * Synthetic scenarios for the support and sales-recovery workflow.
+ * Four scenarios for the support and sales-recovery agent, replayed from the
+ * agent's own code.
  *
- * Every customer, order, product and policy below is invented. Email addresses
- * use the `.invalid` top-level domain, which is reserved and can never be
- * registered, so nothing here can point at a real person or business.
+ * WHERE EVERY VALUE COMES FROM
  *
- * The figures are what a fixture says, not a measurement of anything. The
- * stages mirror the shape of the real pipeline — understand, retrieve, ground,
- * detect, act — but this file is a description of that shape, not the pipeline
- * itself.
+ * Nothing here is invented to look plausible. Each scenario is the output the
+ * Sales-Recovery Agent repository's credential-free `demo` provider and its real
+ * pipeline produce for the question shown: the signal detector's own result
+ * (`server/src/signals`), the real tool and retrieval results over the
+ * repository's mock data and knowledge-base documents (`server/src/tools`,
+ * `server/data/kb`), the policies in `server/src/guardrails/policies.js`, and
+ * the reply the pipeline returned. They were captured on 2026-10-13 from the
+ * repository at the state described in its README.
+ *
+ * WHAT THIS IS NOT
+ *
+ * No language model is involved in the replayed runs. With a real model (Gemini
+ * or Claude) the wording of a reply and the choice of tools come from the model;
+ * the signals, the tools, the retrieval and the guardrails around it are the same
+ * code. The one place this file shows what a real model did is marked: the
+ * hesitating-buyer scenario quotes a recorded Gemini reply (2026-10-13).
+ *
+ * The earlier version of this file described a store with its own name, orders
+ * and offers, a "frustration" signal, a proactive discount, a follow-up task and
+ * a team flag. None of those exist in the code, so they are gone.
  */
 
-const STORE = "Northlight Supply";
+const DEMO_REPLY_SOURCE =
+  "Replies in this demo come from the repository's demo provider, which has no model: it recognises a fixed set of questions, calls the real tools, and answers from their results.";
 
-/** Reused wherever a stage needs to say where an answer came from. */
-const SOURCE_NOTE =
-  "Answers are assembled only from the store's own retrieved text. Nothing is written from general knowledge.";
+const MEMORY_NOTE =
+  "Only the customer's message and this final reply are saved to the conversation. Tool results and any blocked draft are not.";
+
+/** The signal stage when nothing fires, which is most messages. */
+const NO_SIGNAL = [
+  {
+    kind: "fields" as const,
+    title: "Signal detection",
+    caption: "Six regex patterns, run over this message only (never earlier turns).",
+    rows: [{ label: "Signals detected", value: "None" }],
+  },
+  {
+    kind: "note" as const,
+    title: "Nothing is added to the prompt",
+    body: "No pattern for hesitation, a price or shipping worry, a returns worry or leaving without buying matches, so the system prompt is sent unchanged.",
+  },
+];
 
 export const P1_SCENARIOS: Scenario[] = [
   {
     id: "availability",
     label: "Product availability",
-    summary:
-      "A shopper asks whether something is in stock before committing to the order.",
+    summary: "A stock question: answered by a tool, not by the model's memory.",
     stages: [
       {
         id: "message",
         label: "Message",
-        heading: "A customer asks a question the store can answer",
-        blurb:
-          "The starting point is an ordinary message. Nothing about it is structured, and the customer has no idea what the system needs.",
+        heading: "A customer asks about stock",
+        blurb: "The starting point is an ordinary chat message.",
         panels: [
-          {
-            kind: "message",
-            from: "Priya N.",
-            meta: "Live chat · 14:02",
-            body: "Hi — is the Harbour canvas tote back in stock in navy? I need it before the weekend.",
-          },
-        ],
-      },
-      {
-        id: "understanding",
-        label: "Understanding",
-        heading: "What is actually being asked",
-        blurb:
-          "Two things have to be separated: the question itself, and the information required before it can be answered honestly.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Read from the message",
-            rows: [
-              { label: "Intent", value: "Stock availability", tone: "brand" },
-              { label: "Product", value: "Harbour canvas tote" },
-              { label: "Variant", value: "Navy" },
-              { label: "Deadline mentioned", value: "Before the weekend", tone: "signal" },
-            ],
-          },
-          {
-            kind: "note",
-            title: "Needs a live lookup",
-            body: "Stock is not something a policy document can answer. The request is routed to a tool rather than to retrieval.",
-          },
+          { kind: "message", from: "Customer", meta: "Demo chat", body: "Is the Ceramic Mug in stock?" },
         ],
       },
       {
         id: "signal",
-        label: "Signal",
+        label: "Signals",
         heading: "Is there anything beyond the question?",
-        blurb:
-          "The system looks for hesitation or buying intent separately from the answer, because the two call for different actions.",
+        blurb: "Signal detection is deterministic code that runs before the model, and only shapes tone.",
+        panels: NO_SIGNAL,
+      },
+      {
+        id: "lookup",
+        label: "Tool call",
+        heading: "Stock is looked up, not remembered",
+        blurb: "Live data comes from a tool. The tool, not the model, decides what is in stock.",
         panels: [
           {
             kind: "fields",
-            title: "Signals",
+            title: "checkStock",
+            caption: 'Called with { "product": "ceramic mug" }. Mock data standing in for a store\'s inventory API.',
             rows: [
-              { label: "Hesitation", value: "None detected" },
-              { label: "Urgency", value: "Deadline stated", tone: "signal" },
-              { label: "Recovery action needed", value: "No" },
+              { label: "SKU", value: "MUG-001" },
+              { label: "Product", value: "Ceramic Mug" },
+              { label: "In stock", value: "Yes", tone: "positive" },
+              { label: "Quantity", value: "42" },
             ],
           },
           {
             kind: "note",
-            title: "Why nothing fires here",
-            body: "The customer is ready to buy and only needs a fact. Adding a discount to a question that was already answered would be noise.",
+            title: "Who chooses the tool",
+            body: "With a real model, the model decides to call checkStock. The demo provider recognises a stock question with a fixed pattern and makes the same call.",
           },
         ],
       },
       {
-        id: "lookup",
-        label: "Lookup",
-        heading: "The system checks before it speaks",
-        blurb:
-          "A stock question gets a stock answer from the catalogue, not a guess assembled from wording.",
+        id: "guardrail",
+        label: "Guardrails",
+        heading: "The draft is checked before it is shown",
+        blurb: "Eight policies in application code check the reply against what actually ran this turn.",
         panels: [
           {
             kind: "fields",
-            title: "Catalogue lookup (synthetic)",
-            caption: "Fixture data standing in for the store's product feed.",
+            title: "Policies that apply to this reply",
             rows: [
-              { label: "SKU", value: "NL-TOTE-NAV" },
-              { label: "In stock", value: "12 units", tone: "positive" },
-              { label: "Dispatch", value: "Same day before 15:00" },
-              { label: "Delivery estimate", value: "2 working days" },
+              { label: "no_unverified_stock_claim", value: "Passed — checkStock ran this turn", tone: "positive" },
+              { label: "no_deceptive_urgency", value: "Passed — no urgency language", tone: "positive" },
+              { label: "The other six", value: "Passed" },
             ],
           },
-        ],
-      },
-      {
-        id: "grounded",
-        label: "Grounded answer",
-        heading: "The answer carries its source",
-        blurb:
-          "Every claim in the reply traces back to something retrieved. That is what makes it checkable rather than plausible.",
-        panels: [
           {
-            kind: "quote",
-            title: "Retrieved passage",
-            text: "Orders placed before 15:00 on a working day are dispatched the same day. Standard delivery arrives within two working days.",
-            source: "Store shipping policy · synthetic fixture",
-          },
-          { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "action",
-        label: "Action",
-        heading: "What the system decides to do",
-        blurb: "One decision, with the reason recorded beside it.",
-        panels: [
-          {
-            kind: "list",
-            title: "Chosen actions",
-            items: [
-              "Answer the stock question with the retrieved figure",
-              "State the dispatch cut-off, because a deadline was mentioned",
-              "No discount, no escalation, no follow-up task",
-            ],
+            kind: "note",
+            title: "A stated limitation",
+            body: "The check is that the right tool ran, not that the reply's number matches the tool's. It would not catch a reply that said 100 when the tool said 42.",
           },
         ],
       },
@@ -145,14 +121,15 @@ export const P1_SCENARIOS: Scenario[] = [
         id: "reply",
         label: "Reply",
         heading: "What the customer sees",
-        blurb: "The finished reply — every fact in it came from a stage above.",
+        blurb: DEMO_REPLY_SOURCE,
         panels: [
           {
             kind: "message",
-            from: `${STORE} support`,
-            meta: "Sent 14:02",
-            body: "Yes — the Harbour canvas tote in navy is in stock, with 12 available.\n\nIf you order before 15:00 today it ships the same day, and standard delivery is two working days, so it will reach you before the weekend.",
+            from: "Support assistant",
+            meta: "Demo provider · toolsUsed: checkStock",
+            body: "Yes, the Ceramic Mug is in stock — 42 available.",
           },
+          { kind: "note", title: "What is remembered", body: MEMORY_NOTE },
         ],
       },
     ],
@@ -161,102 +138,70 @@ export const P1_SCENARIOS: Scenario[] = [
   {
     id: "order",
     label: "Order status",
-    summary: "An existing customer wants to know where their parcel is.",
+    summary: "An order question: answered from the order record, with no authentication in the way.",
     stages: [
       {
         id: "message",
         label: "Message",
         heading: "A question about something already bought",
-        blurb: "This one cannot be answered from documents at all — it needs the order record.",
+        blurb: "This cannot be answered from documents at all; it needs the order record.",
         panels: [
-          {
-            kind: "message",
-            from: "Tom R.",
-            meta: "Live chat · 09:41",
-            body: "Order NL-4471 — it still says processing. Has it shipped yet?",
-          },
-        ],
-      },
-      {
-        id: "understanding",
-        label: "Understanding",
-        heading: "An identifier changes what is possible",
-        blurb: "The customer supplied an order number, so the system can look it up rather than ask.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Read from the message",
-            rows: [
-              { label: "Intent", value: "Order status", tone: "brand" },
-              { label: "Order reference", value: "NL-4471" },
-              { label: "Sentiment", value: "Mild concern", tone: "signal" },
-            ],
-          },
+          { kind: "message", from: "Customer", meta: "Demo chat", body: "What's the status of order 1001?" },
         ],
       },
       {
         id: "signal",
-        label: "Signal",
-        heading: "Frustration is worth noticing",
-        blurb: "A customer chasing an order is a retention risk, not a sales opportunity. The action reflects that.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "None" },
-              { label: "Frustration", value: "Low, but present", tone: "signal" },
-              { label: "Recovery action needed", value: "No — reassurance instead" },
-            ],
-          },
-        ],
+        label: "Signals",
+        heading: "Is there anything beyond the question?",
+        blurb: "Signal detection is deterministic code that runs before the model, and only shapes tone.",
+        panels: NO_SIGNAL,
       },
       {
         id: "lookup",
-        label: "Lookup",
+        label: "Tool call",
         heading: "The order record is fetched",
-        blurb: "A single tool call against the order system. No document retrieval is involved.",
+        blurb: "One tool call against the order system. No document retrieval is involved.",
         panels: [
           {
             kind: "fields",
-            title: "Order NL-4471 (synthetic)",
+            title: "getOrderStatus",
+            caption: 'Called with { "orderId": "1001" }. Mock data standing in for a store\'s order system.',
             rows: [
-              { label: "Status", value: "Dispatched", tone: "positive" },
-              { label: "Carrier", value: "Regional courier" },
-              { label: "Dispatched", value: "Yesterday, 16:20" },
-              { label: "Expected", value: "Tomorrow" },
+              { label: "Status", value: "shipped", tone: "positive" },
+              { label: "Carrier", value: "DHL" },
+              { label: "Tracking number", value: "DHL-778812" },
+              {
+                label: "Estimated delivery",
+                value: "2026-10-16",
+                note: "The mock dates are set relative to the day the agent runs (three days ahead); this is the value from 2026-10-13.",
+              },
+              { label: "Items", value: "Ceramic Mug" },
             ],
           },
           {
             kind: "note",
             tone: "signal",
-            title: "The storefront was out of date",
-            body: "The order shows as dispatched in the order system while the customer's account page still says processing. The reply resolves the contradiction rather than repeating it.",
+            title: "No authentication",
+            body: "Anyone can look up any order number. That is fine for invented data and is listed as a limitation: a real store would need the customer to prove the order is theirs.",
           },
         ],
       },
       {
-        id: "grounded",
-        label: "Grounded answer",
-        heading: "Answer from the record, not the page",
-        blurb: "Where two sources disagree, the system answers from the authoritative one and says so plainly.",
-        panels: [
-          { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "action",
-        label: "Action",
-        heading: "What the system decides to do",
-        blurb: "Answer, explain the discrepancy, and leave a trace for the team.",
+        id: "guardrail",
+        label: "Guardrails",
+        heading: "The draft is checked before it is shown",
+        blurb: "Eight policies in application code check the reply against what actually ran this turn.",
         panels: [
           {
-            kind: "list",
-            title: "Chosen actions",
-            items: [
-              "Give the dispatch status and expected arrival",
-              "Explain why the account page disagreed",
-              "Flag the stale storefront status for the team to look at",
+            kind: "fields",
+            title: "Policies that apply to this reply",
+            rows: [
+              {
+                label: "no_unverified_order_status_claim",
+                value: "Passed — getOrderStatus ran this turn",
+                tone: "positive",
+              },
+              { label: "The other seven", value: "Passed" },
             ],
           },
         ],
@@ -265,14 +210,15 @@ export const P1_SCENARIOS: Scenario[] = [
         id: "reply",
         label: "Reply",
         heading: "What the customer sees",
-        blurb: "Short, specific, and it addresses the thing that actually worried them.",
+        blurb: DEMO_REPLY_SOURCE,
         panels: [
           {
             kind: "message",
-            from: `${STORE} support`,
-            meta: "Sent 09:41",
-            body: "Good news — NL-4471 was dispatched yesterday at 16:20 and is due to arrive tomorrow.\n\nYour account page is lagging behind the courier update, which is why it still shows as processing. The parcel itself is on its way.",
+            from: "Support assistant",
+            meta: "Demo provider · toolsUsed: getOrderStatus",
+            body: "Order 1001 is currently shipped. Tracking number DHL-778812 via DHL. Estimated delivery: 2026-10-16.",
           },
+          { kind: "note", title: "What is remembered", body: MEMORY_NOTE },
         ],
       },
     ],
@@ -281,7 +227,7 @@ export const P1_SCENARIOS: Scenario[] = [
   {
     id: "policy",
     label: "Returns policy",
-    summary: "A question a document can answer — and the case where retrieval must refuse.",
+    summary: "A policy question: answered from the store's own written policy, word for word.",
     stages: [
       {
         id: "message",
@@ -289,46 +235,20 @@ export const P1_SCENARIOS: Scenario[] = [
         heading: "A policy question",
         blurb: "The kind of message a small team answers a dozen times a week.",
         panels: [
-          {
-            kind: "message",
-            from: "Ines F.",
-            meta: "Email · 11:15",
-            body: "If the jacket doesn't fit, how long do I have to send it back? And do I pay the return postage?",
-          },
-        ],
-      },
-      {
-        id: "understanding",
-        label: "Understanding",
-        heading: "Two questions, not one",
-        blurb: "Both halves must be answered or the reply will generate a follow-up.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Read from the message",
-            rows: [
-              { label: "Intent", value: "Returns policy", tone: "brand" },
-              { label: "Sub-question 1", value: "Return window" },
-              { label: "Sub-question 2", value: "Who pays postage" },
-            ],
-          },
+          { kind: "message", from: "Customer", meta: "Demo chat", body: "What is your return policy?" },
         ],
       },
       {
         id: "signal",
-        label: "Signal",
-        heading: "A returns question before purchase",
-        blurb:
-          "Asking about returns before buying is a hesitation marker: the customer is weighing the risk of it not working out.",
+        label: "Signals",
+        heading: "Is there anything beyond the question?",
+        blurb: "Signal detection is deterministic code that runs before the model, and only shapes tone.",
         panels: [
+          ...NO_SIGNAL,
           {
-            kind: "fields",
-            title: "Signals",
-            rows: [
-              { label: "Hesitation", value: "Detected", tone: "signal" },
-              { label: "Basis", value: "Returns asked pre-purchase" },
-              { label: "Recovery action needed", value: "Yes — reassurance", tone: "signal" },
-            ],
+            kind: "note",
+            title: "A question is not a worry",
+            body: "The return_concern signal needs wording such as “worried about returning” or “what if it doesn't fit”. Asking what the policy is does not match, and the detector does not guess.",
           },
         ],
       },
@@ -336,53 +256,43 @@ export const P1_SCENARIOS: Scenario[] = [
         id: "lookup",
         label: "Retrieval",
         heading: "The store's own policy is retrieved",
-        blurb: "Passages are pulled from the store's documents and ranked. Only retrieved text is allowed into the answer.",
+        blurb: "Passages are pulled from four markdown documents by a local embedding model and Chroma.",
         panels: [
           {
             kind: "quote",
-            title: "Retrieved passage",
-            text: "Unworn items may be returned within 30 days of delivery. Return postage is paid by the customer unless the item arrived damaged or incorrect.",
-            source: "Store returns policy · synthetic fixture",
+            title: "Best passage retrieved",
+            text: "Items can be returned within 30 days of the delivery date for a full refund, provided they are unused, unwashed, and in their original packaging with tags attached. We are unable to accept returns after the 30-day window has closed.",
+            source: "Returns & Refunds Policy > Return Window · similarity 0.587",
+          },
+          {
+            kind: "fields",
+            title: "searchKnowledgeBase: top three passages",
+            caption: "Passages below a similarity of 0.35 are dropped. If none clears it, the tool says so and the agent must not invent a policy.",
+            rows: [
+              { label: "Return Window", value: "0.587" },
+              { label: "Non-Returnable Items", value: "0.557" },
+              { label: "Damaged or Defective Items", value: "0.517" },
+            ],
           },
         ],
       },
       {
-        id: "grounded",
-        label: "Grounded answer",
-        heading: "Both halves are covered by the source",
-        blurb:
-          "The retrieved passage answers both sub-questions, so the reply can be written entirely from it.",
+        id: "guardrail",
+        label: "Guardrails",
+        heading: "The draft is checked before it is shown",
+        blurb: "Eight policies in application code check the reply against what actually ran this turn.",
         panels: [
           {
             kind: "fields",
-            title: "Coverage check",
+            title: "Policies that apply to this reply",
             rows: [
-              { label: "Return window", value: "Covered — 30 days", tone: "positive" },
-              { label: "Postage", value: "Covered — customer pays", tone: "positive" },
-              { label: "Unsupported claims", value: "0", tone: "positive" },
-            ],
-          },
-          {
-            kind: "note",
-            title: "If it had not been covered",
-            body: "Where retrieval returns nothing relevant, the system says it does not know and offers to pass the question to a person. It does not fill the gap from general knowledge.",
-          },
-        ],
-      },
-      {
-        id: "action",
-        label: "Action",
-        heading: "Answer, then reduce the risk",
-        blurb:
-          "The recovery action here is not a discount. It is removing the thing making the customer hesitate.",
-        panels: [
-          {
-            kind: "list",
-            title: "Chosen actions",
-            items: [
-              "Answer both halves from the retrieved policy",
-              "Lead with the reassuring part of the policy, since hesitation was detected",
-              "No discount — the barrier is risk, not price",
+              {
+                label: "no_unverified_policy_claim",
+                value: "Passed — searchKnowledgeBase ran this turn",
+                tone: "positive",
+              },
+              { label: "no_unsupported_refund_promise", value: "Passed — states a policy, promises nothing", tone: "positive" },
+              { label: "The other six", value: "Passed" },
             ],
           },
         ],
@@ -391,14 +301,20 @@ export const P1_SCENARIOS: Scenario[] = [
         id: "reply",
         label: "Reply",
         heading: "What the customer sees",
-        blurb: "Accurate, complete, and framed to address the worry behind the question.",
+        blurb: DEMO_REPLY_SOURCE,
         panels: [
           {
             kind: "message",
-            from: `${STORE} support`,
-            meta: "Sent 11:16",
-            body: "You have 30 days from delivery to send anything back, as long as it is unworn — so there is no rush to decide once it arrives.\n\nReturn postage is paid by you, unless the item turns up damaged or we sent the wrong thing, in which case we cover it.",
+            from: "Support assistant",
+            meta: "Demo provider · toolsUsed: searchKnowledgeBase",
+            body: "Items can be returned within 30 days of the delivery date for a full refund, provided they are unused, unwashed, and in their original packaging with tags attached. We are unable to accept returns after the 30-day window has closed. Final-sale and clearance items are not eligible for return or refund.",
           },
+          {
+            kind: "note",
+            title: "How the wording is chosen",
+            body: "The demo provider picks the sentences of the retrieved passages that best match the question and returns them verbatim. A real model would write its own answer from the same passages.",
+          },
+          { kind: "note", title: "What is remembered", body: MEMORY_NOTE },
         ],
       },
     ],
@@ -407,116 +323,89 @@ export const P1_SCENARIOS: Scenario[] = [
   {
     id: "hesitating",
     label: "Hesitating buyer",
-    summary:
-      "The case the project is named for: interest is real, but the customer is about to leave.",
+    summary: "The case the project is named for: a signal is detected, and no discount is invented.",
     stages: [
       {
         id: "message",
         label: "Message",
-        heading: "Interest, with a reason not to buy",
-        blurb: "Nothing here is a question. That is exactly why it is easy to miss.",
+        heading: "Interest, with a reason to wait",
+        blurb: "Nothing here is a question, which is why a support bot that only answers questions misses it.",
         panels: [
           {
             kind: "message",
-            from: "Marcus B.",
-            meta: "Live chat · 20:37",
-            body: "I like the look of the winter parka but it's a bit more than I wanted to spend. Might leave it for now.",
-          },
-        ],
-      },
-      {
-        id: "understanding",
-        label: "Understanding",
-        heading: "No question was asked",
-        blurb:
-          "A support system that only answers questions has nothing to do with this message. Something else has to notice it.",
-        panels: [
-          {
-            kind: "fields",
-            title: "Read from the message",
-            rows: [
-              { label: "Intent", value: "No question asked", tone: "signal" },
-              { label: "Product interest", value: "Winter parka" },
-              { label: "Stated blocker", value: "Price" },
-              { label: "Stated outcome", value: "Leaving without buying", tone: "signal" },
-            ],
+            from: "Customer",
+            meta: "Demo chat",
+            body: "I like this but I'm still deciding if I need it.",
           },
         ],
       },
       {
         id: "signal",
-        label: "Signal",
-        heading: "The signal that makes this project worth building",
-        blurb:
-          "This is the moment a small team misses at 20:37 on a weeknight, and the one the system exists to catch.",
+        label: "Signals",
+        heading: "The signal detector fires",
+        blurb: "A hand-written pattern matches, and a one-line directive is added to this turn's system prompt.",
         panels: [
           {
             kind: "fields",
-            title: "Signals",
+            title: "Signal detected",
+            caption: "Structured output, not prose: a type, a fixed hand-set confidence, and the matched words.",
             rows: [
-              { label: "Hesitation", value: "Detected", tone: "signal" },
-              { label: "Basis", value: "Price objection + stated intent to leave" },
-              { label: "Confidence", value: "High" },
-              { label: "Recovery action needed", value: "Yes", tone: "signal" },
+              { label: "Type", value: "purchase_hesitation", tone: "signal" },
+              { label: "Confidence", value: "0.75", note: "Chosen by hand for this pattern, not learned." },
+              { label: "Evidence", value: "“still deciding”" },
+              { label: "Scope", value: "This message only" },
             ],
           },
           {
-            kind: "note",
-            tone: "signal",
-            title: "Signal detected",
-            body: "Customer is interested but uncertain, and has named price as the reason. The opportunity is live but about to close.",
+            kind: "quote",
+            title: "Directive added to the system prompt",
+            text: "The customer seems hesitant about buying — proactively address likely concerns (shipping, returns, fit) using your tools/knowledge base, and reassure them. Never invent or imply a discount that hasn't been verified with the discount tool.",
+            source: "server/src/signals/index.js",
           },
         ],
       },
       {
         id: "lookup",
-        label: "Lookup",
-        heading: "What is available to offer",
-        blurb:
-          "Before anything is offered, the system checks what the store actually permits. Offers are not invented.",
+        label: "Tool call",
+        heading: "No tool is called here",
+        blurb: "The demo provider answers this message with a fixed reassurance.",
+        panels: [
+          {
+            kind: "note",
+            title: "What a real model did",
+            body: "Told to address likely concerns, Gemini 3.5 Flash-Lite (recorded 2026-10-13, not part of this replay) searched the knowledge base on its own and answered with the real 30-day return policy, as in the screenshot in the case study. The demo provider just replies with the fixed text.",
+          },
+          {
+            kind: "note",
+            tone: "signal",
+            title: "There is no discount offer, on purpose",
+            body: "The agent only talks about a discount code the customer supplies and the checkDiscount tool confirms. Nothing in the signal, the prompt or the tools lets it offer one unprompted.",
+          },
+        ],
+      },
+      {
+        id: "guardrail",
+        label: "Guardrails",
+        heading: "A discount claim would be blocked",
+        blurb: "Eight policies in application code check the reply against what actually ran this turn.",
         panels: [
           {
             kind: "fields",
-            title: "Eligible offers (synthetic)",
+            title: "Policies that apply to this reply",
             rows: [
-              { label: "First-order code", value: "WELCOME10 — 10% off", tone: "positive" },
-              { label: "Customer eligible", value: "Yes — no previous orders", tone: "positive" },
-              { label: "Stackable", value: "No" },
-              { label: "Expires", value: "7 days" },
+              {
+                label: "no_unverified_discount_claim",
+                value: "Passed — the reply makes no discount claim",
+                tone: "positive",
+              },
+              { label: "no_deceptive_urgency", value: "Passed — no pressure language", tone: "positive" },
+              { label: "The other six", value: "Passed" },
             ],
           },
           {
             kind: "note",
-            title: "Bounded by policy",
-            body: "The system can only offer what the store has authorised. There is no discretion to invent a discount, and no path to a larger one.",
-          },
-        ],
-      },
-      {
-        id: "grounded",
-        label: "Grounded answer",
-        heading: "The offer is real, or it is not made",
-        blurb: "The code, the amount and the expiry all come from the store's own configuration.",
-        panels: [
-          { kind: "note", tone: "brand", title: "Grounding rule", body: SOURCE_NOTE },
-        ],
-      },
-      {
-        id: "action",
-        label: "Action",
-        heading: "Provide reassurance, preserve the opportunity",
-        blurb:
-          "Two things are done: the objection is addressed with a real offer, and the interest is recorded so it is not lost if the customer still leaves.",
-        panels: [
-          {
-            kind: "list",
-            title: "Chosen actions",
-            items: [
-              "Offer the authorised first-order code, once",
-              "State the expiry so the decision does not have to be made now",
-              "Record the interest against the product for follow-up",
-              "Do not repeat the offer if the customer declines",
-            ],
+            title: "If a draft did mention a discount",
+            body: "Without a checkDiscount call this turn, no_unverified_discount_claim would replace the whole reply with a fixed fallback, and the fallback is what would be saved.",
           },
         ],
       },
@@ -524,19 +413,24 @@ export const P1_SCENARIOS: Scenario[] = [
         id: "reply",
         label: "Reply",
         heading: "What the customer sees",
-        blurb: "Helpful rather than pushy — and the offer is one the store actually sanctioned.",
+        blurb: DEMO_REPLY_SOURCE,
         panels: [
           {
             kind: "message",
-            from: `${STORE} support`,
-            meta: "Sent 20:37",
-            body: "Completely understand — it is a considered buy.\n\nIf it helps, WELCOME10 takes 10% off a first order and is valid for the next seven days, so you do not have to decide tonight. Happy to answer anything about sizing or warmth in the meantime.",
+            from: "Support assistant",
+            meta: "Demo provider · toolsUsed: none",
+            body: "No worries — it's a big decision! I'm happy to check stock, look up a discount code, or answer a shipping or returns question for you. Just let me know what would help.",
+          },
+          {
+            kind: "quote",
+            title: "A real model's reply to the same kind of message",
+            text: "Take your time deciding! If you do end up ordering, we offer a 30-day return window for items that are unused, unwashed, and in their original packaging with tags attached. Let me know if you have any questions about it!",
+            source: "Gemini 3.5 Flash-Lite, recorded 2026-10-13 · after a searchKnowledgeBase call · not what this demo provider says",
           },
           {
             kind: "note",
-            tone: "positive",
-            title: "What was preserved",
-            body: "Whether or not this customer buys tonight, the interest and the reason for hesitating are now recorded. That is the part a busy team loses.",
+            title: "Detecting is not acting",
+            body: "A signal only shapes this reply. No email, CRM update or follow-up task happens outside the chat, and the signal is not stored beyond this response.",
           },
         ],
       },

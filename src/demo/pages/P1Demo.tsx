@@ -6,8 +6,8 @@ export default function P1Demo() {
   return (
     <DemoShell
       project={projectById("p1")}
-      tagline="Step through how a customer message becomes a grounded answer — and how the system notices a buyer about to leave."
-      disclosure="Interactive demonstration using synthetic data. The workflow runs locally in your browser and does not connect to a real store, customer, order, payment or knowledge base. No language model is called: every stage below is a deterministic description of how the production pipeline behaves."
+      tagline="Step through what the agent does with a customer message: signal detection, a tool or retrieval, and the guardrails, using real outputs from the repository's demo provider."
+      disclosure="A replay, not the live system. Each scenario is the output of the repository's credential-free demo provider and real pipeline for the question shown, captured on 2026-10-13: the real signal detector, tools, retrieval and guardrails over invented data. No language model is called here, and nothing in this page talks to a server. With a real model the wording of replies and the choice of tools come from the model; one recorded Gemini reply is quoted where it is shown."
       scenarioLabel="Choose a scenario"
       scenarios={P1_SCENARIOS}
     />
