@@ -67,9 +67,10 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "689",
+    figure: "693",
     label: "Automated tests passing",
-    detail: "500 covering the server and its scoring rules, 189 covering the dashboard.",
+    detail:
+      "500 covering the server and its scoring rules, 193 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 681 pass and 12 skip, because the parity tests need those repositories.",
   },
   {
     figure: "4",
@@ -486,13 +487,16 @@ export default function ExplainableAtsCaseStudy() {
                 does not depend on anything complying. What was removed is
                 recorded as a category and a position, never as a value, so the
                 system can show a recruiter that a date of birth was taken out
-                without storing the date itself.
+                without the finding holding the date itself. The original CV
+                text is stored, because every quote is checked against it, so
+                the stored copy still contains those details; what the reader
+                never receives is the masked-out text.
               </p>
               <p>
                 The masking keeps the document the same length, which is what
                 lets a quoted passage still line up exactly with the original CV
-                — the evidence stays checkable without the personal details ever
-                being available.
+                — the evidence stays checkable even though the reader never saw
+                the personal details.
               </p>
             </div>
             <div className="rounded-card border border-line bg-canvas p-6">
