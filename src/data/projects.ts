@@ -165,7 +165,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-knowledgeos.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/knowledgeos",
-    proof: ["1,135 tests · CI green (4 skipped: need model weights)", "deterministic, credential-free demo"],
+    proof: ["1,259 passing (CI)", "deterministic, credential-free demo"],
     featured: true,
   },
   {
