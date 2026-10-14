@@ -67,10 +67,10 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "693",
+    figure: "697",
     label: "Automated tests passing",
     detail:
-      "500 covering the server and its scoring rules, 193 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 681 pass and 12 skip, because the parity tests need those repositories.",
+      "503 covering the server and its scoring rules, 194 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 685 pass and 12 skip, because the parity tests need those repositories.",
   },
   {
     figure: "4",

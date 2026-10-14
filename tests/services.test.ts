@@ -146,7 +146,7 @@ test('the verified proof figures are unchanged', () => {
   const expected: Record<ProjectId, string[]> = {
     p1: ['372 tests', '21/21 eval (live Gemini)'],
     p2: ['895 tests', '10/10 eval'],
-    p3: ['693 tests', 'deterministic scoring'],
+    p3: ['697 tests', 'deterministic scoring'],
     p4: ['1,259 passing (CI)', 'deterministic, credential-free demo'],
     p5: ['521 tests', 'deterministic, credential-free demo'],
     p6: ['1,666 tests'],
