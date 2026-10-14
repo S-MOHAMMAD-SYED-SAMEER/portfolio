@@ -33,9 +33,8 @@ const STACK = [
 ];
 
 /**
- * Engineering test-suite figures, verified directly against the repository's
- * own documentation — not retrieval or answer-quality evaluation results.
- * See "Evaluation approach" below for why no such result exists to report.
+ * Engineering test-suite figures, verified directly against the repository and its CI (commit
+ * 94e1cd7, 2026-10-14) — not answer-quality results. Retrieval is measured separately below.
  */
 const RESULTS: Result[] = [
   {
@@ -45,16 +44,16 @@ const RESULTS: Result[] = [
       "test_demo_e2e.py, test_demo_fixtures.py, test_demo_reranking.py, test_demo_llm.py and test_demo_app.py — the demo-focused suite specifically, not the project's overall test count.",
   },
   {
-    figure: "1,127",
-    label: "Full suite passing, Windows laptop (models cached)",
-    detail:
-      "1,139 collected, 11 failed, 1 skipped. All 11 failures are pre-existing and environment-specific, not application regressions, and none touch retrieval, reranking, generation, citation validation or abstention correctness.",
-  },
-  {
-    figure: "1,135",
+    figure: "1,259",
     label: "Full suite passing, CI (GitHub Actions)",
     detail:
-      "1,139 collected, 4 skipped, 0 failed. CI intentionally skips tests needing the real BGE/CrossEncoder model weights rather than downloading them — an honest, reproducible skip, not a pass.",
+      "1,263 collected, 4 skipped, 0 failed. The skips are the three tests that load the real BGE and cross-encoder weights (CI never downloads them) and the opt-in Gemini smoke test: skipped, not faked, and not counted as passing.",
+  },
+  {
+    figure: "1,261",
+    label: "Full suite passing, Windows laptop (models cached)",
+    detail:
+      "1,263 collected, 2 skipped, 0 failed. This is the run where the real BGE and cross-encoder tests execute. Earlier in the project this machine showed 11 failures; all were environmental (a file read as cp1252, symlink privilege, tests that assumed the models were absent), none were application bugs, and they are fixed.",
   },
   {
     figure: "7 / 9",
@@ -65,7 +64,38 @@ const RESULTS: Result[] = [
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering test-suite figures, verified directly from the repository — not retrieval or answer-quality evaluation results. No official evaluation of either harness has been run against real models in any environment; see Evaluation approach above.";
+  "These are engineering figures, verified from the repository and its CI: the code does what its tests say, and the image builds and the demo answers. They are not answer-quality results — no Gemini call has succeeded yet. Retrieval was measured separately; see Evaluation above.";
+
+/**
+ * Retrieval evaluation, from the committed run docs/results/2026-10-14-retrieval-eval.md in the
+ * KnowledgeOS repository (real BGE and cross-encoder, no API key). Exact four-decimal figures are
+ * in each detail; the card figure is the rounded value.
+ */
+const RETRIEVAL_RESULTS: Result[] = [
+  {
+    figure: "0.91",
+    label: "MRR with the reranker (0.74 without)",
+    detail: "0.9081 with the cross-encoder, 0.7375 with the fused order kept, over the top 20 of 45 scored questions.",
+  },
+  {
+    figure: "0.93",
+    label: "Recall@5 with the reranker (0.87 without)",
+    detail: "0.9333 with the cross-encoder, 0.8667 without.",
+  },
+  {
+    figure: "0.99",
+    label: "Recall@10 with the reranker (0.95 without)",
+    detail: "0.9926 with the cross-encoder, 0.9519 without. Top 10 is a third of this corpus, so this one is easy.",
+  },
+  {
+    figure: "45 of 52",
+    label: "Questions scored",
+    detail: "The other 7 are \"the documents don't say\" questions with no chunk to find. The corpus is 30 chunks from 10 documents.",
+  },
+];
+
+const RETRIEVAL_CAPTION =
+  "Read this with the corpus in mind: 30 chunks, so these are not a prediction for thousands of documents; the questions and their expected chunks were written by the same author against the same fixtures; and the retriever is not compared with BM25 or any other baseline, only with and without the reranker. One machine, one day, but repeatable: the same figures to the last digit every time the suite has run.";
 
 export default function KnowledgeOsCaseStudy() {
   return (
@@ -179,9 +209,10 @@ export default function KnowledgeOsCaseStudy() {
           <p className="max-w-3xl text-body text-ink-muted">
             Three providers sit behind the same interface:
             CrossEncoderRerankProvider, the real model; PassthroughRerankProvider,
-            a shipped production configuration that preserves the fused order
-            when reranking must stay model-free — not a test-only fallback;
-            and FakeRerankProvider, used only inside tests. Candidates are
+            an evaluation baseline that keeps the fused order, so the
+            reranker&apos;s contribution is a measured number rather than an
+            assumption (the running application never selects it); and
+            FakeRerankProvider, used only inside tests. Candidates are
             sorted by score descending, tie-broken by chunk_uid ascending.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
@@ -190,9 +221,9 @@ export default function KnowledgeOsCaseStudy() {
             fusion alone ranks a same-document neighbor ahead of the golden
             chunk; the real, precomputed cross-encoder scores correct that
             ordering. That&apos;s a specific, reproducible fixture finding,
-            not a statistical quality claim, and cross-encoder serving has
-            not itself been exercised in production here — see Production
-            boundary below.
+            not a statistical quality claim. The aggregate effect is
+            measured in Evaluation below: MRR 0.74 without the reranker, 0.91
+            with it.
           </p>
         </Section>
 
@@ -209,13 +240,16 @@ export default function KnowledgeOsCaseStudy() {
             heading="An invalid citation rejects the answer — it is never shown."
           >
             <p className="mt-1 text-small text-ink-muted">
-              Four checks run before an answer is persisted: every cited
-              chunk must exist in the retrieved evidence, every sentence must
-              carry a citation marker, a citation must point at one of the
-              selected top 8 chunks, and the declared citation list must
-              exactly match the markers actually present in the text. Any
-              failure raises a citation error, and the answer is rejected —
-              not shown, not stored.
+              Three rules plus an agreement check run before an answer is
+              persisted: every cited chunk must exist in the retrieved
+              evidence, every sentence must carry a citation marker, a
+              citation must point at one of the selected top 8 chunks, and
+              the declared citation list must exactly match the markers
+              actually present in the text. A failure rejects the reply: it
+              is never shown, never stored and never repaired. The model is
+              asked once more; if that reply fails too, the person sees
+              &ldquo;I couldn&apos;t verify this answer&rdquo;, not the
+              rejected text.
             </p>
           </Callout>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
@@ -264,12 +298,12 @@ export default function KnowledgeOsCaseStudy() {
             overall test count (see Engineering evidence below).
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Docker demo-packaging assets are committed and statically
-            verified, but Docker end-to-end execution has not been verified —
-            the Docker daemon was unavailable in the environment this was
-            built in. The demo itself was verified once, manually, through a
-            direct uvicorn process against a disposable PostgreSQL + pgvector
-            instance.{" "}
+            The image and the one-command demo are built and run in CI on
+            every push: a job builds the image, starts the demo stack
+            (database, migrations, seed, app), waits for readiness, asks it a
+            flagship question and checks the answer is verified and cited.
+            The demo was also run by hand through a direct uvicorn process
+            against a disposable PostgreSQL + pgvector instance.{" "}
             <a
               href={DOCS_URL}
               target="_blank"
@@ -307,13 +341,19 @@ export default function KnowledgeOsCaseStudy() {
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             <strong className="text-ink">
-              No official retrieval or answer-quality evaluation numbers have
-              been produced.
+              Retrieval has been measured. Answer quality has not.
             </strong>{" "}
-            Both harnesses require real local models that have never been
-            available together in this environment; a run that cannot reach
-            them writes nothing — no report, no recorded metric.
+            The retrieval suite ran on 2026-10-14 with the real BGE and
+            cross-encoder models and no API key; the run is committed in the
+            repository. The answers suite needs a Gemini model and has not
+            been run: no Gemini call has succeeded yet. A run that cannot
+            reach its models writes nothing — no report, no recorded metric —
+            and an answers run that stops part-way saves its progress but
+            reports nothing.
           </p>
+          <div className="mt-6">
+            <ResultsPanel results={RETRIEVAL_RESULTS} caption={RETRIEVAL_CAPTION} />
+          </div>
         </Section>
 
         {/* 9. ENGINEERING EVIDENCE */}
@@ -349,21 +389,23 @@ export default function KnowledgeOsCaseStudy() {
         {/* 10. PRODUCTION BOUNDARY */}
         <Section eyebrow="Production boundary" title="What's implemented, and what's been run">
           <p className="max-w-3xl text-body text-ink-muted">
-            Live Mode is fully implemented: real embedding, real reranking
-            and real Gemini generation are the production default for every
-            provider dependency. Two things have actually been run for real,
-            once: the BGE and cross-encoder models were exercised directly
-            during demo-fixture generation, and the deterministic demo itself
-            was verified manually, once, through a direct uvicorn process
-            against a disposable PostgreSQL + pgvector instance.
+            Live Mode is implemented: real embedding, real reranking and
+            real Gemini generation are the production default for every
+            provider dependency. Real BGE and cross-encoder inference has run
+            end to end (the retrieval evaluation above, and the demo
+            fixtures). Real Gemini generation was attempted twice and both
+            attempts failed with a server error whose cause was never
+            determined; since then the adapter has gained a timeout, retries
+            that honour the service&apos;s Retry-After, JSON mode, and a
+            safe &ldquo;could not verify&rdquo; reply instead of an error
+            page.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Three things have not been exercised in any environment to date:
+            Two things have not been exercised in any environment to date:
             a full Live Mode query end to end with all three real providers
-            together, including Gemini; a Docker image build or container
-            run; and an official evaluation of either harness. None of this
-            is a claim that the architecture is invalid — it is the current,
-            honestly-stated verification boundary.
+            together, including Gemini, and an answers evaluation. None of
+            this is a claim that the architecture is invalid — it is the
+            current, honestly-stated verification boundary.
           </p>
         </Section>
 
@@ -372,14 +414,14 @@ export default function KnowledgeOsCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                title: "No official evaluation numbers",
+                title: "No answer-quality numbers",
                 detail:
-                  "Both harnesses are implemented and unit-tested, but neither has been run against real models in any environment — no retrieval or answer-quality figure exists to report.",
+                  "Retrieval is measured, on a 30-chunk corpus. The answers harness is implemented and unit-tested but has not been run against a real model, so there is no grounded-answer rate, citation-validity or abstention figure to report.",
               },
               {
-                title: "Docker not verified end to end",
+                title: "No real Gemini answer yet",
                 detail:
-                  "Demo-packaging assets are committed and statically checked. Docker itself was never available to actually build or run them here.",
+                  "Two real attempts failed with a server error before the adapter was hardened, and none has succeeded since, so Live Mode's generation stage has never produced an answer. Retrieval, reranking and citation checking have run for real.",
               },
               {
                 title: "PostgreSQL full-text search is not BM25",
