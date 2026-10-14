@@ -109,7 +109,7 @@ function GateComparison() {
       tier: "Meets every must-have",
       verdict: "Met",
       quote:
-        "Running PostgreSQL at scale for a multi-tenant billing system.",
+        "Run PostgreSQL at scale for a multi-tenant billing system.",
       note: "The CV shows the essential requirement, in the candidate's own words.",
       accent: true,
     },
