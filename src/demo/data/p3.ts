@@ -3,6 +3,7 @@ import type { Panel, Tone } from "../ui/panels";
 import { DEMO_CANDIDATES } from "../p3/dataset.gen.ts";
 import { runDemo, type CandidateRun, type DemoRunResult } from "../p3/run.ts";
 import { MET_COVERAGE_PERCENT, PARTIAL_COVERAGE_PERCENT } from "../p3/vendored/agent/matchRules.ts";
+import { MIN_QUOTE_CHARS } from "../p3/vendored/agent/verifyEvidence.ts";
 import type { RankedCandidate, RankTier } from "../p3/vendored/agent/rankRules.ts";
 import {
   DECISION_OUTCOMES,
@@ -248,13 +249,13 @@ function stagesFor(run: CandidateRun, result: DemoRunResult, entry: RankedCandid
   const verification = run.verification;
   const notFound = verification?.rejected.filter((item) => item.reason === "not_found_in_resume").length ?? 0;
   const overMask = verification?.rejected.filter((item) => item.reason === "quotes_redacted_text").length ?? 0;
-  const rejectedTotal = notFound + overMask;
+  const tooShort = verification?.rejected.filter((item) => item.reason === "quote_too_short").length ?? 0;
+  const rejectedTotal = notFound + overMask + tooShort;
   stages.push({
     id: "verification",
     label: "Verification",
     heading: "Every quote is checked against the CV",
-    blurb:
-      "Each quote is looked up in the original text as submitted, word for word, ignoring only differences in whitespace. A quote that reads well but is not in the CV is rejected, which is what makes a citation worth anything.",
+    blurb: `Each quote is looked up in the original text as submitted, word for word, ignoring only differences in whitespace. A quote that reads well but is not in the CV is rejected, which is what makes a citation worth anything. So is a passage shorter than ${MIN_QUOTE_CHARS} characters: a bare keyword is not a statement of what someone did.`,
     panels:
       verification && run.extraction
         ? [
@@ -273,6 +274,11 @@ function stagesFor(run: CandidateRun, result: DemoRunResult, entry: RankedCandid
                   label: "Rejected: overlapping a masked span",
                   value: String(overMask),
                   tone: overMask > 0 ? "signal" : "positive",
+                },
+                {
+                  label: "Rejected: too short to count",
+                  value: String(tooShort),
+                  tone: tooShort > 0 ? "signal" : "positive",
                 },
                 { label: "Dropped for the wrong shape", value: String(run.extraction.malformed.length) },
               ],
@@ -304,7 +310,7 @@ function stagesFor(run: CandidateRun, result: DemoRunResult, entry: RankedCandid
     id: "matching",
     label: "Matching",
     heading: "Requirement by requirement",
-    blurb: `Plain rules, not a model. A verdict comes from how many of a requirement's significant terms the verified quotes contain: ${MET_COVERAGE_PERCENT}% or more is met, ${PARTIAL_COVERAGE_PERCENT}% or more is partly met, a relevant quote that falls short is not met, and no quote at all is not demonstrated.`,
+    blurb: `Plain rules, not a model. A verdict comes from how many of a requirement's significant terms the verified quotes contain, counted as whole words: ${MET_COVERAGE_PERCENT}% or more is met, ${PARTIAL_COVERAGE_PERCENT}% or more is partly met, a relevant quote that falls short is not met, and no quote at all is not demonstrated.`,
     panels: run.assessed
       ? [
           {
