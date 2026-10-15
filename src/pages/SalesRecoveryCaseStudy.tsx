@@ -40,7 +40,7 @@ const STACK = [
   { name: "Local embeddings (Xenova/all-MiniLM-L6-v2)", role: "Runs in-process for RAG — no embeddings API call" },
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
   { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/: one page, one stylesheet, three small scripts) — no framework, no build step, and no script that parses HTML" },
-  { name: "Node's built-in test runner (node --test)", role: "The 529-test automated suite" },
+  { name: "Node's built-in test runner (node --test)", role: "The 530-test automated suite" },
 ];
 
 /**
@@ -50,7 +50,7 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "529 / 529",
+    figure: "530 / 530",
     label: "Automated tests passing",
     detail:
       "Full suite, offline (no key, no network) — 40 files, zero failures. It also runs in CI on every push, on Node 22.13 and 24.",
@@ -68,10 +68,10 @@ const RESULTS: Result[] = [
       "The same 21 cases against scripted answers, with no API key and no running Chroma server. It checks the harness and the code around the model, not a model.",
   },
   {
-    figure: "0 / 84",
-    label: "Clean replies the guardrails blocked (was 2 / 41)",
+    figure: "0 / 83",
+    label: "Clean replies the guardrails blocked (was 2 / 40)",
     detail:
-      "On 84 real drafts, AI-labelled by one reviewer (Claude Code; not independent, not human-verified) across five samples, the guardrails now block no good reply; the first sample blocked two (4.9%). The promotion-claim gap is closed. One unrelated unsupported claim in the same data is still missed.",
+      "On 83 real drafts, AI-labelled by one reviewer (Claude Code); a sample of 20 checked by Sameer: agreed with 19, relabelled 1, across five samples, the guardrails now block no good reply; the first sample blocked two of its 40 (5.0%). The promotion-claim gap is closed. Two unsupported claims of kinds the guardrails don't check (a store fact and a promised capability) still get through.",
   },
 ];
 
@@ -562,8 +562,8 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             <strong className="text-ink">The guardrails were wrong, on a real model.</strong>{" "}
             Labelling 41 real drafts (one AI reviewer, Claude Code, with a
-            reason recorded for each; not independent and not human-verified)
-            showed the guardrails blocking two good
+            reason recorded for each; Sameer then checked a sample of 20:
+            he agreed with 19 and relabelled 1) showed the guardrails blocking two good
             replies: a refusal that repeated the customer&apos;s own
             &ldquo;50% off&rdquo;, and an offer to &ldquo;check if something
             is in stock&rdquo; — the second being the &ldquo;I&apos;m still
@@ -577,9 +577,11 @@ export default function SalesRecoveryCaseStudy() {
             information&rdquo; answers (50% false positives). It was revised
             to separate the agent speaking about what it knows from the store
             speaking about what it has, and checked on a further fresh set.
-            Over all 89 real drafts on file (AI-labelled, as above) it blocks 0 of 84 clean ones and
-            misses none of four promotion claims; one unrelated unsupported
-            claim (how items are sold) is still missed. Each round of fresh
+            Over all 89 real drafts on file (AI-labelled, as above) it blocks 0 of 83 clean ones and
+            misses none of four promotion claims. Two unsupported claims of
+            kinds the guardrails don&apos;t check still get through: a store
+            fact (how items are sold) and a promised capability (an offer to
+            start a claim from a photo the chat can&apos;t receive). Each round of fresh
             data found another shape, which is why the check that a tool ran
             stays the main defence.
           </p>
@@ -638,7 +640,7 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             The full agent pipeline (history, signals, tool-calling, RAG,
             guardrails, persistence), the provider abstraction across Gemini
-            and Anthropic, the per-turn trace and the Operator view, and the 529-test
+            and Anthropic, the per-turn trace and the Operator view, and the 530-test
             automated suite plus the evaluation harness, run in mock mode and
             on Gemini.
           </p>
@@ -691,7 +693,7 @@ export default function SalesRecoveryCaseStudy() {
               {
                 title: "Guardrails still miss some claims",
                 detail:
-                  "They are patterns over English text. After the promotion-claim fix they miss none of four such claims in the recorded drafts, but one unrelated unsupported claim among 89 AI-labelled drafts still gets through, and every round of fresh data has found a new shape.",
+                  "They are patterns over English text. After the promotion-claim fix they miss none of four such claims in the recorded drafts, but two unsupported claims of kinds they don't check (a store fact and a promised capability) among 89 AI-labelled drafts still get through, and every round of fresh data has found a new shape.",
               },
               {
                 title: "RAG retrieval isn't comprehensively benchmarked",
