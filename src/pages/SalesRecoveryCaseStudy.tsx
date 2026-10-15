@@ -4,6 +4,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
+import CaseStudyVideo from "../components/CaseStudyVideo";
 import SalesRecoveryFlow from "../components/caseStudy/SalesRecoveryFlow";
 import Callout from "../components/caseStudy/Callout";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
@@ -38,8 +39,8 @@ const STACK = [
   { name: "Chroma", role: "Vector store for the store's knowledge base" },
   { name: "Local embeddings (Xenova/all-MiniLM-L6-v2)", role: "Runs in-process for RAG — no embeddings API call" },
   { name: "SQLite (node:sqlite)", role: "Conversation memory — built into Node 22.5+, no extra dependency" },
-  { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/index.html) — no framework, no build step" },
-  { name: "Node's built-in test runner (node --test)", role: "The 372-test automated suite" },
+  { name: "Vanilla HTML/CSS/JS", role: "The demo chat interface (web/: one page, one stylesheet, three small scripts) — no framework, no build step, and no script that parses HTML" },
+  { name: "Node's built-in test runner (node --test)", role: "The 529-test automated suite" },
 ];
 
 /**
@@ -49,16 +50,16 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "372 / 372",
+    figure: "529 / 529",
     label: "Automated tests passing",
     detail:
-      "Full suite, run with dependencies installed from the committed lockfile — 29 files, zero failures, zero skips. It also runs in CI on every push, on Node 22.13 and 24.",
+      "Full suite, offline (no key, no network) — 40 files, zero failures. It also runs in CI on every push, on Node 22.13 and 24.",
   },
   {
     figure: "21 / 21",
     label: "Evaluation on a live model (Gemini 3.5 Flash-Lite)",
     detail:
-      "A fresh run of the 21 cases, graded by the corrected grader: tool selection 14/14, signals 16/16, grounded answers 11/11, unsupported-answer 1/1, safety 10/10. The first run scored 18/21; all three misses were correct replies the grader mis-scored.",
+      "A fresh run of the 21 cases, graded by the corrected grader: tool selection 14/14, signals 16/16, grounded answers 11/11, unsupported-answer 1/1, safety 10/10. The first run scored 18/21; all three misses were correct replies the grader mis-scored. Re-run on 2026-10-15 after a prompt change: 21/21 again.",
   },
   {
     figure: "21 / 21",
@@ -145,12 +146,12 @@ export default function SalesRecoveryCaseStudy() {
             precisely in Production boundary below.
           </p>
           <div className="mt-10">
-            <Screenshot
-              src="/images/p1-grounded-answer.png"
-              width={942}
-              height={872}
-              alt="The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying."
-              caption="Every reply carries a badge naming the tool or knowledge-base check it ran before answering — the mechanism the rest of this case study describes."
+            <CaseStudyVideo
+              src="/videos/sales-recovery-agent-16x9.mp4"
+              poster="/videos/sales-recovery-agent-poster.jpg"
+              captions="/videos/sales-recovery-agent.vtt"
+              label="Demo video of the support agent: an order lookup, a verified discount, a refused 50% off, a hesitant buyer answered from the return policy, and a refused prompt injection, with the Operator view showing each step."
+              caption="A 90-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-15). The store, the orders and the discount codes are fictional. The replies and the steps beside them are what the server returned; nothing was edited. The narration is an AI voice."
             />
           </div>
         </section>
@@ -248,6 +249,11 @@ export default function SalesRecoveryCaseStudy() {
               <li>
                 SQLite-backed conversation memory that persists only the
                 validated final reply, never a raw draft.
+              </li>
+              <li>
+                A per-turn trace of what the server actually did, recorded
+                as the turn runs and drawn in an Operator view next to the
+                chat.
               </li>
             </ul>
           </div>
@@ -459,6 +465,41 @@ export default function SalesRecoveryCaseStudy() {
           </p>
         </Section>
 
+        {/* 8b. THE OPERATOR VIEW */}
+        <Section eyebrow="Operator view" title="What the server did, step by step">
+          <p className="max-w-3xl text-body text-ink-muted">
+            Every reply comes back with a trace of the turn, recorded by the
+            code that did the work at the moment it did it &mdash; not
+            reconstructed afterwards from the reply text. The chat
+            page&apos;s Operator view lists it: the signal that fired and the
+            phrase it matched, each model call with its provider, model,
+            latency and tokens, each tool call with its arguments and a
+            one-line result, the knowledge-base files and chunk ids it
+            returned (never the passage text), and one line per guardrail
+            policy.
+          </p>
+          <p className="mt-4 max-w-3xl text-small text-ink-muted">
+            When a guardrail lets a discount claim through because a code was
+            verified earlier, it says which of the customer&apos;s questions
+            that was, with a short excerpt. The trace holds names, ids and
+            numbers only: never a key, the environment, the system prompt or
+            a stack trace, and anything the customer typed is capped and
+            shown as text. The page shows one &ldquo;Working&hellip;&rdquo;
+            line while a reply is pending and draws the steps when it
+            arrives; streaming them live is planned, not built. Each page
+            load starts a new conversation, so the model and the guardrails
+            never use history the viewer cannot see.
+          </p>
+          <div className="mt-6">
+            <Screenshot
+              src="/images/p1-operator-steps.png"
+              width={1920}
+              height={960}
+              alt="The Operator view for an order question: a model call, the getOrderStatus tool call with its arguments and result, a second model call, and the guardrail with its eight policies all passed."
+              caption="The steps of one reply: model call, tool call, model call, then eight guardrail policies. Live Gemini run, 2026-10-15, fictional store."
+            />
+          </div>
+        </Section>
         {/* 9. MEMORY / PERSISTENCE BOUNDARY */}
         <Section eyebrow="Memory" title="Only the validated reply is remembered">
           <p className="max-w-3xl text-body text-ink-muted">
@@ -511,7 +552,10 @@ export default function SalesRecoveryCaseStudy() {
             check. The grader was fixed, with tests, and a second run of
             fresh replies scored 21/21. Fixing a grader after seeing it fail
             is a risk of its own, which is why the second run was kept and
-            both numbers are shown. Earlier runs also found a real grading
+            both numbers are shown. After one of the prompt directives was
+            tightened (a hesitant buyer must now get the return window
+            exactly as the knowledge base states it), the full set was run
+            again on 2026-10-15: 21/21, about 36 model calls. Earlier runs also found a real grading
             bug of the same kind (a typographic en dash in &ldquo;7–12
             business days&rdquo;).
           </p>
@@ -592,8 +636,9 @@ export default function SalesRecoveryCaseStudy() {
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             The full agent pipeline (history, signals, tool-calling, RAG,
             guardrails, persistence), the provider abstraction across Gemini
-            and Anthropic, and the 372-test automated suite plus the
-            evaluation harness, run in mock mode and on Gemini.
+            and Anthropic, the per-turn trace and the Operator view, and the 529-test
+            automated suite plus the evaluation harness, run in mock mode and
+            on Gemini.
           </p>
           <p className="mt-6 max-w-3xl text-small font-semibold text-ink">
             Not established as current production evidence
@@ -703,25 +748,39 @@ export default function SalesRecoveryCaseStudy() {
         <Section eyebrow="The product" title="Seeing it work">
           <div className="columns-1 gap-8 sm:columns-2">
             <Screenshot
-              src="/images/p1-policy-grounding.png"
-              width={936}
-              height={867}
-              alt="The support agent answering a policy question using the store's own written policy."
-              caption="RAG in action: a policy question answered from the store's own documents rather than from the model's general knowledge."
+              src="/images/p1-order-lookup.png"
+              width={1920}
+              height={960}
+              alt="The support chat of a fictional store: the customer asked for the status of order 1001 and the reply gives the carrier and tracking number, with chips for the order check and the guardrail check."
+              caption="A business tool in action, from a live Gemini run on 2026-10-15 (fictional store and data): an order question answered from mock live data, looked up rather than guessed."
             />
             <Screenshot
-              src="/images/p1-order-or-stock-lookup.png"
-              width={938}
-              height={802}
-              alt="The support agent answering a question about an order or product by looking the answer up."
-              caption="A business tool in action: an order or stock question answered from mock live data, looked up on the spot rather than guessed."
+              src="/images/p1-hesitation-operator.png"
+              width={1920}
+              height={960}
+              alt="A hesitant buyer's reply stating the 30-day return window, with chips for the store information checked, the source file returns-policy.md and the hesitation noticed, beside an Activity panel listing the signal, the model call with its tokens, the knowledge-base search and the files and chunks it returned."
+              caption="The hesitation signal is detected by a plain rule, the agent searches the store's own return policy, and the Activity panel shows the file and chunks it used. Live Gemini run, 2026-10-15, fictional store."
             />
             <Screenshot
-              src="/images/p1-buying-signal-recovery.png"
-              width={940}
-              height={433}
-              alt="A real conversation with the live model: a stock question answered from a tool, then a hesitating buyer reassured with the store's 30-day return policy, tagged Checked store information and Noticed: hesitation."
-              caption="A real recovery, captured on 2026-10-13 from the running app on Gemini: the purchase_hesitation signal is detected, the agent checks the store's own return policy and reassures the customer without inventing a discount."
+              src="/images/p1-guardrail-provenance.png"
+              width={1920}
+              height={960}
+              alt="A reply declining a 50% off code and mentioning only WELCOME10, beside the guardrail list where the discount-claim line reads: WELCOME10 verified by checkDiscount on question 2."
+              caption="Asked for 50% off, it declines and mentions only the code it already verified; the guardrail records which of the customer's questions that was. Live Gemini run, 2026-10-15."
+            />
+            <Screenshot
+              src="/images/p1-dark-operator.png"
+              width={1920}
+              height={960}
+              alt="The same chat in the dark theme with the Operator view open, showing the hesitation reply and the Activity panel."
+              caption="The dark theme with the Operator view. The page follows the system light or dark setting and has a manual switch."
+            />
+            <Screenshot
+              src="/images/p1-mobile-sheet.png"
+              width={780}
+              height={1688}
+              alt="The chat page on a 390 pixel wide phone with the Activity panel open as a bottom sheet, listing the hesitation signal, the model call and the knowledge-base search."
+              caption="At 390 px wide the Activity panel is a bottom sheet. Rendered from the recorded replies of the 2026-10-15 run."
             />
             <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
               <p className="text-small font-semibold text-ink">

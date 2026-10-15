@@ -88,12 +88,12 @@ export const projects: Project[] = [
     interactiveDemoHref: "/demo-sales-recovery.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/sales-recovery-agent",
     screenshot: {
-      src: "/images/p1-grounded-answer.png",
-      width: 942,
-      height: 872,
-      alt: "The support agent answering a stock question with a real availability figure, tagged with a badge showing it checked product availability before replying.",
+      src: "/images/p1-hesitation-operator.png",
+      width: 1920,
+      height: 960,
+      alt: "A hesitant buyer's reply stating the 30-day return window, beside the Activity panel listing the signal, the model call, the knowledge-base search and the guardrail policies. Fictional store, live Gemini run.",
     },
-    proof: ["372 tests", "21/21 eval (live Gemini)"],
+    proof: ["529 tests", "21/21 eval (live Gemini)"],
     featured: true,
   },
   {
@@ -221,7 +221,7 @@ export function projectById(id: ProjectId): Project {
 }
 
 /**
- * The project's test-count line, e.g. "372 tests".
+ * The project's test-count line, e.g. "529 tests".
  *
  * Always `proof[0]`. Every surface that quotes a project's count — the card, the
  * services list, the 3D scene — reads it through here, so the number has one

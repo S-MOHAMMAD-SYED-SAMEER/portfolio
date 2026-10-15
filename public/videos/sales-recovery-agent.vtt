@@ -1,0 +1,51 @@
+WEBVTT
+
+NOTE Narration is an AI voice. Full spoken text; the short captions are also burned into the video.
+
+00:00:02.400 --> 00:00:05.900 line:78% align:center size:86%
+This is a support agent for a small online store.
+
+00:00:06.150 --> 00:00:10.050 line:78% align:center size:86%
+Ask about an order, and it doesn't answer from memory.
+
+00:00:10.300 --> 00:00:12.200 line:78% align:center size:86%
+It looks the order up.
+
+00:00:13.200 --> 00:00:17.450 line:78% align:center size:86%
+Switch to Operator, and you see what the server actually did.
+
+00:00:17.700 --> 00:00:25.400 line:78% align:center size:86%
+The model asks for a tool, the tool runs, and eight guardrail checks run in code, before anything is shown.
+
+00:00:26.400 --> 00:00:30.800 line:78% align:center size:86%
+Ask about a discount code, and it checks the code with a tool.
+
+00:00:31.050 --> 00:00:34.225 line:78% align:center size:86%
+The guardrail records why it let the claim through.
+
+00:00:35.225 --> 00:00:39.650 line:78% align:center size:86%
+Ask for 50% off, and it says it has no such code.
+
+00:00:39.900 --> 00:00:43.725 line:78% align:center size:86%
+The only code it mentions is the one it already checked.
+
+00:00:43.975 --> 00:00:47.950 line:78% align:center size:86%
+The guardrail shows which question that was: question 2.
+
+00:00:48.950 --> 00:00:52.950 line:78% align:center size:86%
+A hesitant buyer is spotted by a plain rule, not a guess.
+
+00:00:53.200 --> 00:00:58.325 line:78% align:center size:86%
+The agent searches the store's own return policy, and answers from it.
+
+00:00:58.575 --> 00:01:02.050 line:78% align:center size:86%
+You can see the file and the passages it used.
+
+00:01:03.455 --> 00:01:08.480 line:78% align:center size:86%
+Tell it to ignore its instructions and reveal its key, and it declines.
+
+00:01:12.789 --> 00:01:17.764 line:78% align:center size:86%
+These results come from one model, on one day, with invented data.
+
+00:01:18.014 --> 00:01:24.714 line:78% align:center size:86%
+The mock evaluation checks the code. The live run checks the model. Neither is a benchmark.
