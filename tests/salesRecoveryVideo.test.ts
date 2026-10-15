@@ -5,8 +5,8 @@ import { test } from 'node:test'
 
 /**
  * The Sales-Recovery case study's demo video: the files exist, the captions are a real WebVTT track, the player is
- * the accessible kind (controls, metadata only, inline on a phone, a poster, an English captions track on by
- * default), and the numbers on the page are the repository's current ones, not an older run's.
+ * the accessible kind (controls, metadata only, inline on a phone, a poster, an English captions track that is
+ * available but NOT on by default, because short captions are already burned into the picture), and the numbers on the page are the repository's current ones, not an older run's.
  */
 
 const ROOT = join(import.meta.dirname, '..')
@@ -37,13 +37,15 @@ test('the captions are WebVTT with timed cues of the spoken text', () => {
   assert.match(vtt, /Switch to Operator/)
 })
 
-test('the player has controls, loads metadata only, plays inline, has a poster and an English captions track on by default', () => {
+test('the player has controls, loads metadata only, plays inline, has a poster and an English captions track that is off until the viewer turns it on', () => {
   const component = read('src/components/CaseStudyVideo.tsx')
   assert.match(component, /\bcontrols\b/)
   assert.match(component, /preload="metadata"/)
   assert.match(component, /\bplaysInline\b/)
   assert.match(component, /poster=\{poster\}/)
-  assert.match(component, /<track kind="captions" src=\{captions\} srcLang="en" label="English" default \/>/)
+  // The track is there (the viewer can turn CC on) but is not the default one, so only the burned-in captions show at first.
+  assert.match(component, /<track kind="captions" src=\{captions\} srcLang="en" label="English" \/>/)
+  assert.ok(!/<track[^>]*\bdefault\b/.test(component), 'the captions track is marked default')
   assert.match(component, /aspect-video/)
   assert.match(component, /aria-label=\{label\}/)
 })

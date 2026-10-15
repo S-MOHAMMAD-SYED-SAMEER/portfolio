@@ -6,9 +6,11 @@
  * `preload="metadata"` fetches only the length and the poster until someone presses play, so the page
  * does not pay for a 7 MB file on load. `playsInline` keeps it from forcing full screen on a phone.
  *
- * Captions are a real text track (`kind="captions"`, English, on by default) holding the full spoken
- * text, so the narration is available to anyone who cannot hear it. Short captions are also burned into
- * the picture itself; the track's cues are positioned above them so the two do not overlap.
+ * Captions are a real text track (`kind="captions"`, English) holding the full spoken text, so the narration
+ * is available to anyone who cannot hear it. It is deliberately NOT the default track: short captions are
+ * already burned into the picture, and showing the full text over them would put two sets of captions on
+ * screen. The track stays in the player's captions menu, so a viewer who turns CC on gets the full text (its
+ * cues sit above the burned-in ones so the two do not overlap).
  *
  * The frame is a fixed 16:9 box that scales with the column, so nothing jumps when the file arrives.
  */
@@ -37,7 +39,7 @@ export default function CaseStudyVideo({ src, poster, captions, label, caption }
           className="h-full w-full"
         >
           <source src={src} type="video/mp4" />
-          <track kind="captions" src={captions} srcLang="en" label="English" default />
+          <track kind="captions" src={captions} srcLang="en" label="English" />
           Your browser cannot play this video. It is a 90-second recording of the demo; the case study below
           describes everything it shows.
         </video>
