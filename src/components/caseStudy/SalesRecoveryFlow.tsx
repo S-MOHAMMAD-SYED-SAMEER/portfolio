@@ -94,7 +94,7 @@ const STAGES: Stage[] = [
   {
     n: "12",
     title: "Response",
-    detail: "{ reply, toolsUsed, signals } is returned to the caller.",
+    detail: "{ reply, toolsUsed, signals, trace } is returned to the caller; the trace is what the server did on this turn.",
     kind: "application",
   },
 ];
