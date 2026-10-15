@@ -5,5 +5,16 @@
       "destination": "https://sameer-3d-portfolio-amber.vercel.app/3d",
       "permanent": true
     }
+  ],
+  "headers": [
+    {
+      "source": "/videos/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
   ]
 }

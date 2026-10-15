@@ -1,0 +1,48 @@
+/**
+ * A recorded demo of a project actually running, played with the browser's own controls.
+ *
+ * Plain `<video>` rather than a hosted-embed player: the file is served from this site's own `public/`,
+ * so there is no third-party origin, no tracking script and no player chrome to reconcile with the page.
+ * `preload="metadata"` fetches only the length and the poster until someone presses play, so the page
+ * does not pay for a 7 MB file on load. `playsInline` keeps it from forcing full screen on a phone.
+ *
+ * Captions are a real text track (`kind="captions"`, English, on by default) holding the full spoken
+ * text, so the narration is available to anyone who cannot hear it. Short captions are also burned into
+ * the picture itself; the track's cues are positioned above them so the two do not overlap.
+ *
+ * The frame is a fixed 16:9 box that scales with the column, so nothing jumps when the file arrives.
+ */
+export interface CaseStudyVideoProps {
+  src: string;
+  /** A still shown before playback. */
+  poster: string;
+  /** WebVTT captions for `src`. */
+  captions: string;
+  /** Names what is in the recording; also the player's accessible name. */
+  label: string;
+  /** Shown under the player. Describes only what the recording shows. */
+  caption: string;
+}
+
+export default function CaseStudyVideo({ src, poster, captions, label, caption }: CaseStudyVideoProps) {
+  return (
+    <figure className="w-full max-w-4xl">
+      <div className="aspect-video w-full overflow-hidden rounded-card border border-line bg-ink">
+        <video
+          controls
+          preload="metadata"
+          playsInline
+          poster={poster}
+          aria-label={label}
+          className="h-full w-full"
+        >
+          <source src={src} type="video/mp4" />
+          <track kind="captions" src={captions} srcLang="en" label="English" default />
+          Your browser cannot play this video. It is a 90-second recording of the demo; the case study below
+          describes everything it shows.
+        </video>
+      </div>
+      <figcaption className="mt-3 text-meta text-ink-muted">{caption}</figcaption>
+    </figure>
+  );
+}

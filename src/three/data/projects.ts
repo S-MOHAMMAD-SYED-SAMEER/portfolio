@@ -38,7 +38,7 @@ function canonical(id: CanonicalId) {
 /**
  * The measured half of `proof`, parsed out of the canonical strings.
  *
- * The portfolio stores these as `["372 tests", "21/21 eval (live Gemini)"]`; the 3D panels
+ * The portfolio stores these as `["529 tests", "21/21 eval (live Gemini)"]`; the 3D panels
  * want a number and a ratio. Parsing rather than re-typing means the two can
  * never disagree, and an unparseable count throws at module load instead of
  * rendering "NaN tests".
@@ -231,18 +231,18 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     },
     screenshots: [
       {
-        src: '/images/p1-grounded-answer.png',
-        alt: 'The support assistant answering “Is the Ceramic Mug in stock?” with “Yes, the Ceramic Mug is currently in stock with 42 units available.”, tagged “Checked product availability”.',
-        caption: 'Every answer names the tool it checked first.',
-        width: 942,
-        height: 872,
+        src: '/images/p1-hesitation-operator.png',
+        alt: 'A hesitant buyer’s reply stating the 30-day return window, with chips for the store information checked, the source file returns-policy.md and the hesitation noticed, beside an Activity panel listing the signal, the model call, the knowledge-base search and the guardrail policies.',
+        caption: 'Hesitation is noticed by a plain rule, the store’s own return policy is searched, and the panel shows the file it used. Live Gemini run, 2026-10-15, fictional store.',
+        width: 1920,
+        height: 960,
       },
       {
-        src: '/images/p1-buying-signal-recovery.png',
-        alt: 'A real conversation with the live model: a stock question answered from a tool, then a hesitating buyer reassured with the store’s 30-day return policy, tagged “Checked store information” and “Noticed: hesitation”.',
-        caption: 'A real recovery: hesitation is noticed, the store’s own return policy is checked, and the customer is reassured without an invented discount.',
-        width: 940,
-        height: 433,
+        src: '/images/p1-guardrail-provenance.png',
+        alt: 'A reply declining a 50% off code and mentioning only WELCOME10, beside the guardrail list where the discount-claim line reads: WELCOME10 verified by checkDiscount on question 2.',
+        caption: 'Asked for 50% off, it declines and mentions only a code it already verified; the guardrail records which question that was. Live Gemini run, 2026-10-15.',
+        width: 1920,
+        height: 960,
       },
     ],
     links: {
