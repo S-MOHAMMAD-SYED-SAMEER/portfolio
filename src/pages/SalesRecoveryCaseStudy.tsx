@@ -71,7 +71,7 @@ const RESULTS: Result[] = [
     figure: "0 / 84",
     label: "Clean replies the guardrails blocked (was 2 / 41)",
     detail:
-      "On 84 real drafts checked by hand across five samples, the guardrails now block no good reply; the first sample blocked two (4.9%). The promotion-claim gap is closed. One unrelated unsupported claim in the same data is still missed.",
+      "On 84 real drafts, AI-labelled by one reviewer (Claude Code; not independent, not human-verified) across five samples, the guardrails now block no good reply; the first sample blocked two (4.9%). The promotion-claim gap is closed. One unrelated unsupported claim in the same data is still missed.",
   },
 ];
 
@@ -561,7 +561,9 @@ export default function SalesRecoveryCaseStudy() {
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             <strong className="text-ink">The guardrails were wrong, on a real model.</strong>{" "}
-            Reading 41 real drafts showed the guardrails blocking two good
+            Labelling 41 real drafts (one AI reviewer, Claude Code, with a
+            reason recorded for each; not independent and not human-verified)
+            showed the guardrails blocking two good
             replies: a refusal that repeated the customer&apos;s own
             &ldquo;50% off&rdquo;, and an offer to &ldquo;check if something
             is in stock&rdquo; — the second being the &ldquo;I&apos;m still
@@ -575,7 +577,7 @@ export default function SalesRecoveryCaseStudy() {
             information&rdquo; answers (50% false positives). It was revised
             to separate the agent speaking about what it knows from the store
             speaking about what it has, and checked on a further fresh set.
-            Over all 89 real drafts on file it blocks 0 of 84 clean ones and
+            Over all 89 real drafts on file (AI-labelled, as above) it blocks 0 of 84 clean ones and
             misses none of four promotion claims; one unrelated unsupported
             claim (how items are sold) is still missed. Each round of fresh
             data found another shape, which is why the check that a tool ran
@@ -689,7 +691,7 @@ export default function SalesRecoveryCaseStudy() {
               {
                 title: "Guardrails still miss some claims",
                 detail:
-                  "They are patterns over English text. After the promotion-claim fix they miss none of four such claims in the recorded drafts, but one unrelated unsupported claim among 89 drafts still gets through, and every round of fresh data has found a new shape.",
+                  "They are patterns over English text. After the promotion-claim fix they miss none of four such claims in the recorded drafts, but one unrelated unsupported claim among 89 AI-labelled drafts still gets through, and every round of fresh data has found a new shape.",
               },
               {
                 title: "RAG retrieval isn't comprehensively benchmarked",
