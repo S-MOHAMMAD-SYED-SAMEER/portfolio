@@ -72,11 +72,11 @@ test('the Sales-Recovery numbers are the repository\'s current ones, in every fi
   const page = read('src/pages/SalesRecoveryCaseStudy.tsx')
   const projects = read('src/data/projects.ts')
   const results = read('src/components/caseStudy/ResultsPanel.tsx')
-  assert.match(page, /529 \/ 529/)
-  assert.match(page, /529-test/)
+  assert.match(page, /530 \/ 530/)
+  assert.match(page, /530-test/)
   assert.match(page, /40 files/)
-  assert.match(projects, /"529 tests"/)
-  assert.match(results, /figure: "529"/)
+  assert.match(projects, /"530 tests"/)
+  assert.match(results, /figure: "530"/)
   // the old count must not survive anywhere on the page's sources
   for (const [name, source] of [['case study', page], ['projects', projects], ['results panel', results], ['3D scene data', read('src/three/data/projects.ts')]] as const) {
     assert.ok(!/\b372\b/.test(source), `${name} still says 372`)
