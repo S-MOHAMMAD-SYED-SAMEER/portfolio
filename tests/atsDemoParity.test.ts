@@ -48,11 +48,23 @@ type Real = {
   position: number
 }
 
+// What the DEFAULT (strict, whole-word) matching produces. The CVs say "Running PostgreSQL at
+// scale" against the criterion "run", which strict matching does not equate, so Rowan and Devi
+// are gated and nobody is qualified. The data has not been reworded to avoid that.
 const REAL: Real[] = [
+  { reference: 'demo-001', name: 'Rowan Ashfield', tier: 'gated', score: 8571, verdicts: ['met', 'partial', 'met'], contributions: [4286, 1428, 2857], position: 2 },
+  { reference: 'demo-002', name: 'Devi Narayanan', tier: 'gated', score: 5714, verdicts: ['met', 'partial', 'unclear'], contributions: [4286, 1428, 0], position: 4 },
+  { reference: 'demo-003', name: 'Marcus Oyelaran', tier: 'gated', score: 7142, verdicts: ['met', 'not_met', 'met'], contributions: [4285, 0, 2857], position: 3 },
+  { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 5714, verdicts: ['met', 'unclear', 'partial'], contributions: [4286, 0, 1428], position: 1 },
+  { reference: 'demo-005', name: 'Toby Kestrel', tier: 'not_evaluated', score: null, verdicts: [], contributions: [], position: 5 },
+]
+
+// What the same CVs produce when plural, -ing and -ed endings are folded (MATCH_MODE=folded).
+const REAL_FOLDED: Real[] = [
   { reference: 'demo-001', name: 'Rowan Ashfield', tier: 'qualified', score: 10000, verdicts: ['met', 'met', 'met'], contributions: [4286, 2857, 2857], position: 1 },
-  { reference: 'demo-002', name: 'Devi Narayanan', tier: 'qualified', score: 7142, verdicts: ['met', 'met', 'unclear'], contributions: [4285, 2857, 0], position: 2 },
+  { reference: 'demo-002', name: 'Devi Narayanan', tier: 'qualified', score: 7142, verdicts: ['met', 'met', 'not_met'], contributions: [4285, 2857, 0], position: 2 },
   { reference: 'demo-003', name: 'Marcus Oyelaran', tier: 'gated', score: 7142, verdicts: ['met', 'not_met', 'met'], contributions: [4285, 0, 2857], position: 4 },
-  { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 5714, verdicts: ['met', 'unclear', 'partial'], contributions: [4286, 0, 1428], position: 3 },
+  { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 7142, verdicts: ['met', 'unclear', 'met'], contributions: [4285, 0, 2857], position: 3 },
   { reference: 'demo-005', name: 'Toby Kestrel', tier: 'not_evaluated', score: null, verdicts: [], contributions: [], position: 5 },
 ]
 
@@ -110,9 +122,37 @@ test('every candidate gets the real tier, score, verdicts and per-requirement co
   }
 })
 
-test('the ranking puts Devi above Marcus at the same score, and Ines above Marcus at a lower one', () => {
+test('the default ranking opens on Ines, with nobody qualified, and Devi last of the gated', () => {
   const order = run.ranking.entries.map((entry) => entry.displayName)
-  assert.deepEqual(order, ['Rowan Ashfield', 'Devi Narayanan', 'Ines Fabre', 'Marcus Oyelaran', 'Toby Kestrel'])
+  assert.deepEqual(order, ['Ines Fabre', 'Rowan Ashfield', 'Marcus Oyelaran', 'Devi Narayanan', 'Toby Kestrel'])
+  assert.ok(!run.ranking.entries.some((entry) => entry.tier === 'qualified'))
+})
+
+test('folded matching gives the other published numbers, and the same-score pair ties again', async () => {
+  const folded = await runDemo({ matchMode: 'folded' })
+
+  for (const real of REAL_FOLDED) {
+    const entry = folded.ranking.entries.find((item) => item.reference === real.reference)
+    const candidate = folded.candidates.find((item) => item.candidate.reference === real.reference)
+    assert.ok(entry && candidate, real.reference)
+    assert.equal(entry.tier, real.tier, `${real.name}: tier`)
+    assert.equal(entry.scoreBasisPoints, real.score, `${real.name}: score`)
+    assert.equal(entry.position, real.position, `${real.name}: position`)
+    assert.deepEqual(candidate.matches.map((match) => match.verdict), real.verdicts, `${real.name}: verdicts`)
+    assert.deepEqual(candidate.matches.map((match) => match.contributionBasisPoints), real.contributions, `${real.name}: contributions`)
+  }
+
+  const devi = folded.ranking.entries.find((entry) => entry.reference === 'demo-002')
+  const marcus = folded.ranking.entries.find((entry) => entry.reference === 'demo-003')
+  assert.equal(devi?.scoreBasisPoints, marcus?.scoreBasisPoints)
+  assert.ok((devi?.position ?? 99) < (marcus?.position ?? 0))
+})
+
+test('the audit trail says which way words were compared', async () => {
+  const folded = await runDemo({ matchMode: 'folded' })
+  const modes = (result: typeof run) => new Set(result.audit.filter((event) => event.eventType === 'requirements_matched').map((event) => event.payload.matchMode))
+  assert.deepEqual([...modes(run)], ['strict'])
+  assert.deepEqual([...modes(folded)], ['folded'])
 })
 
 // --- the screens say it -----------------------------------------------------------

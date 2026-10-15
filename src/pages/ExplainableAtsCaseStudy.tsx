@@ -109,7 +109,7 @@ function GateComparison() {
       tier: "Meets every must-have",
       verdict: "Met",
       quote:
-        "Run PostgreSQL at scale for a multi-tenant billing system.",
+        "Running PostgreSQL at scale for a multi-tenant billing system.",
       note: "The CV shows the essential requirement, in the candidate's own words.",
       accent: true,
     },
@@ -127,6 +127,20 @@ function GateComparison() {
 
   return (
     <div>
+      {/* The comparison below is what the pipeline produces when plural, -ing and -ed
+          endings are folded. The default is strict, and the demo on this site runs the
+          default, so the page says so rather than letting the two disagree quietly. */}
+      <p className="mb-4 rounded-card border border-line bg-surface p-4 text-small text-ink-muted">
+        <span className="font-semibold text-ink">Read this with a caveat.</span>{" "}
+        This is what the matching produces when word endings are folded, so that
+        &ldquo;Running&rdquo; counts as the criterion&rsquo;s &ldquo;run&rdquo;.
+        The default is stricter: whole words only. Under that rule
+        &ldquo;Running PostgreSQL at scale&rdquo; only partly covers &ldquo;Has
+        run PostgreSQL at scale&rdquo;, the first candidate is gated too, and
+        the demo here (which runs the default) shows that instead. Which rule
+        should be the default is meant to be settled by an evaluation that has
+        not been run yet.
+      </p>
       <div className="grid gap-4 sm:grid-cols-2">
         {candidates.map((c) => (
           <div
