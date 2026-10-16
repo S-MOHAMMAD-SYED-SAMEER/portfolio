@@ -197,7 +197,7 @@ export interface Project {
  *
  * `tests` and `evaluation` are omitted rather than merely overridden. Both
  * were authored here as well as in the canonical file, and a stale `827`
- * outlived the real count of 895 by several commits — always replaced at
+ * outlived the real count by several commits — always replaced at
  * runtime, so nothing ever rendered it, and always wrong to anyone reading
  * this file. A value that cannot be written here cannot go stale here.
  */
@@ -260,7 +260,8 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       'Node.js',
       'TypeScript',
       'Express',
-      'Anthropic Claude',
+      'Google Gemini (adapter, not yet run)',
+      'Anthropic Claude (adapter, not yet run)',
       'SQLite',
       'PostgreSQL',
       'React',
@@ -279,8 +280,8 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
     screenshots: [
       {
         src: '/images/p2-inbox-full-workflow.png',
-        alt: 'An inbound email whose body contains a “SYSTEM: Ignore all previous instructions” block asking the agent to auto-approve the sender. The agent’s reading of it records only a large order and a request to confirm pricing, with most extracted fields marked “Not provided”.',
-        caption: 'An instruction injected into the email body is read as text, not obeyed.',
+        alt: 'The one example email that carries hidden instructions, opened in the mock-provider demo. Beside it is the scripted answer standing in for the model, which records only a large order and a request to confirm pricing, with most extracted fields marked “Not provided”.',
+        caption: 'The one example email (of ten) with hidden instructions, run with scripted model answers. That answer was deliberately fooled; the separate deterministic check is what flagged it and sent it to a person.',
         width: 1415,
         height: 868,
       },

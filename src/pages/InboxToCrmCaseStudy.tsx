@@ -57,16 +57,16 @@ const CAPABILITIES = [
 const STACK = [
   { name: "Node.js + TypeScript", role: "Application server" },
   { name: "React + Tailwind", role: "This portfolio and the dashboard" },
-  { name: "Claude", role: "Reads the email and drafts the reply" },
+  { name: "Gemini or Claude (pluggable)", role: "Reads the email and drafts the reply. So far a scripted mock replay; the real-model run is pending" },
   { name: "SQLite / PostgreSQL", role: "Records, plans, approvals and audit trail" },
-  { name: "Render", role: "Hosting for the running demo" },
+  { name: "GitHub Actions", role: "CI: tests, evaluations, dependency audit and a real-browser sign-in check" },
 ];
 
 const RESULTS: Result[] = [
   {
-    figure: "895",
+    figure: "951",
     label: "Automated tests passing",
-    detail: "746 covering the server and its safety layers, 149 covering the dashboard.",
+    detail: "802 covering the server and its safety layers, 149 covering the dashboard.",
   },
   {
     // `npm run eval:understand` — the stage this figure actually grades. The
@@ -74,26 +74,26 @@ const RESULTS: Result[] = [
     // revise, outbound) and no single end-to-end one, so describing this as
     // grading the whole pipeline claimed a wider measurement than exists.
     figure: "10 / 10",
-    label: "Evaluation cases passing",
+    label: "Evaluation cases passing (mock replay)",
     detail:
-      "A fixed set of inbound emails graded through extraction, classification and injection detection.",
+      "A fixed set of ten inbound emails graded through extraction, classification and injection detection, with the model replaced by scripted answers. It tests the code around the model, not a model.",
   },
   {
     figure: "0",
-    label: "Invented details",
+    label: "Invented details (mock replay)",
     detail:
-      "No field in the evaluation was filled with a value the email did not actually contain.",
+      "No field in the evaluation was filled with a value the email did not actually contain. The scripted answer that tried to is caught and the value is dropped.",
   },
   {
-    figure: "100%",
-    label: "Suspicious emails contained",
+    figure: "1 of 1",
+    label: "Hidden-instruction emails caught",
     detail:
-      "Every email in the evaluation carrying hidden instructions was caught and routed to a person.",
+      "One of the ten example emails carries hidden instructions. The scripted model answer was deliberately fooled and did not flag it; the deterministic check did, and the email went to a person with nothing written to the CRM. One email is a demonstration, not a detection rate.",
   },
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering results from this project's own test and evaluation suites, measured on a fixed set of example emails and a fictional CRM. They are not customer results — the agent has not yet been run against a real mailbox — and a fixed scenario set is a rigorous smoke test, not proof of accuracy across everything a real inbox might contain.";
+  "These are engineering results from this project's own test and evaluation suites, measured on a fixed set of ten example emails and a fictional CRM. The model in every run so far is a mock that replays scripted answers; a real-model run is pending, so no real-model result exists yet. The example emails, the scripted answers and the expected results were written by Claude (an AI assistant) and have not been reviewed by a person. They are not customer results — the agent has not been run against a real mailbox — and a fixed scenario set is a smoke test, not proof of accuracy across everything a real inbox might contain.";
 
 export default function InboxToCrmCaseStudy() {
   return (
@@ -157,7 +157,7 @@ export default function InboxToCrmCaseStudy() {
               width={1415}
               height={868}
               alt="An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer."
-              caption="An email opened up: the original message, what the agent took from it, and the checks run on that answer before any of it was stored."
+              caption="An email opened up in the mock-provider demo: the original message, the scripted answer standing in for the model, and the checks run on that answer before any of it was stored. This is the one example email that carries hidden instructions; the scripted answer was deliberately fooled, and the separate check is what caught it."
             />
           </div>
         </section>
@@ -337,7 +337,7 @@ export default function InboxToCrmCaseStudy() {
               {
                 title: "An email tries to give the assistant orders",
                 detail:
-                  "Some senders hide instructions in an email aimed at the AI reading it — telling it to ignore its rules or approve itself. A dedicated check runs on every email before the AI is asked anything, so catching it does not depend on the AI noticing. Anything flagged goes to a person, and each finding quotes the text it found.",
+                  "Some senders hide instructions in an email aimed at the AI reading it — telling it to ignore its rules or approve itself. A dedicated check runs on every email after the AI has read it and before anything is stored or acted on, so catching it does not depend on the AI noticing. Anything flagged goes to a person, and each finding quotes the text it found.",
               },
               {
                 title: "The assistant is not sure who the sender is",

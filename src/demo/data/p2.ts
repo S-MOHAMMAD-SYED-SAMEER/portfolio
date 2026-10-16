@@ -40,7 +40,7 @@ export const P2_SCENARIOS: Scenario[] = [
         label: "Understand",
         heading: "What the email says, field by field",
         blurb:
-          "The model reads the message once and returns structured values. Each one carries the passage it came from, so nothing can be asserted that is not in the text.",
+          "In the application the model reads the message once (so far a scripted mock replay; the real-model run is pending) and returns structured values. Each one carries the passage it came from, so nothing can be asserted that is not in the text.",
         panels: [
           {
             kind: "fields",
@@ -350,7 +350,7 @@ export const P2_SCENARIOS: Scenario[] = [
         label: "Understand",
         heading: "The instruction is read as text, not obeyed",
         blurb:
-          "The email body is passed to the model inside a fenced user turn. It is content to be described, never direction to be followed.",
+          "The email body is passed to the model inside a fenced user turn. It is content to be described, never direction to be followed. A separate deterministic check then runs on the email after the model has answered, so the flag does not depend on the model noticing.",
         panels: [
           {
             kind: "fields",
