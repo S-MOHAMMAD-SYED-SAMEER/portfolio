@@ -101,7 +101,7 @@ export const projects: Project[] = [
     title: "Inbox-to-CRM Agent",
     service: "AI Inbox & Lead Management",
     description:
-      "Reads incoming business email, matches it against the CRM, drafts a reply and logs the work — while a person approves anything consequential. Nothing is ever sent without that approval.",
+      "Reads incoming business email, matches it against the CRM, drafts a reply and logs the work — while a person approves anything consequential. Nothing is ever sent without that approval. Run so far with scripted model answers; the real-model run is pending.",
     tags: [
       "Human approval gate",
       "Auto-logged to CRM",
@@ -116,9 +116,9 @@ export const projects: Project[] = [
       src: "/images/p2-inbox-full-workflow.png",
       width: 1415,
       height: 868,
-      alt: "An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer.",
+      alt: "An inbound email opened in the dashboard of the mock-provider demo, with the original message beside the scripted answer standing in for the model and the validation applied to that answer.",
     },
-    proof: ["895 tests", "10/10 eval"],
+    proof: ["951 tests", "10/10 eval (mock replay)"],
     featured: true,
   },
   {
