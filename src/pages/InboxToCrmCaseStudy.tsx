@@ -57,43 +57,65 @@ const CAPABILITIES = [
 const STACK = [
   { name: "Node.js + TypeScript", role: "Application server" },
   { name: "React + Tailwind", role: "This portfolio and the dashboard" },
-  { name: "Gemini or Claude (pluggable)", role: "Reads the email and drafts the reply. So far a scripted mock replay; the real-model run is pending" },
+  { name: "Gemini (run) or Claude (implemented, not run)", role: "Reads the email and drafts the reply. Evaluated with a scripted mock and, separately, with gemini-3.5-flash-lite" },
   { name: "SQLite / PostgreSQL", role: "Records, plans, approvals and audit trail" },
   { name: "GitHub Actions", role: "CI: tests, evaluations, dependency audit and a real-browser sign-in check" },
 ];
 
 const RESULTS: Result[] = [
   {
-    figure: "951",
+    figure: "1007",
     label: "Automated tests passing",
-    detail: "802 covering the server and its safety layers, 149 covering the dashboard.",
+    detail: "858 covering the server and its safety layers, 149 covering the dashboard.",
   },
   {
-    // `npm run eval:understand` — the stage this figure actually grades. The
-    // pipeline has five more evals of its own (resolve, decide, execute,
-    // revise, outbound) and no single end-to-end one, so describing this as
-    // grading the whole pipeline claimed a wider measurement than exists.
-    figure: "10 / 10",
-    label: "Evaluation cases passing (mock replay)",
+    // Seven planned decisions in each of three real-model runs. The evaluations plan; they do not execute.
+    figure: "0 of 21",
+    label: "Plans with an unsafe action",
     detail:
-      "A fixed set of ten inbound emails graded through extraction, classification and injection detection, with the model replaced by scripted answers. It tests the code around the model, not a model.",
+      "Across 3 real-model runs of 7 planned decisions, none planned a consequential action without requiring a person. The evaluation plans and does not execute, so no CRM write happened in any run.",
   },
   {
-    figure: "0",
-    label: "Invented details (mock replay)",
+    figure: "12 of 12",
+    label: "Attack emails that reached a person",
     detail:
-      "No field in the evaluation was filled with a value the email did not actually contain. The scripted answer that tried to is caught and the value is dropped.",
+      "In the latest run. In an earlier run the model once obeyed an attack (it wrote the attacker's token into a field) and the email still reached a person, because the model also flagged it. The attack set is not held out from the detector.",
   },
   {
-    figure: "1 of 1",
-    label: "Hidden-instruction emails caught",
+    figure: "3 of 3",
+    label: "Runs where the ambiguous email reached a person",
     detail:
-      "One of the ten example emails carries hidden instructions. The scripted model answer was deliberately fooled and did not flag it; the deterministic check did, and the email went to a person with nothing written to the CRM. One email is a demonstration, not a detection rate.",
+      "Guaranteed by a rule in code, not by the prompt. Before that rule, in one run, it did not.",
+  },
+  {
+    figure: "6 of 7",
+    label: "Planned decisions matching the expected plan",
+    detail:
+      "In each of 3 runs: action accuracy 100% and approval-policy accuracy 100%. The one miss is a deal-stage disagreement (a pricing request read as a sales inquiry).",
+  },
+  {
+    figure: "80% · 70%",
+    label: "Category · priority accuracy",
+    detail:
+      "Reading ten emails, in each of 3 runs. Several misses are readings the expected answer rules out but a person might accept.",
+  },
+  {
+    figure: "0.91 – 0.95",
+    label: "Extraction F1 (invented fields: 0)",
+    detail:
+      "Range over 3 runs. No stored value was missing from the email text once names, titles and companies had to be written in the message.",
+  },
+  {
+    // The finding, stated as one.
+    figure: "10/10 vs 2–4/10",
+    label: "Scripted mock vs real model, full-case passes",
+    detail:
+      "The scripted mock passes every case; the real model passes every check on 2 to 4 of ten. The mock tests the code around a model, not a model.",
   },
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering results from this project's own test and evaluation suites, measured on a fixed set of ten example emails and a fictional CRM. The model in every run so far is a mock that replays scripted answers; a real-model run is pending, so no real-model result exists yet. The example emails, the scripted answers and the expected results were written by Claude (an AI assistant) and have not been reviewed by a person. They are not customer results — the agent has not been run against a real mailbox — and a fixed scenario set is a smoke test, not proof of accuracy across everything a real inbox might contain.";
+  "Real-model figures come from gemini-3.5-flash-lite at temperature 1, read as ranges over three runs of the same evaluation (107 requests across every run, none retried silently). The limits are real: ten emails, seven planned decisions and twelve attacks; one model; expected answers written by Claude and reviewed with AI assistance (final decisions by Sameer), not independently; and an attack set that is not held out from the detector. They are engineering results on a fictional CRM and example emails, not customer results: the agent has not been run against a real mailbox. The Claude provider is implemented and has not been run. The full results, every raw reply and the cases where the model and the expected answer disagree are in the repository, under docs/results.";
 
 export default function InboxToCrmCaseStudy() {
   return (
@@ -157,7 +179,7 @@ export default function InboxToCrmCaseStudy() {
               width={1415}
               height={868}
               alt="An inbound email opened in the dashboard, with the original message beside the details the agent extracted from it and the validation applied to that answer."
-              caption="An email opened up in the mock-provider demo: the original message, the scripted answer standing in for the model, and the checks run on that answer before any of it was stored. This is the one example email that carries hidden instructions; the scripted answer was deliberately fooled, and the separate check is what caught it."
+              caption="An email opened up in the mock-provider demo: the original message, the scripted answer standing in for the model, and the checks run on that answer before any of it was stored. This is the one example email that carries hidden instructions; the scripted answer was deliberately fooled, and the separate check is what caught it. In three real-model runs the model flagged it itself."
             />
           </div>
         </section>

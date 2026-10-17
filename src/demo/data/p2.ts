@@ -40,7 +40,7 @@ export const P2_SCENARIOS: Scenario[] = [
         label: "Understand",
         heading: "What the email says, field by field",
         blurb:
-          "In the application the model reads the message once (so far a scripted mock replay; the real-model run is pending) and returns structured values. Each one carries the passage it came from, so nothing can be asserted that is not in the text.",
+          "In the application the model reads the message once and returns structured values (this walkthrough replays a fixed result; the real-model evaluations are in the case study). Each one carries the passage it came from, so nothing can be asserted that is not in the text.",
         panels: [
           {
             kind: "fields",

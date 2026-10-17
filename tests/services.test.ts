@@ -145,7 +145,7 @@ test('the verified proof figures are unchanged', () => {
   // should require changing this line and saying why.
   const expected: Record<ProjectId, string[]> = {
     p1: ['530 tests', '21/21 eval (live Gemini)'],
-    p2: ['951 tests', '10/10 eval (mock replay)'],
+    p2: ['1007 tests', '10/10 mock replay · 2–4/10 real model'],
     p3: ['697 tests', 'deterministic scoring'],
     p4: ['1,259 passing (CI)', 'deterministic, credential-free demo'],
     p5: ['521 tests', 'deterministic, credential-free demo'],
