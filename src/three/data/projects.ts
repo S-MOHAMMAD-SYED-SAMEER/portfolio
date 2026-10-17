@@ -55,7 +55,11 @@ function canonicalProof(id: CanonicalId): { tests: number; evaluation: string | 
   // A parenthesised qualifier, "(mock)" or "(live Gemini)", is carried through: a
   // result that replays scripted answers must not be shown as if it were a
   // live-model result, and a live one should say which model.
-  const ratio = /^([0-9]+\/[0-9]+)\b(?: eval)?( \([A-Za-z ]+\))?/.exec(project.proof?.[1] ?? '')
+  // A string that already says both results, "10/10 mock replay · 2–4/10 real model", is shown as written: it is the one place
+  // the mock and the real result sit side by side, and taking only its first ratio would drop the real one.
+  const written = project.proof?.[1] ?? ''
+  if (written.includes('·')) return { tests, evaluation: written }
+  const ratio = /^([0-9]+\/[0-9]+)\b(?: eval)?( \([A-Za-z ]+\))?/.exec(written)
   return { tests, evaluation: ratio === null ? null : `${ratio[1]!}${ratio[2] ?? ''}` }
 }
 
@@ -260,8 +264,8 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       'Node.js',
       'TypeScript',
       'Express',
-      'Google Gemini (adapter, not yet run)',
-      'Anthropic Claude (adapter, not yet run)',
+      'Google Gemini (gemini-3.5-flash-lite, evaluated)',
+      'Anthropic Claude (implemented, not run)',
       'SQLite',
       'PostgreSQL',
       'React',
@@ -281,7 +285,7 @@ const AUTHORED_PROJECTS: readonly AuthoredProject[] = [
       {
         src: '/images/p2-inbox-full-workflow.png',
         alt: 'The one example email that carries hidden instructions, opened in the mock-provider demo. Beside it is the scripted answer standing in for the model, which records only a large order and a request to confirm pricing, with most extracted fields marked “Not provided”.',
-        caption: 'The one example email (of ten) with hidden instructions, run with scripted model answers. That answer was deliberately fooled; the separate deterministic check is what flagged it and sent it to a person.',
+        caption: 'The one example email (of ten) with hidden instructions, run with scripted model answers. That answer was deliberately fooled; the separate deterministic check is what flagged it and sent it to a person. A real model flagged it itself in three runs.',
         width: 1415,
         height: 868,
       },
