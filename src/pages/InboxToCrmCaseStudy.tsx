@@ -452,7 +452,7 @@ export default function InboxToCrmCaseStudy() {
               width={1920}
               height={960}
               alt="The guest demo, with its banner saying answers are replayed from a recorded run and nothing is ever sent."
-              caption="The guest demo: no sign-in, a private sandbox, answers replayed from a recorded real run, and nothing is ever sent."
+              caption="The guest demo, when you run the app locally (not hosted yet): no sign-in, a private sandbox, answers replayed from a recorded real run, and nothing is ever sent."
             />
             <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
               <p className="text-small font-semibold text-ink">
