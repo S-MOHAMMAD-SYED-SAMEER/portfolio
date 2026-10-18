@@ -118,7 +118,7 @@ export const projects: Project[] = [
       height: 868,
       alt: "An inbound email opened in the dashboard of the mock-provider demo, with the original message beside the scripted answer standing in for the model and the validation applied to that answer.",
     },
-    proof: ["1074 tests", "10/10 mock replay · 2–4/10 real model"],
+    proof: ["1103 tests", "10/10 mock replay · 2–4/10 real model"],
     featured: true,
   },
   {

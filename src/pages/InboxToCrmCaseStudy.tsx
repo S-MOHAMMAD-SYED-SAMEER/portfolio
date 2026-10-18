@@ -64,9 +64,9 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "1074",
+    figure: "1103",
     label: "Automated tests passing",
-    detail: "903 covering the server and its safety layers, 171 covering the dashboard.",
+    detail: "918 covering the server and its safety layers, 185 covering the dashboard.",
   },
   {
     // Seven planned decisions in each of three real-model runs. The evaluations plan; they do not execute.
@@ -432,6 +432,27 @@ export default function InboxToCrmCaseStudy() {
               height={4319}
               alt="The full path an email takes through the agent, from the message arriving to the records it becomes."
               caption="The whole path end to end, from the email arriving to the records it becomes. Top of a much longer page."
+            />
+            <Screenshot
+              src="/images/p2-real-extraction-provenance.png"
+              width={1920}
+              height={960}
+              alt="An email beside the details extracted from it; one extracted field is hovered and the sentence it came from is highlighted in the email."
+              caption="From a recorded run of the real app on the real model, with invented data: hover an extracted field and the sentence it came from lights up."
+            />
+            <Screenshot
+              src="/images/p2-real-needs-a-person.png"
+              width={1920}
+              height={960}
+              alt="The list of emails handed to a person, each with the reason it was not acted on."
+              caption="The same run: an email that hides an instruction for the AI, and two unclear ones, are handed to a person with the reason."
+            />
+            <Screenshot
+              src="/images/p2-real-guest-demo.png"
+              width={1920}
+              height={960}
+              alt="The guest demo, with its banner saying answers are replayed from a recorded run and nothing is ever sent."
+              caption="The guest demo, when you run the app locally (not hosted yet): no sign-in, a private sandbox, answers replayed from a recorded real run, and nothing is ever sent."
             />
             <div className="mb-8 break-inside-avoid rounded-card border border-line bg-canvas p-6">
               <p className="text-small font-semibold text-ink">
