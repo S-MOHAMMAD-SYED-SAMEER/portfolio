@@ -4,6 +4,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
+import CaseStudyVideo from "../components/CaseStudyVideo";
 import InboxToCrmFlow from "../components/caseStudy/InboxToCrmFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
 import Section from "../components/Section";
@@ -172,6 +173,15 @@ export default function InboxToCrmCaseStudy() {
             >
               View on GitHub
             </a>
+          </div>
+          <div className="mt-10">
+            <CaseStudyVideo
+              src="/videos/inbox-crm-agent-16x9.mp4"
+              poster="/videos/inbox-crm-agent-poster.jpg"
+              captions="/videos/inbox-crm-agent.vtt"
+              label="Demo video of the inbox agent: ten emails read by a real model, a detail traced to its source sentence, a plan matched against the CRM and approved with the reply held, emails handed to a person, the measured results, and the guest demo."
+              caption="An 86-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-18). Every email, company and contact is invented. The answers and the screens are what the server returned; nothing was edited. The last scene is the guest demo, which replays a recorded run and runs when you run the app locally (not hosted yet). AI-voice narration."
+            />
           </div>
           <div className="mt-10">
             <Screenshot
