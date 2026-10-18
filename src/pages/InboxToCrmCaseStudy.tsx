@@ -64,9 +64,9 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "1007",
+    figure: "1074",
     label: "Automated tests passing",
-    detail: "858 covering the server and its safety layers, 149 covering the dashboard.",
+    detail: "903 covering the server and its safety layers, 171 covering the dashboard.",
   },
   {
     // Seven planned decisions in each of three real-model runs. The evaluations plan; they do not execute.
