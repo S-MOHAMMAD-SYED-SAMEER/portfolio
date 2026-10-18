@@ -1,0 +1,54 @@
+WEBVTT
+
+NOTE Narration is an AI voice. Full spoken text; the short captions are also burned into the video.
+
+00:00:02.400 --> 00:00:04.650 line:78% align:center size:86%
+This reads a shared inbox.
+
+00:00:04.900 --> 00:00:07.400 line:78% align:center size:86%
+These ten emails are invented.
+
+00:00:07.650 --> 00:00:11.925 line:78% align:center size:86%
+A real model, Gemini, reads each one and says what it is.
+
+00:00:14.427 --> 00:00:19.777 line:78% align:center size:86%
+Open one, and every detail it pulled out points to the sentence it came from.
+
+00:00:20.027 --> 00:00:25.552 line:78% align:center size:86%
+Anything it can't point to in the email is dropped by the code, not invented.
+
+00:00:26.766 --> 00:00:30.316 line:78% align:center size:86%
+Next, each sender is matched against the CRM.
+
+00:00:30.566 --> 00:00:35.191 line:78% align:center size:86%
+Then a plan is proposed, and the ones that need a person say so.
+
+00:00:36.191 --> 00:00:39.966 line:78% align:center size:86%
+Open a plan, and you see exactly what it will change.
+
+00:00:40.216 --> 00:00:42.941 line:78% align:center size:86%
+Approve it, and the records are written.
+
+00:00:43.191 --> 00:00:45.666 line:78% align:center size:86%
+The reply is held, never sent.
+
+00:00:48.624 --> 00:00:55.449 line:78% align:center size:86%
+An email that hides an instruction for the AI, or one that is unclear, is not acted on.
+
+00:00:55.699 --> 00:00:58.374 line:78% align:center size:86%
+It goes to a person, with the reason.
+
+00:00:59.374 --> 00:01:04.049 line:78% align:center size:86%
+Measured on one model, ten invented emails, and three runs.
+
+00:01:04.299 --> 00:01:09.974 line:78% align:center size:86%
+The mock passes everything. The real model passes two to four of ten cases.
+
+00:01:10.224 --> 00:01:12.324 line:78% align:center size:86%
+That gap is the finding.
+
+00:01:13.324 --> 00:01:16.049 line:78% align:center size:86%
+Anyone can try it, with no sign-in.
+
+00:01:16.299 --> 00:01:22.374 line:78% align:center size:86%
+It's a private sandbox that replays a recorded real run, and nothing is ever sent.
