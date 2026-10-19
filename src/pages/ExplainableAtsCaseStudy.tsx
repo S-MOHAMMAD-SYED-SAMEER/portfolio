@@ -62,15 +62,22 @@ const STACK = [
   { name: "Express 5", role: "HTTP layer" },
   { name: "React 19 + Vite + Tailwind 4", role: "Recruiter dashboard" },
   { name: "SQLite / PostgreSQL", role: "Assessments, evidence, decisions and audit trail" },
-  { name: "Deterministic stand-in reader", role: "What the current demo runs on — see the limitations below" },
+  { name: "Claude Haiku 4.5", role: "Proposes verdicts and quotes in the full application; evaluated once, on invented data" },
+  { name: "Deterministic stand-in reader", role: "What the interactive demo runs on — see the limitations below" },
 ];
 
 const RESULTS: Result[] = [
   {
-    figure: "697",
+    figure: "880",
     label: "Automated tests passing",
     detail:
-      "503 covering the server and its scoring rules, 194 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 685 pass and 12 skip, because the parity tests need those repositories.",
+      "669 covering the server and its scoring rules, 211 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 868 pass and 12 skip, because the parity tests need those repositories.",
+  },
+  {
+    figure: "86.8%",
+    label: "Verdicts matching the labels (one run)",
+    detail:
+      "Claude Haiku 4.5 read twenty invented CVs once, and 59 of 68 verdicts matched the labels (17 of 20 candidates landed in the right tier). The labels were drafted by ChatGPT, reviewed independently by ChatGPT and Claude, and approved by Sameer: not an independent human labelling. A rule-based check alone, on the same quotes, matched 38.2%.",
   },
   {
     figure: "4",
@@ -82,7 +89,7 @@ const RESULTS: Result[] = [
     figure: "0",
     label: "Scores produced by an AI",
     detail:
-      "The extraction step has no field for a verdict or a number, so a model cannot return one.",
+      "The model proposes verdicts and quotes. It has no field for a score, so a model cannot return one: the number is integer arithmetic done by code.",
   },
   {
     figure: "100%",
@@ -93,7 +100,7 @@ const RESULTS: Result[] = [
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering results from this project's own test suite, measured against a fixed demo dataset with invented candidates. They are not customer results — the system has not been run against real applicants — and a passing test suite is evidence that the rules behave as specified, not proof of good hiring outcomes.";
+  "These are engineering results from this project's own test suite and one evaluation run, on invented candidates and CVs. They are not customer results — the system has not been run against real applicants — and a passing test suite is evidence that the rules behave as specified, not proof of good hiring outcomes. The 86.8% is one model, one run, twenty AI-written CVs and 68 labels that are not an independent human labelling, and the rules were chosen on those same rows, so it is not a held-out accuracy figure.";
 
 /**
  * The centrepiece: two candidates on the same score, placed differently, with
@@ -134,12 +141,13 @@ function GateComparison() {
         <span className="font-semibold text-ink">Read this with a caveat.</span>{" "}
         This is what the matching produces when word endings are folded, so that
         &ldquo;Running&rdquo; counts as the criterion&rsquo;s &ldquo;run&rdquo;.
-        The default is stricter: whole words only. Under that rule
+        The demo&rsquo;s default is stricter: whole words only. Under that rule
         &ldquo;Running PostgreSQL at scale&rdquo; only partly covers &ldquo;Has
         run PostgreSQL at scale&rdquo;, the first candidate is gated too, and
-        the demo here (which runs the default) shows that instead. Which rule
-        should be the default is meant to be settled by an evaluation that has
-        not been run yet.
+        the demo here (which runs the default) shows that instead. These are
+        the earlier design&rsquo;s rules, in which rules rather than a model
+        decide each verdict; in the full application the AI proposes the
+        verdict and this rule is only a second opinion.
       </p>
       <div className="grid gap-4 sm:grid-cols-2">
         {candidates.map((c) => (
@@ -368,26 +376,35 @@ export default function ExplainableAtsCaseStudy() {
         {/* 3. SOLUTION */}
         <Section
           eyebrow="The solution"
-          title="The AI quotes. The application judges."
+          title="The AI proposes. The application checks."
         >
           <div className="grid gap-8 sm:grid-cols-2">
             <div className="flex flex-col gap-4 text-ink-muted">
               <p>
-                The split is the whole design. An AI reads the CV and pulls out
-                the passages that speak to each requirement, quoting them
-                directly. It is never asked whether a requirement is met, and it
-                is given no way to answer that — the step it takes part in has no
-                field for a verdict and no field for a number.
+                The split is the whole design. An AI reads the CV and, for each
+                requirement, proposes a verdict and quotes the passages it relies
+                on. It is never asked for a score, a ranking or a decision, and
+                it is given no way to give one — the step it takes part in has no
+                field for a number.
               </p>
               <p>
-                Everything that produces a judgement happens afterwards, in
-                ordinary application code: fixed rules against verified quotes,
-                integer arithmetic, weights the role set in advance.
+                Everything after that happens in ordinary application code: every
+                quote is looked up in the CV, a verdict with no verified quote is
+                lowered to &ldquo;not demonstrated&rdquo;, a fixed rule reads the
+                same quotes as a second opinion, and the score is integer
+                arithmetic over weights the role set in advance.
               </p>
               <p>
                 So when someone asks why a candidate placed where they did, the
-                answer is not a model&apos;s opinion. It is a requirement, a
-                verdict, a reason, and a sentence from their own CV.
+                answer is a requirement, a verdict, the AI&apos;s one-line reason,
+                and a sentence from their own CV that was checked against the
+                document.
+              </p>
+              <p>
+                It did not begin this way. The first design had the AI only quote
+                and fixed rules judge. Measured against the labels, those rules
+                matched 35 to 40% of the time even when handed perfect quotes, so
+                the judgement moved to the AI and the rules became the check.
               </p>
             </div>
             <div className="rounded-card border border-line bg-canvas p-6">
@@ -398,11 +415,12 @@ export default function ExplainableAtsCaseStudy() {
                 <li>Every judgement points at a passage from the CV.</li>
                 <li>
                   A quote that is not in the document is discarded before it can
-                  count.
+                  count, and a verdict left with no quote reads &ldquo;not
+                  demonstrated&rdquo;.
                 </li>
                 <li>
-                  The same CV against the same role produces the same result
-                  every time.
+                  The arithmetic is the same every time. The AI&apos;s own
+                  reading can differ from one run to the next.
                 </li>
                 <li>
                   The recruiter decides. The system ranks, explains, and records
@@ -569,8 +587,8 @@ export default function ExplainableAtsCaseStudy() {
               </p>
               <ul className="mt-4 flex flex-col gap-3 text-small text-ink-muted">
                 <li>
-                  The same inputs produce the same score on any machine, every
-                  time.
+                  The same verdicts and quotes produce the same score on any
+                  machine, every time.
                 </li>
                 <li>
                   A score from six weeks ago can still be reproduced from what
@@ -611,7 +629,10 @@ export default function ExplainableAtsCaseStudy() {
               </p>
               <p>
                 Each requirement carries its verdict in plain words, the reason
-                behind it, and the passage from the CV it rests on. The
+                behind it, and the passage from the CV it rests on. Where the
+                AI&apos;s verdict and a rule-based check differ, both are shown;
+                where a credited quote shares no word with the requirement, the
+                page says so and asks a person to check. The
                 technical detail — weights, contributions, which reader produced
                 the evidence — sits behind a disclosure, out of the way of
                 someone making a decision but available to someone checking one.
@@ -714,9 +735,24 @@ export default function ExplainableAtsCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "The reader is a deterministic stand-in",
+                title: "The demo's reader is a deterministic stand-in",
                 detail:
-                  "The current build reads CVs with a fixed, offline stand-in rather than a live language model, so a walkthrough behaves identically every time. The adapter for a live model is in place; the demo does not use it.",
+                  "The interactive demo on this site reads CVs with a fixed, offline stand-in rather than a live language model, and fixed rules decide each verdict, so a walkthrough behaves identically every time. The full application can call a live model (Claude Haiku 4.5 is the default); the demo does not.",
+              },
+              {
+                title: "Evaluated once, on invented data",
+                detail:
+                  "Claude Haiku 4.5 read twenty invented CVs once: 86.8% of 68 verdicts matched the labels, and 17 of 20 candidates landed in the right tier. One model, one run; one pair is about 1.5 points. The rules were chosen on the same rows, so this is not a held-out figure.",
+              },
+              {
+                title: "The labels are not an independent human labelling",
+                detail:
+                  "Labels drafted by ChatGPT; reviewed independently by ChatGPT and Claude (agreed on 64 of 68 rows); final decisions approved by Sameer. Not an independent human labelling. Five more CVs were written to be held out and were never labelled or run.",
+              },
+              {
+                title: "Keyword stuffing is a known limit",
+                detail:
+                  "A quote that lists every word of a requirement is real text in the CV, so it is verified and credited, and the live check did exactly that. In offline tests, an AI that obeyed every injected instruction would be scored as it said, with every such credit flagged and the candidate sent to review. In one live run the real model left seven asserted hostile CVs unchanged.",
               },
               {
                 title: "No real applicants have been screened",

@@ -143,7 +143,7 @@ export const projects: Project[] = [
       height: 3005,
       alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
     },
-    proof: ["697 tests", "deterministic scoring"],
+    proof: ["880 tests", "86.8% agreement with AI-drafted labels · 1 run"],
     featured: true,
   },
   {

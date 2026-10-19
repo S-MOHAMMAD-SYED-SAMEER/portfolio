@@ -60,9 +60,9 @@ const WITH_MODEL: Stage[] = [
   {
     n: "3",
     name: "Extract",
-    plain: "The AI finds the passages that speak to each requirement — and quotes them.",
+    plain: "The AI proposes a verdict for each requirement — and quotes the passages it relies on.",
     detail:
-      "This is the only step an AI takes part in. It is asked for passages and the place they came from. It is not asked whether a requirement is met, and it is given no way to answer that question.",
+      "This is the only step an AI takes part in. It is asked for a verdict, the passages behind it and a one-line reason. It is given no way to give a score, a rank or a decision. (The interactive demo on this site uses an offline stand-in that only quotes, and fixed rules decide each verdict.)",
   },
 ];
 
@@ -70,9 +70,9 @@ const DETERMINISTIC: Stage[] = [
   {
     n: "5",
     name: "Match",
-    plain: "Each requirement is judged against the passages that survived.",
+    plain: "Each verdict is checked against the passages that survived.",
     detail:
-      "Fixed rules compare what the quoted passages actually contain against what the requirement asks for, and record the reasoning alongside the verdict.",
+      "A verdict needs a verified quote to stand, and with none it reads \"not demonstrated\". A fixed rule reads the same quotes as a second opinion, shown beside the AI's verdict, and where a credited quote shares no word with the requirement a person is asked to check. The second opinion never changes the score. (In the demo, the fixed rules decide the verdict.)",
   },
   {
     n: "6",
@@ -139,13 +139,13 @@ export default function ExplainableAtsFlow() {
           The principle
         </p>
         <p className="mt-2 text-small font-semibold text-ink">
-          AI extracts evidence. Deterministic code turns that evidence into
+          The AI proposes. Deterministic code checks it and turns it into
           reproducible scores and rankings. A person makes the final decision.
         </p>
         <p className="mt-2 text-small text-ink-muted">
           Input → processing → evidence → decision → audit. The model takes part
-          in one of the nine steps below, and it is the step that quotes the CV
-          rather than the step that judges it.
+          in one of the nine steps below, and it is the step that proposes the
+          verdicts and quotes the CV. Every step after it checks or calculates.
         </p>
       </div>
 
@@ -177,11 +177,11 @@ export default function ExplainableAtsFlow() {
           is refused for the same reason.
         </p>
         <p className="mt-3 text-meta font-semibold uppercase tracking-wide text-ink-muted">
-          The AI&apos;s involvement ends here — everything below is arithmetic
+          The AI&apos;s involvement ends here — everything below is checks and arithmetic
         </p>
       </Callout>
 
-      <GroupLabel>Decided by the application, not the AI</GroupLabel>
+      <GroupLabel>Checked and calculated by the application</GroupLabel>
       <ol className="mt-4 flex flex-col gap-6">
         {DETERMINISTIC.map((stage) => (
           <StageRow key={stage.n} stage={stage} />
@@ -189,9 +189,10 @@ export default function ExplainableAtsFlow() {
       </ol>
 
       <p className="mt-6 border-t border-line pt-4 text-meta text-ink-muted">
-        Because the judging is ordinary arithmetic over verified quotes, the same
-        CV against the same role produces the same result every time — and the
-        working can be reproduced by hand from what is on screen.
+        Because the scoring is ordinary arithmetic over verified verdicts and
+        quotes, the same stored verdicts always produce the same score — and the
+        working can be reproduced by hand from what is on screen. The AI&apos;s
+        own reading can differ from one run to the next.
       </p>
     </div>
   );
