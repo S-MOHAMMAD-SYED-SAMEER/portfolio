@@ -68,10 +68,10 @@ const STACK = [
 
 const RESULTS: Result[] = [
   {
-    figure: "882",
+    figure: "883",
     label: "Automated tests passing",
     detail:
-      "671 covering the server and its scoring rules, 211 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 870 pass and 12 skip, because the parity tests need those repositories.",
+      "672 covering the server and its scoring rules, 211 covering the dashboard, with the two portfolio repositories checked out beside the project (as its CI does). In a standalone clone 871 pass and 12 skip, because the parity tests need those repositories.",
   },
   {
     figure: "86.8%",
@@ -679,6 +679,13 @@ export default function ExplainableAtsCaseStudy() {
         {/* 11. SCREENSHOTS */}
         <Section eyebrow="The product" title="Seeing it work">
           <div className="columns-1 gap-8 sm:columns-2">
+            <Screenshot
+              src="/images/p3-model-checked.png"
+              width={2360}
+              height={2990}
+              alt="A candidate page for a CV scored from a live model's verdicts: a 100% score marked worth a look, a flag saying the quote shares no words with the requirement, and two requirements each showing the model's verdict and one-line reason, the rule-based second opinion and the flag."
+              caption="One live run of Claude Haiku 4.5 on an invented CV (cv-02), 2026-10-19."
+            />
             <Screenshot
               src="/images/p3-candidate-evidence.png"
               width={1920}
