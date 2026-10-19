@@ -1,0 +1,48 @@
+WEBVTT
+
+NOTE Narration is an AI voice. Full spoken text; the short captions are also burned into the video.
+
+00:00:02.300 --> 00:00:06.375 line:78% align:center size:86%
+A person writes the requirements and marks which are essential.
+
+00:00:07.969 --> 00:00:14.119 line:78% align:center size:86%
+Paste a CV. Personal details are masked first, so the model never sees them.
+
+00:00:14.369 --> 00:00:18.594 line:78% align:center size:86%
+Then Claude Haiku proposes a verdict for each requirement.
+
+00:00:19.294 --> 00:00:24.694 line:78% align:center size:86%
+Every verdict comes with the passage it rests on, checked against the real CV.
+
+00:00:24.944 --> 00:00:27.519 line:78% align:center size:86%
+A quote that isn't there is thrown out.
+
+00:00:28.219 --> 00:00:35.244 line:78% align:center size:86%
+The model gives its reason, and a plain word-counting check reads the same quote as a second opinion.
+
+00:00:35.494 --> 00:00:39.744 line:78% align:center size:86%
+Here it can't see the match, so the page flags it for a person.
+
+00:00:39.994 --> 00:00:42.594 line:78% align:center size:86%
+The score is still the model's verdict.
+
+00:00:46.194 --> 00:00:49.544 line:78% align:center size:86%
+Where a candidate is placed comes with a sentence.
+
+00:00:49.794 --> 00:00:54.319 line:78% align:center size:86%
+A missing essential moves someone down without changing their score.
+
+00:00:54.569 --> 00:01:01.144 line:78% align:center size:86%
+And a candidate whose evidence needs a human check is held as worth a look, not ruled out.
+
+00:01:01.844 --> 00:01:06.844 line:78% align:center size:86%
+Every step is on the record, including the model that read the CV.
+
+00:01:07.094 --> 00:01:10.144 line:78% align:center size:86%
+A person decides, and has to write why.
+
+00:01:10.844 --> 00:01:14.994 line:78% align:center size:86%
+Measured once: one model, twenty invented CVs.
+
+00:01:15.244 --> 00:01:24.369 line:78% align:center size:86%
+86.8% matched the labels, which are not an independent human labelling. One run, not an accuracy figure.
