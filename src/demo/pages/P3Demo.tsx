@@ -41,6 +41,7 @@ export default function P3Demo() {
       project={projectById("p3")}
       tagline="Watch candidates screened against a role by the real pipeline: the passage from their CV behind every verdict, the arithmetic behind every score, and why one candidate is placed below another who scored the same."
       disclosure="Interactive demonstration using synthetic data. The project's own screening code runs in your browser over five invented candidates; it does not connect to real applicants, CVs or a database. No real applicants have been screened. The reader is a deterministic mock rather than a live language model, so a walkthrough behaves identically every time."
+      evaluationNote="This demo runs an offline stand-in. The full application was evaluated once with Claude Haiku 4.5 on invented data."
       scenarioLabel="Choose a candidate"
       scenarios={scenarios}
     />

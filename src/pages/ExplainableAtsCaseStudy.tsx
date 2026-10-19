@@ -742,7 +742,7 @@ export default function ExplainableAtsCaseStudy() {
               {
                 title: "Evaluated once, on invented data",
                 detail:
-                  "Claude Haiku 4.5 read twenty invented CVs once: 86.8% of 68 verdicts matched the labels, and 17 of 20 candidates landed in the right tier. One model, one run; one pair is about 1.5 points. The rules were chosen on the same rows, so this is not a held-out figure.",
+                  "Claude Haiku 4.5 read twenty invented CVs once: 86.8% of 68 verdicts matched the labels, and 17 of 20 candidates landed in the right tier. One model, one run; each verdict is about 1.5 points. The rules were chosen on the same rows, so this is not a held-out figure.",
               },
               {
                 title: "The labels are not an independent human labelling",
@@ -752,7 +752,7 @@ export default function ExplainableAtsCaseStudy() {
               {
                 title: "Keyword stuffing is a known limit",
                 detail:
-                  "A quote that lists every word of a requirement is real text in the CV, so it is verified and credited, and the live check did exactly that. In offline tests, an AI that obeyed every injected instruction would be scored as it said, with every such credit flagged and the candidate sent to review. In one live run the real model left seven asserted hostile CVs unchanged.",
+                  "A quote that lists every word of a requirement is real text in the CV, so it is verified and credited, and the live check did exactly that. In offline tests, an AI that obeyed every injected instruction would be scored as it said, with every such credit flagged and the candidate sent to review. In one live run, none of the seven CVs with hidden instructions fooled the real model.",
               },
               {
                 title: "No real applicants have been screened",
