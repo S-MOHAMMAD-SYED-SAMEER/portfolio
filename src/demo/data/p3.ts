@@ -310,7 +310,7 @@ function stagesFor(run: CandidateRun, result: DemoRunResult, entry: RankedCandid
     id: "matching",
     label: "Matching",
     heading: "Requirement by requirement",
-    blurb: `Plain rules, not a model. A verdict comes from how many of a requirement's significant terms the verified quotes contain, counted as whole words: ${MET_COVERAGE_PERCENT}% or more is met, ${PARTIAL_COVERAGE_PERCENT}% or more is partly met, a relevant quote that falls short is not met, and no quote at all is not demonstrated.`,
+    blurb: `Plain rules, not a model. A verdict comes from how many of a requirement's significant terms the verified quotes contain, counted as whole words after plural, -ing and -ed endings are reduced (so "Running" counts as "run"): ${MET_COVERAGE_PERCENT}% or more is met, ${PARTIAL_COVERAGE_PERCENT}% or more is partly met, a relevant quote that falls short is not met, and no quote at all is not demonstrated.`,
     panels: run.assessed
       ? [
           {
