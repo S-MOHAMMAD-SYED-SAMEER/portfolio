@@ -48,23 +48,23 @@ type Real = {
   position: number
 }
 
-// What the DEFAULT (strict, whole-word) matching produces. The CVs say "Running PostgreSQL at
-// scale" against the criterion "run", which strict matching does not equate, so Rowan and Devi
-// are gated and nobody is qualified. The data has not been reworded to avoid that.
+// What the demo shows: plural, -ing and -ed endings are folded (MATCH_MODE=folded, the application's default and the setting its
+// evaluation used), so "Running PostgreSQL at scale" meets the criterion's "run".
 const REAL: Real[] = [
-  { reference: 'demo-001', name: 'Rowan Ashfield', tier: 'gated', score: 8571, verdicts: ['met', 'partial', 'met'], contributions: [4286, 1428, 2857], position: 2 },
-  { reference: 'demo-002', name: 'Devi Narayanan', tier: 'gated', score: 5714, verdicts: ['met', 'partial', 'unclear'], contributions: [4286, 1428, 0], position: 4 },
-  { reference: 'demo-003', name: 'Marcus Oyelaran', tier: 'gated', score: 7142, verdicts: ['met', 'not_met', 'met'], contributions: [4285, 0, 2857], position: 3 },
-  { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 5714, verdicts: ['met', 'unclear', 'partial'], contributions: [4286, 0, 1428], position: 1 },
-  { reference: 'demo-005', name: 'Toby Kestrel', tier: 'not_evaluated', score: null, verdicts: [], contributions: [], position: 5 },
-]
-
-// What the same CVs produce when plural, -ing and -ed endings are folded (MATCH_MODE=folded).
-const REAL_FOLDED: Real[] = [
   { reference: 'demo-001', name: 'Rowan Ashfield', tier: 'qualified', score: 10000, verdicts: ['met', 'met', 'met'], contributions: [4286, 2857, 2857], position: 1 },
   { reference: 'demo-002', name: 'Devi Narayanan', tier: 'qualified', score: 7142, verdicts: ['met', 'met', 'not_met'], contributions: [4285, 2857, 0], position: 2 },
   { reference: 'demo-003', name: 'Marcus Oyelaran', tier: 'gated', score: 7142, verdicts: ['met', 'not_met', 'met'], contributions: [4285, 0, 2857], position: 4 },
   { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 7142, verdicts: ['met', 'unclear', 'met'], contributions: [4285, 0, 2857], position: 3 },
+  { reference: 'demo-005', name: 'Toby Kestrel', tier: 'not_evaluated', score: null, verdicts: [], contributions: [], position: 5 },
+]
+
+// What the same CVs produce with whole-word matching (MATCH_MODE=strict). "Running" is not "run", so Rowan and Devi are gated and
+// nobody is qualified. The data has not been reworded to avoid that.
+const REAL_STRICT: Real[] = [
+  { reference: 'demo-001', name: 'Rowan Ashfield', tier: 'gated', score: 8571, verdicts: ['met', 'partial', 'met'], contributions: [4286, 1428, 2857], position: 2 },
+  { reference: 'demo-002', name: 'Devi Narayanan', tier: 'gated', score: 5714, verdicts: ['met', 'partial', 'unclear'], contributions: [4286, 1428, 0], position: 4 },
+  { reference: 'demo-003', name: 'Marcus Oyelaran', tier: 'gated', score: 7142, verdicts: ['met', 'not_met', 'met'], contributions: [4285, 0, 2857], position: 3 },
+  { reference: 'demo-004', name: 'Ines Fabre', tier: 'needs_review', score: 5714, verdicts: ['met', 'unclear', 'partial'], contributions: [4286, 0, 1428], position: 1 },
   { reference: 'demo-005', name: 'Toby Kestrel', tier: 'not_evaluated', score: null, verdicts: [], contributions: [], position: 5 },
 ]
 
@@ -122,18 +122,20 @@ test('every candidate gets the real tier, score, verdicts and per-requirement co
   }
 })
 
-test('the default ranking opens on Ines, with nobody qualified, and Devi last of the gated', () => {
+test('the default ranking opens on Rowan, qualifies two, and places Marcus below Ines on the same score', () => {
   const order = run.ranking.entries.map((entry) => entry.displayName)
-  assert.deepEqual(order, ['Ines Fabre', 'Rowan Ashfield', 'Marcus Oyelaran', 'Devi Narayanan', 'Toby Kestrel'])
-  assert.ok(!run.ranking.entries.some((entry) => entry.tier === 'qualified'))
+  assert.deepEqual(order, ['Rowan Ashfield', 'Devi Narayanan', 'Ines Fabre', 'Marcus Oyelaran', 'Toby Kestrel'])
+  assert.equal(run.ranking.entries.filter((entry) => entry.tier === 'qualified').length, 2)
+  const score = (reference: string) => run.ranking.entries.find((entry) => entry.reference === reference)?.scoreBasisPoints
+  assert.equal(score('demo-002'), score('demo-003'), 'Devi and Marcus score the same')
 })
 
-test('folded matching gives the other published numbers, and the same-score pair ties again', async () => {
-  const folded = await runDemo({ matchMode: 'folded' })
+test('whole-word matching gives the other published numbers, and nobody is qualified', async () => {
+  const strict = await runDemo({ matchMode: 'strict' })
 
-  for (const real of REAL_FOLDED) {
-    const entry = folded.ranking.entries.find((item) => item.reference === real.reference)
-    const candidate = folded.candidates.find((item) => item.candidate.reference === real.reference)
+  for (const real of REAL_STRICT) {
+    const entry = strict.ranking.entries.find((item) => item.reference === real.reference)
+    const candidate = strict.candidates.find((item) => item.candidate.reference === real.reference)
     assert.ok(entry && candidate, real.reference)
     assert.equal(entry.tier, real.tier, `${real.name}: tier`)
     assert.equal(entry.scoreBasisPoints, real.score, `${real.name}: score`)
@@ -142,17 +144,14 @@ test('folded matching gives the other published numbers, and the same-score pair
     assert.deepEqual(candidate.matches.map((match) => match.contributionBasisPoints), real.contributions, `${real.name}: contributions`)
   }
 
-  const devi = folded.ranking.entries.find((entry) => entry.reference === 'demo-002')
-  const marcus = folded.ranking.entries.find((entry) => entry.reference === 'demo-003')
-  assert.equal(devi?.scoreBasisPoints, marcus?.scoreBasisPoints)
-  assert.ok((devi?.position ?? 99) < (marcus?.position ?? 0))
+  assert.ok(!strict.ranking.entries.some((entry) => entry.tier === 'qualified'))
 })
 
 test('the audit trail says which way words were compared', async () => {
-  const folded = await runDemo({ matchMode: 'folded' })
+  const strict = await runDemo({ matchMode: 'strict' })
   const modes = (result: typeof run) => new Set(result.audit.filter((event) => event.eventType === 'requirements_matched').map((event) => event.payload.matchMode))
-  assert.deepEqual([...modes(run)], ['strict'])
-  assert.deepEqual([...modes(folded)], ['folded'])
+  assert.deepEqual([...modes(run)], ['folded'])
+  assert.deepEqual([...modes(strict)], ['strict'])
 })
 
 // --- the screens say it -----------------------------------------------------------
@@ -189,13 +188,13 @@ test('the scoring stage shows the real formula and contributions that add up to 
   }
 })
 
-test("Ines's scoring stage shows the leftover basis point that makes the shares add up", () => {
+test("Rowan's scoring stage shows the leftover basis point that makes the shares add up", () => {
   const text = JSON.stringify(
-    scenarios.find((item) => item.id === 'demo-004')!.stages.find((stage) => stage.id === 'scoring')!.panels,
+    scenarios.find((item) => item.id === 'demo-001')!.stages.find((stage) => stage.id === 'scoring')!.panels,
   )
   assert.ok(text.includes('4286'), 'Node.js gets 4286, not 4285')
   assert.ok(text.includes('plus 1 leftover point (largest remainder)'))
-  assert.ok(text.includes('4286 + 0 + 1428 = 5714'))
+  assert.ok(text.includes('4286 + 2857 + 2857 = 10000'))
 })
 
 test("Toby is listed, unranked, with no score and nothing invented in the stages that did not run", () => {
@@ -284,3 +283,54 @@ test(
     }
   },
 )
+
+// --- a blurb is a claim about the result, so it is checked against the result -------------------------------------------------------
+//
+// The same check the Explainable ATS makes on its own dataset (`server/test/demo-dataset.test.ts`), made here on the text this demo shows.
+// The blurbs once described one matching mode while the demo ran the other.
+
+const TIER_PHRASES: Array<[RegExp, 'qualified' | 'gated' | 'needs_review' | 'not_evaluated']> = [
+  [/\bqualified\b/i, 'qualified'],
+  [/\bgated\b|missing an essential/i, 'gated'],
+  [/worth a look|held for a human/i, 'needs_review'],
+  [/not assessed yet|queued but not run|unranked/i, 'not_evaluated'],
+]
+
+function claimsOf(blurb: string) {
+  return {
+    tiers: new Set(TIER_PHRASES.filter(([pattern]) => pattern.test(blurb)).map(([, tier]) => tier)),
+    top: /\bthe top of the list\b/i.test(blurb),
+    relations: [...blurb.matchAll(/\b(above|below) ([A-Z][a-z]+)\b/g)].map((match) => ({ relation: match[1] as 'above' | 'below', name: match[2] as string })),
+  }
+}
+
+test('every candidate blurb is true of the ranking the demo shows: its tier, "the top of the list", "above/below" another candidate', () => {
+  let relations = 0
+  for (const scenario of scenarios) {
+    const entry = run.ranking.entries.find((item) => item.reference === scenario.id)
+    assert.ok(entry, scenario.id)
+    const claims = claimsOf(scenario.summary)
+
+    assert.deepEqual([...claims.tiers], [entry.tier], `${scenario.label}: the blurb names ${[...claims.tiers].join(', ') || 'no tier'} but the ranking says ${entry.tier}`)
+    assert.equal(claims.top, entry.position === 1, `${scenario.label}: top of the list ${claims.top} but the position is ${entry.position}`)
+    for (const { relation, name } of claims.relations) {
+      const other = run.ranking.entries.find((item) => item.displayName?.split(' ')[0] === name)
+      assert.ok(other, `${scenario.label}: names ${name}, who is not in the ranking`)
+      assert.ok(
+        relation === 'above' ? entry.position < other.position : entry.position > other.position,
+        `${scenario.label}: the blurb says ${relation} ${name}, but positions are ${entry.position} and ${other.position}`,
+      )
+      relations += 1
+    }
+  }
+  assert.ok(relations >= 4, 'the blurbs should make at least four placed-above/below claims, or this test checks nothing')
+})
+
+test("Devi's blurb says honestly why mentoring reads \"does not meet\"", () => {
+  const devi = scenarios.find((item) => item.id === 'demo-002')!
+  const candidate = run.candidates.find((item) => item.candidate.reference === 'demo-002')!
+  assert.equal(candidate.matches[2]?.verdict, 'not_met')
+  assert.match(devi.summary, /does not meet/)
+  assert.match(devi.summary, /Backend Engineer/)
+  assert.doesNotMatch(devi.summary, /says nothing about the desirable one/)
+})
