@@ -296,11 +296,21 @@ const TIER_PHRASES: Array<[RegExp, 'qualified' | 'gated' | 'needs_review' | 'not
   [/not assessed yet|queued but not run|unranked/i, 'not_evaluated'],
 ]
 
-function claimsOf(blurb: string) {
+function claimsOf(blurb: string, known: readonly string[] = []) {
   return {
     tiers: new Set(TIER_PHRASES.filter(([pattern]) => pattern.test(blurb)).map(([, tier]) => tier)),
     top: /\bthe top of the list\b/i.test(blurb),
-    relations: [...blurb.matchAll(/\b(above|below) ([A-Z][a-z]+)\b/g)].map((match) => ({ relation: match[1] as 'above' | 'below', name: match[2] as string })),
+    // "above Marcus", or "above him" / "below her": a pronoun means the last candidate named before it.
+    relations: [...blurb.matchAll(/\b(above|below) ([A-Z][a-z]+|him|her|them)\b/g)].flatMap((match) => {
+      const relation = match[1] as 'above' | 'below'
+      let name = match[2] as string
+      if (/^[a-z]/.test(name)) {
+        const before = blurb.slice(0, match.index)
+        const named = [...before.matchAll(/\b([A-Z][a-z]+)\b/g)].map((word) => word[1] as string).filter((word) => known.includes(word))
+        name = named[named.length - 1] ?? ''
+      }
+      return name === '' ? [] : [{ relation, name }]
+    }),
   }
 }
 
@@ -309,7 +319,7 @@ test('every candidate blurb is true of the ranking the demo shows: its tier, "th
   for (const scenario of scenarios) {
     const entry = run.ranking.entries.find((item) => item.reference === scenario.id)
     assert.ok(entry, scenario.id)
-    const claims = claimsOf(scenario.summary)
+    const claims = claimsOf(scenario.summary, run.ranking.entries.map((item) => item.displayName?.split(' ')[0] ?? ''))
 
     assert.deepEqual([...claims.tiers], [entry.tier], `${scenario.label}: the blurb names ${[...claims.tiers].join(', ') || 'no tier'} but the ranking says ${entry.tier}`)
     assert.equal(claims.top, entry.position === 1, `${scenario.label}: top of the list ${claims.top} but the position is ${entry.position}`)
