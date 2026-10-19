@@ -62,6 +62,7 @@ export function DemoShell({
   project,
   tagline,
   disclosure,
+  evaluationNote,
   scenarioLabel,
   scenarios,
 }: {
@@ -82,6 +83,11 @@ export function DemoShell({
   project: Project;
   tagline: string;
   disclosure: string;
+  /**
+   * One line, optional, shown under the disclosure with a link to the project's case study. For a demo that runs a stand-in while the
+   * project it shows has been evaluated for real: it says so in one line and leaves the numbers to the case study.
+   */
+  evaluationNote?: string;
   /** What a scenario is called here — "Scenario", "Email", "Candidate". */
   scenarioLabel: string;
   scenarios: Scenario[];
@@ -150,6 +156,14 @@ export function DemoShell({
             Demo mode
           </h2>
           <p className="mt-3 max-w-3xl text-small leading-relaxed text-ink-muted">{disclosure}</p>
+          {evaluationNote && project.caseStudyHref ? (
+            <p className="mt-3 max-w-3xl text-small leading-relaxed text-ink-muted">
+              {evaluationNote}{" "}
+              <a href={project.caseStudyHref} className="font-semibold text-brand underline underline-offset-4 hover:text-brand/90">
+                See the case study.
+              </a>
+            </p>
+          ) : null}
         </aside>
 
         {/* Scenario picker */}
