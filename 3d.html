@@ -4,27 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="An interactive 3D walkthrough of the same three AI automation systems — explore the workshop, or read the written case studies on the main portfolio."
-    />
-    <title>3D Experience — S Mohammad Syed Sameer</title>
+    <title>3D Experience — moved</title>
+    <meta name="description" content="The 3D experience has its own site." />
+    <!-- Not indexed: the page that matters is the one it forwards to. -->
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://sameer-3d-portfolio-amber.vercel.app/3d" />
+    <meta http-equiv="refresh" content="0; url=https://sameer-3d-portfolio-amber.vercel.app/3d" />
     <script>
-      // Sets the theme before first paint so no page flashes the wrong one.
-      // Dark is the default; only a stored choice overrides it. Deliberately
-      // does not read prefers-color-scheme.
-      (function () {
-        try {
-          var t = localStorage.getItem('theme');
-          document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
-        } catch (e) {
-          document.documentElement.dataset.theme = 'dark';
-        }
-      })();
+      // The refresh tag above is the fallback; this one does not leave a
+      // back-button loop behind.
+      window.location.replace('https://sameer-3d-portfolio-amber.vercel.app/3d');
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/3d.tsx"></script>
+    <p>
+      The 3D experience has moved to
+      <a href="https://sameer-3d-portfolio-amber.vercel.app/3d">sameer-3d-portfolio-amber.vercel.app/3d</a>.
+    </p>
   </body>
 </html>

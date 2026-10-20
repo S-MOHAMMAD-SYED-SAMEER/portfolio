@@ -50,12 +50,12 @@ None of the six projects has a hosted instance. Each case study links to the pro
 
 Three of the six projects — Sales Recovery, Inbox-to-CRM, and Explainable ATS — have an interactive demo page in this portfolio, built as a self-contained browser simulation over invented data. Each demo walks through the same staged sequence the real system follows and is explicit, on the page itself, about what it is: no network call, no model, no account, and no backend of any kind.
 
-A separate 3D experience (`/3d.html`) presents the same project information as an explorable scene, built with Three.js and React Three Fiber. It is isolated into its own code path so visitors who never open it do not download its renderer.
+The 3D experience is a separate site with its own repository (`sameer-3d-portfolio`), at <https://sameer-3d-portfolio-amber.vercel.app/3d>. `/3d.html` here is only a redirect to it, kept so the old link still lands somewhere.
 
 ## Portfolio Sections / Pages
 
 - `index.html` — the main site: hero, about, skills, services, project cards, and contact
-- `3d.html` — the 3D interactive experience
+- `3d.html` — a redirect to the separate 3D site
 - `case-study-sales-recovery.html`, `case-study-inbox-crm.html`, `case-study-explainable-ats.html`, `case-study-knowledgeos.html`, `case-study-docintel.html`, `case-study-voicedesk.html` — one written case study per project
 - `demo-sales-recovery.html`, `demo-inbox-crm.html`, `demo-explainable-ats.html` — the three interactive, deterministic project demos
 
@@ -64,7 +64,6 @@ A separate 3D experience (`/3d.html`) presents the same project information as a
 - **React 19** with **TypeScript**
 - **Vite** — multi-page build, one entry point per HTML page above
 - **Tailwind CSS v4** — via the official Vite plugin, CSS-first configuration
-- **Three.js**, **React Three Fiber**, and **drei** — the 3D experience only, isolated from the rest of the site so other pages never load them
 - **oxlint** for linting; Node's built-in test runner (`node --test`) for tests
 
 ## Local Development
@@ -84,20 +83,18 @@ src/
   components/      shared site components (Hero, About, Skills, Services, Projects, Contact, Footer, ...)
   pages/           the six case-study page components
   demo/            the three interactive demo pages and their shared shell
-  three/           the self-contained 3D experience (its own data, components, hooks, systems)
   data/            project, service, skill and contact data
 public/
   images/          real screenshots used by the case studies
-tests/             test suite (project data, 3D experience state, motion, workshop areas)
-index.html, 3d.html, case-study-*.html, demo-*.html   multi-page entry points
+tests/             test suite (project data, services, test counts, demo parity, videos)
+index.html, 3d.html (redirect), case-study-*.html, demo-*.html   multi-page entry points
 ```
 
 ## Engineering Notes
 
 - **Multi-page Vite build.** Every page above is a real, separately-built static entry point rather than a client-side route, so each has a genuine URL with no router or rewrite rule required.
 - **Deterministic demo presentation.** The three interactive demos run entirely client-side over fixed, invented data, deliberately kept separate from the real applications they describe, which are run locally from each project's repository.
-- **Isolated 3D experience.** The 3D code path is self-contained by design — its own data and component tree, reachable only from `3d.html` — so the cost of Three.js and React Three Fiber is never paid by a visitor reading a case study.
-- **Project facts live in `src/data/projects.ts`.** The homepage cards, case studies, and demo pages all read from it rather than restating facts individually. The embedded 3D experience (`/3d.html`) is the one exception: it reads its own, separate registry at `src/three/data/projects.ts`, covering only the three projects (Sales Recovery, Inbox-to-CRM, Explainable ATS) that have an interactive demo — keeping the two in sync is a manual step, not an enforced invariant.
+- **Project facts live in `src/data/projects.ts`.** The homepage cards, case studies, and demo pages all read from it rather than restating facts individually. The separate 3D site keeps its own copy, which is checked against each project's README in that repository.
 
 ## Demo Disclosure
 

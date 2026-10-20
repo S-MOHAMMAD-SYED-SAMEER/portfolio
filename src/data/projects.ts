@@ -118,7 +118,7 @@ export const projects: Project[] = [
       height: 868,
       alt: "An inbound email opened in the dashboard of the mock-provider demo, with the original message beside the scripted answer standing in for the model and the validation applied to that answer.",
     },
-    proof: ["1103 tests", "10/10 mock replay · 2–4/10 real model"],
+    proof: ["1103 tests", "0 unsafe actions planned in 21 real-model plans"],
     featured: true,
   },
   {
@@ -138,10 +138,11 @@ export const projects: Project[] = [
     interactiveDemoHref: "/demo-explainable-ats.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/explainable-ats",
     screenshot: {
-      src: "/images/p3-candidate-ranking.png",
-      width: 1900,
-      height: 3005,
-      alt: "A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it.",
+      // A narrower capture of the same screen for the card: the card shows a 16:10 window, and the wide one loses its edges in it.
+      src: "/images/p3-candidate-ranking-card.png",
+      width: 1520,
+      height: 1004,
+      alt: "The ranking for a role with three invented candidates: one meets every must-have at 100%, one also scores 100% but is marked worth a look, and one scores 43% and is placed last for missing an essential requirement.",
     },
     proof: ["886 tests", "86.8% agreement with AI-drafted labels · 1 run"],
     featured: true,

@@ -316,10 +316,10 @@ export default function ExplainableAtsCaseStudy() {
           <div className="mt-10">
             <Screenshot
               src="/images/p3-candidate-ranking.png"
-              width={1900}
-              height={3005}
-              alt="A candidate's assessment showing a 100% evidence score, each requirement judged as met, and the passage quoted from their CV that supports it."
-              caption="A candidate opened up: the evidence score, every requirement with its verdict, and the quoted passage behind each one. Top of a longer page."
+              width={2200}
+              height={918}
+              alt="The ranking for a role with three invented candidates. The first meets every must-have at 100%. The second also scores 100% but is marked worth a look, because the quotes credited on two requirements share no words with them. The third scores 43% and is placed last for missing an essential requirement, with the sentence that says so."
+              caption="The ranking: three invented candidates, each placed with a sentence saying why. Two score 100%, and the one whose quotes need a person's check sits below the one that does not. A missing essential requirement moves a candidate down without changing the score. A crop of the page."
             />
           </div>
         </section>
