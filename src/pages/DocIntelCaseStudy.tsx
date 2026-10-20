@@ -51,10 +51,10 @@ const RESULTS: Result[] = [
       "279 pass, 242 skip — 521 collected either way; tests needing a database skip cleanly rather than failing.",
   },
   {
-    figure: "6",
+    figure: "7",
     label: "Alembic migrations",
     detail:
-      "Six migration files, covering the verified schema evolution from documents through eval_runs.",
+      "Seven migration files, covering the verified schema evolution from documents through eval_runs, and the source_sha256 column the demo identifies documents by.",
   },
 ];
 
@@ -249,9 +249,9 @@ export default function DocIntelCaseStudy() {
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             The demo recognises exactly three known invoices —
-            invoice-001, invoice-003, invoice-004 — by taking a SHA-256 hash
-            of the concatenated rendered page images, never the
-            originally-uploaded file&apos;s own bytes. An unrecognised hash
+            invoice-001, invoice-003, invoice-004 — by the SHA-256 of the
+            uploaded PDF&apos;s own bytes (computed once, at upload), never of
+            the rendered page images, whose bytes depend on the rasterizer. An unrecognised hash
             raises the same ProviderError a real extraction failure would;
             there&apos;s no approximate matching and no fallback to
             Anthropic.
@@ -361,7 +361,7 @@ export default function DocIntelCaseStudy() {
             trail, JSON/CSV export, and the evaluation harness&apos;s
             real-provider path. Running any of that for real needs an
             Anthropic API key with credits, a reachable PostgreSQL database
-            migrated through all six revisions, and — for a Docker-based run
+            migrated through all seven revisions, and — for a Docker-based run
             — a working Docker daemon.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
