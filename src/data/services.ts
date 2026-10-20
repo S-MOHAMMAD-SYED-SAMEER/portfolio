@@ -132,7 +132,7 @@ export const services: readonly Service[] = [
       "Hybrid retrieval (full-text plus vector search) fused and reranked, generation constrained to a structured answer-and-citations contract, and every citation verified in Python against the retrieved evidence before an answer is shown.",
     evidence: [
       testCountOf(p4),
-      "deterministic, credential-free demo",
+      "real model: 32 of 33 answers passed the citation check; 12 of 45 answerable questions got no answer",
       "citations checked in Python before display",
     ],
     cta: { label: "View the source on GitHub", href: p4.repoHref ?? "#projects" },
