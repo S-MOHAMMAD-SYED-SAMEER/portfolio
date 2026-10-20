@@ -162,21 +162,6 @@ function structuredData(file: string, title: string, description: string): unkno
 
   const route = `/${file}`
 
-  // The 3D experience. A WebPage like the demos: it presents the same three
-  // projects in another form, and claiming it is a separate application would
-  // say something the page itself does not.
-  if (file === '3d.html') {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      url: `${SITE_ORIGIN}${route}`,
-      name: title,
-      description,
-      isPartOf: { '@id': `${SITE_ORIGIN}/#website` },
-      author: { '@id': `${SITE_ORIGIN}/#person` },
-    }
-  }
-
   const project = projects.find(
     (p) => p.caseStudyHref === route || p.interactiveDemoHref === route,
   )
@@ -247,6 +232,9 @@ function socialMetadata(): Plugin {
         // conflicting copy of each tag rather than filling in a gap.
         const entryFile = ctx.path.split('/').pop() || 'index.html'
         if (entryFile === 'index.html') return html
+        // `3d.html` is only a redirect to the separate 3D site, with its own canonical and a noindex; it
+        // must not be given a canonical, a preview card or structured data for a page it does not carry.
+        if (entryFile === '3d.html') return html
 
         const title = read(html, /<title>([\s\S]*?)<\/title>/, '<title>')
         const description = read(
@@ -306,20 +294,6 @@ ${json}
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), socialMetadata()],
-  resolve: {
-    alias: {
-      /**
-       * The 3D experience, kept in its own subtree.
-       *
-       * The imported scene refers to its own modules as `@/…`, and pointing
-       * that at `src/three` rather than `src/` is what keeps the two halves
-       * apart: the 3D code has its own `data/projects.ts` and `data/skills.ts`,
-       * and both would collide with the portfolio's files of the same name if
-       * the subtrees were merged. Nothing outside `src/three` uses this alias.
-       */
-      '@': fileURLToPath(new URL('./src/three', import.meta.url)),
-    },
-  },
   // One entry point per page. Listing them here is what makes each case study
   // build to its own real URL as plain static output — no router and no extra
   // dependency for a handful of pages.
@@ -361,9 +335,8 @@ export default defineConfig({
         demoExplainableAts: fileURLToPath(
           new URL('./demo-explainable-ats.html', import.meta.url),
         ),
-        // The 3D experience. Its own entry point, which is what keeps three.js
-        // out of every other page: Rollup only reaches the scene from here, so
-        // nothing else in the site can pull it into a shared chunk.
+        // The old 3D address, now a redirect to the 3D site. Kept as a real
+        // page so the old link still lands somewhere.
         experience3d: fileURLToPath(new URL('./3d.html', import.meta.url)),
       },
     },

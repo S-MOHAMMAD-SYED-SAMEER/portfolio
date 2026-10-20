@@ -78,12 +78,12 @@ test('the Sales-Recovery numbers are the repository\'s current ones, in every fi
   assert.match(projects, /"530 tests"/)
   assert.match(results, /figure: "530"/)
   // the old count must not survive anywhere on the page's sources
-  for (const [name, source] of [['case study', page], ['projects', projects], ['results panel', results], ['3D scene data', read('src/three/data/projects.ts')]] as const) {
+  for (const [name, source] of [['case study', page], ['projects', projects], ['results panel', results]] as const) {
     assert.ok(!/\b372\b/.test(source), `${name} still says 372`)
   }
   // and the old screenshots are gone from every reference
   for (const old of ['p1-grounded-answer', 'p1-policy-grounding', 'p1-order-or-stock-lookup', 'p1-buying-signal-recovery']) {
-    for (const file of ['src/pages/SalesRecoveryCaseStudy.tsx', 'src/data/projects.ts', 'src/three/data/projects.ts']) {
+    for (const file of ['src/pages/SalesRecoveryCaseStudy.tsx', 'src/data/projects.ts']) {
       assert.ok(!read(file).includes(old), `${file} still references ${old}`)
     }
     assert.ok(!existsSync(join(ROOT, `public/images/${old}.png`)), `${old}.png is still shipped`)
@@ -91,7 +91,7 @@ test('the Sales-Recovery numbers are the repository\'s current ones, in every fi
 })
 
 test('every Sales-Recovery screenshot the pages reference exists, with the intrinsic size it declares', () => {
-  const sources = ['src/pages/SalesRecoveryCaseStudy.tsx', 'src/data/projects.ts', 'src/three/data/projects.ts'].map(read).join('\n')
+  const sources = ['src/pages/SalesRecoveryCaseStudy.tsx', 'src/data/projects.ts'].map(read).join('\n')
   const declared = [...sources.matchAll(/src[=:]\s*["']\/images\/(p1-[a-z-]+\.png)["'][\s\S]*?width[=:]\s*\{?(\d+)\}?[\s\S]*?height[=:]\s*\{?(\d+)/g)]
   assert.ok(new Set(declared.map((m) => m[1])).size >= 6, `only ${declared.length} screenshot references found`)
   for (const [, file, w, h] of declared) {

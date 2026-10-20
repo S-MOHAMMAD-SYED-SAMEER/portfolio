@@ -5,12 +5,10 @@ import { test } from 'node:test'
 
 import { projectById, projects, testCountOf, type ProjectId } from '../src/data/projects.ts'
 import { services } from '../src/data/services.ts'
-import { PROJECTS as SCENE_PROJECTS } from '../src/three/data/projects.ts'
-import { SERVICES as SCENE_SERVICES } from '../src/three/data/services.ts'
 
 /**
  * Every test count on the site comes from one place: `proof[0]` in
- * `src/data/projects.ts`. The services list and the 3D scene read it from there;
+ * `src/data/projects.ts`. The services list reads it from there;
  * the case-study "Validation" panels are written by hand, so this file checks
  * them against it. A count changed in one place and forgotten in another fails
  * here instead of reaching a visitor.
@@ -44,21 +42,6 @@ test('the services list shows each project\'s own count', () => {
       testCountOf(project),
       `service "${service.id}" says "${service.evidence[0]}" but ${project.id} says "${testCountOf(project)}"`,
     )
-  }
-})
-
-test('the 3D scene reads the same counts as the cards', () => {
-  for (const scene of SCENE_PROJECTS) {
-    assert.equal(
-      scene.proof.tests,
-      leadingNumber(testCountOf(projectById(scene.id as ProjectId))),
-      `the scene's ${scene.id} count differs from the card's`,
-    )
-  }
-  for (const service of SCENE_SERVICES) {
-    const canonical = services.find((candidate) => candidate.id === service.id)
-    assert.ok(canonical, `the scene has a service "${service.id}" the site does not`)
-    assert.deepEqual(service.evidence, canonical.evidence, `the scene's "${service.id}" evidence differs`)
   }
 })
 

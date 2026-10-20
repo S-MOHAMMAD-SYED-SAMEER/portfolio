@@ -92,7 +92,7 @@ export const services: readonly Service[] = [
       "Turn the enquiries sitting in your inbox into tracked CRM records with drafted replies — nothing sent without your approval.",
     builds:
       "An 8-stage pipeline (ingest → understand → resolve → decide → policy → approve → execute → revise), CRM matching, a human approval gate, prompt-injection containment, and an append-only audit trail.",
-    evidence: [testCountOf(p2), "10/10 mock · 2–4/10 real model", "interactive in-browser demo"],
+    evidence: [testCountOf(p2), "0 unsafe actions planned in 21 real-model plans", "interactive in-browser demo"],
     cta: { label: "Try the interactive demo", href: p2.interactiveDemoHref ?? "#projects" },
     provenBy: "p2",
   },
