@@ -34,26 +34,26 @@ const STACK = [
 
 /**
  * Engineering test-suite figures, verified directly against the repository and its CI (commit
- * 94e1cd7, 2026-10-14) — not answer-quality results. Retrieval is measured separately below.
+ * ab9a4c8, 2026-10-20). Retrieval and answer quality are measured separately below.
  */
 const RESULTS: Result[] = [
   {
-    figure: "95",
+    figure: "98",
     label: "Demo-suite tests passing",
     detail:
       "test_demo_e2e.py, test_demo_fixtures.py, test_demo_reranking.py, test_demo_llm.py and test_demo_app.py — the demo-focused suite specifically, not the project's overall test count.",
   },
   {
-    figure: "1,259",
+    figure: "1,314",
     label: "Full suite passing, CI (GitHub Actions)",
     detail:
-      "1,263 collected, 4 skipped, 0 failed. The skips are the three tests that load the real BGE and cross-encoder weights (CI never downloads them) and the opt-in Gemini smoke test: skipped, not faked, and not counted as passing.",
+      "1,318 collected, 4 skipped, 0 failed. The skips are the three tests that load the real BGE and cross-encoder weights (CI never downloads them) and the opt-in Gemini smoke test: skipped, not faked, and not counted as passing.",
   },
   {
-    figure: "1,261",
+    figure: "1,316",
     label: "Full suite passing, Windows laptop (models cached)",
     detail:
-      "1,263 collected, 2 skipped, 0 failed. This is the run where the real BGE and cross-encoder tests execute. Earlier in the project this machine showed 11 failures; all were environmental (a file read as cp1252, symlink privilege, tests that assumed the models were absent), none were application bugs, and they are fixed.",
+      "1,318 collected, 2 skipped, 0 failed. This is the run where the real BGE and cross-encoder tests execute. Earlier in the project this machine showed 11 failures; all were environmental (a file read as cp1252, symlink privilege, tests that assumed the models were absent), none were application bugs, and they are fixed.",
   },
   {
     figure: "7 / 9",
@@ -64,12 +64,12 @@ const RESULTS: Result[] = [
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering figures, verified from the repository and its CI: the code does what its tests say, and the image builds and the demo answers. They are not answer-quality results — no Gemini call has succeeded yet. Retrieval was measured separately; see Evaluation above.";
+  "These are engineering figures, verified from the repository and its CI: the code does what its tests say, and the image builds and the demo answers. They are not answer-quality results; those are in Evaluation above, with their limits.";
 
 /**
- * Retrieval evaluation, from the committed run docs/results/2026-10-14-retrieval-eval.md in the
- * KnowledgeOS repository (real BGE and cross-encoder, no API key). Exact four-decimal figures are
- * in each detail; the card figure is the rounded value.
+ * Retrieval evaluation, from the committed run docs/results/2026-10-20-retrieval-eval.md in the
+ * KnowledgeOS repository (real BGE and cross-encoder, no API key, the frozen gold-v2 question set).
+ * Exact four-decimal figures are in each detail; the card figure is the rounded value.
  */
 const RETRIEVAL_RESULTS: Result[] = [
   {
@@ -78,14 +78,14 @@ const RETRIEVAL_RESULTS: Result[] = [
     detail: "0.9081 with the cross-encoder, 0.7375 with the fused order kept, over the top 20 of 45 scored questions.",
   },
   {
-    figure: "0.93",
-    label: "Recall@5 with the reranker (0.87 without)",
-    detail: "0.9333 with the cross-encoder, 0.8667 without.",
+    figure: "0.94",
+    label: "Recall@5 with the reranker (0.89 without)",
+    detail: "0.9444 with the cross-encoder, 0.8889 without.",
   },
   {
     figure: "0.99",
-    label: "Recall@10 with the reranker (0.95 without)",
-    detail: "0.9926 with the cross-encoder, 0.9519 without. Top 10 is a third of this corpus, so this one is easy.",
+    label: "Recall@10 with the reranker (0.96 without)",
+    detail: "0.9926 with the cross-encoder, 0.9630 without. Top 10 is a third of this corpus, so this one is easy.",
   },
   {
     figure: "45 of 52",
@@ -95,7 +95,38 @@ const RETRIEVAL_RESULTS: Result[] = [
 ];
 
 const RETRIEVAL_CAPTION =
-  "Read this with the corpus in mind: 30 chunks, so these are not a prediction for thousands of documents; the questions and their expected chunks were written by the same author against the same fixtures; and the retriever is not compared with BM25 or any other baseline, only with and without the reranker. One machine, one day, but repeatable: the same figures to the last digit every time the suite has run.";
+  "Read this with the corpus in mind: 30 chunks, so these are not a prediction for thousands of documents; the questions and their expected chunks were written by the same author against the same fixtures (Claude, reviewed by ChatGPT and Claude, approved by Sameer); and the retriever is not compared with BM25 or any other baseline, only with and without the reranker. One machine. The suite has been run on two versions of the question set (gold-v1 on 2026-10-14, gold-v2 on 2026-10-20, which changed four questions); both are published in the repository, and the gold-v2 figures are shown here.";
+
+/**
+ * Answers evaluation, from the committed runs docs/results/2026-10-20-answers-eval*.json in the
+ * KnowledgeOS repository (gemini-3.5-flash-lite, temperature 1.0, the frozen gold-v2). Prompt v2 is the
+ * repository default; the v1 figures are in each detail.
+ */
+const ANSWER_RESULTS: Result[] = [
+  {
+    figure: "32 of 33",
+    label: "Answers that passed the citation check",
+    detail: "Prompt v2, the default. Prompt v1: 29 of 33. 'Passed' means every citation points at evidence the model was given and every sentence has one; it does not check that the passage supports the sentence. Read it with the 12 of 45 card beside it.",
+  },
+  {
+    figure: "12 of 45",
+    label: "Answerable questions that got no answer",
+    detail: "Stopped by the same threshold before the model was asked (the same twelve with both prompts; 13 under v1). A known cost of the threshold, and the figure to read beside 32 of 33.",
+  },
+  {
+    figure: "1 of 33",
+    label: "Answers rejected by the citation check",
+    detail: "Prompt v2. Prompt v1: 4 of 33. The person sees \"I couldn't verify this answer\" instead. One run of each at temperature 1.0, so the gap could change on another run.",
+  },
+  {
+    figure: "7 of 7",
+    label: "Questions with no answer in the documents, abstained on",
+    detail: "Both prompts. The abstention threshold was calibrated on the same 52 questions it is scored on, so this is in-sample, and 7 questions is a small sample.",
+  },
+];
+
+const ANSWER_CAPTION =
+  "Read this with its limits: the 52 questions and expected answers were written by Claude, reviewed by ChatGPT and Claude, and approved by Sameer, not independently annotated; one model, one day (2026-10-20), one run per prompt; 12 of the 45 answerable questions got no answer; a 30-chunk corpus of fictional documents; and no unsupported-claim rate is claimed.";
 
 export default function KnowledgeOsCaseStudy() {
   return (
@@ -334,25 +365,33 @@ export default function KnowledgeOsCaseStudy() {
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             The answer suite adds a 29/23 dev/test split for
-            abstention-threshold calibration. The calibration method is
-            implemented and unit-tested, but only 7 of the 52 questions are
-            expected-abstain cases — a sample the repository itself documents
-            as too small for statistical confidence.
+            abstention-threshold calibration. The threshold the application
+            ships with (1.4451) was calibrated on the dev split of the same 52
+            questions it is scored on, so the abstention figures are
+            in-sample, and only 7 of the 52 questions are expected-abstain
+            cases — a sample the repository itself documents as too small for
+            statistical confidence.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             <strong className="text-ink">
-              Retrieval has been measured. Answer quality has not.
+              Both suites have been run, against AI-written gold, on a small
+              corpus.
             </strong>{" "}
-            The retrieval suite ran on 2026-10-14 with the real BGE and
-            cross-encoder models and no API key; the run is committed in the
-            repository. The answers suite needs a Gemini model and has not
-            been run: no Gemini call has succeeded yet. A run that cannot
-            reach its models writes nothing — no report, no recorded metric —
-            and an answers run that stops part-way saves its progress but
-            reports nothing.
+            The retrieval suite ran with the real BGE and cross-encoder models
+            and no API key. The answers suite ran on 2026-10-20 with
+            gemini-3.5-flash-lite, once per prompt version; both runs are
+            committed in the repository, and the prompt that did better under
+            a rule written beforehand (v2) is the default. A run that cannot
+            reach its models writes nothing, and a run that stops part-way
+            saves its progress but reports nothing: the first attempt at the
+            v2 run stopped on a provider error and was restarted from the
+            start.
           </p>
           <div className="mt-6">
             <ResultsPanel results={RETRIEVAL_RESULTS} caption={RETRIEVAL_CAPTION} />
+          </div>
+          <div className="mt-6">
+            <ResultsPanel results={ANSWER_RESULTS} caption={ANSWER_CAPTION} />
           </div>
         </Section>
 
@@ -393,19 +432,24 @@ export default function KnowledgeOsCaseStudy() {
             real Gemini generation are the production default for every
             provider dependency. Real BGE and cross-encoder inference has run
             end to end (the retrieval evaluation above, and the demo
-            fixtures). Real Gemini generation was attempted twice and both
-            attempts failed with a server error whose cause was never
-            determined; since then the adapter has gained a timeout, retries
-            that honour the service&apos;s Retry-After, JSON mode, and a
-            safe &ldquo;could not verify&rdquo; reply instead of an error
-            page.
+            fixtures), and so has real Gemini generation
+            (gemini-3.5-flash-lite): 52 evaluation questions on 2026-10-16
+            and again on 2026-10-20, and a nine-question live check over
+            HTTP. Earlier attempts failed with a server error whose cause was
+            never determined; since then the adapter has gained a timeout,
+            retries that honour the service&apos;s Retry-After, JSON mode,
+            and a safe &ldquo;could not verify&rdquo; reply instead of an
+            error page. Google&apos;s API still returns an occasional 503
+            (&ldquo;high demand&rdquo;), which stopped the first v2
+            evaluation attempt; the evaluation stops on it by design.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Two things have not been exercised in any environment to date:
-            a full Live Mode query end to end with all three real providers
-            together, including Gemini, and an answers evaluation. None of
-            this is a claim that the architecture is invalid — it is the
-            current, honestly-stated verification boundary.
+            What has not been exercised: the Docker Live Mode image with a
+            model key (the model runs were made from a local Python
+            environment), any model other than gemini-3.5-flash-lite, and any
+            corpus larger than 30 chunks. This is the current, honestly-stated
+            verification boundary, not a claim that the architecture is
+            invalid.
           </p>
         </Section>
 
@@ -414,14 +458,14 @@ export default function KnowledgeOsCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                title: "No answer-quality numbers",
+                title: "The answer figures are narrow",
                 detail:
-                  "Retrieval is measured, on a 30-chunk corpus. The answers harness is implemented and unit-tested but has not been run against a real model, so there is no grounded-answer rate, citation-validity or abstention figure to report.",
+                  "Scored against 52 questions written by Claude (reviewed by ChatGPT and Claude, approved by Sameer), on a 30-chunk corpus of fictional documents, with one model on one day and one run per prompt. No unsupported-claim rate is claimed, and \"grounded\" means the citation check passed.",
               },
               {
-                title: "No real Gemini answer yet",
+                title: "About a quarter of answerable questions get no answer",
                 detail:
-                  "Two real attempts failed with a server error before the adapter was hardened, and none has succeeded since, so Live Mode's generation stage has never produced an answer. Retrieval, reranking and citation checking have run for real.",
+                  "12 of the 45 answerable questions are stopped by the abstention threshold before the model is asked. That is what a threshold fitted to catch all 7 unanswerable questions costs here, and no prompt changes it.",
               },
               {
                 title: "PostgreSQL full-text search is not BM25",
@@ -434,9 +478,9 @@ export default function KnowledgeOsCaseStudy() {
                   "It never runs inside a live query, by design — production grounding is the deterministic layer alone.",
               },
               {
-                title: "The abstention threshold has never been calibrated",
+                title: "The abstention threshold is in-sample",
                 detail:
-                  "The score-based trigger stays inactive. Only an explicit insufficient-evidence signal from the model, or zero retrieved candidates, cause an abstention today.",
+                  "The shipped threshold (1.4451) was calibrated on the dev split of the same 52 questions it is scored on, using only 4 expected abstentions, so it has not been tested on questions it was not fitted to.",
               },
               {
                 title: "Fixed-size chunking",
