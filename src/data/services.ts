@@ -147,7 +147,7 @@ export const services: readonly Service[] = [
       "Vision-model extraction against a strict schema, deterministic validation in Python (arithmetic, dates, currency codes) regardless of what the model claims, per-field confidence scoring, and a human review queue with a correction audit trail.",
     evidence: [
       testCountOf(p5),
-      "real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review (after the checker fix: 2)",
+      "real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review",
       "confidence-scored human review queue",
     ],
     cta: { label: "View the source on GitHub", href: p5.repoHref ?? "#projects" },
