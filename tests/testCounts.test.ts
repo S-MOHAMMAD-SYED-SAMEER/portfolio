@@ -100,3 +100,11 @@ test('no case study quotes a stale count in prose or a stack list', () => {
     }
   }
 })
+
+test('the VoiceDesk case study no longer says there is no CI or that Docker was never built', () => {
+  const source = caseStudySource('VoiceDeskCaseStudy.tsx')
+  assert.ok(!source.includes('no CI workflow configured'))
+  assert.ok(!source.includes('No CI workflow is configured'))
+  assert.ok(!source.includes('environment-blocked'))
+  assert.ok(!source.includes('A real Docker build or container run'))
+})

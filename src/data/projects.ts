@@ -205,7 +205,7 @@ export const projects: Project[] = [
     status: "Built",
     caseStudyHref: "/case-study-voicedesk.html",
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk",
-    proof: ["1,666 tests"],
+    proof: ["1,833 tests passing (CI)"],
     featured: false,
   },
 ];
