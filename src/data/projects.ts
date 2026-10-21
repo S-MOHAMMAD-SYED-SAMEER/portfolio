@@ -186,7 +186,7 @@ export const projects: Project[] = [
     repoHref: "https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel",
     proof: [
       "658 tests passing (CI)",
-      "real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review (after the checker fix: 2)",
+      "real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review",
     ],
     featured: false,
   },

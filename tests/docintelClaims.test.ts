@@ -19,7 +19,7 @@ test('the DocIntel card gives the accuracy figure with the unflagged count besid
   assert.ok(line, 'the card carries the real-model line')
   assert.match(line, /30 synthetic invoices/)
   assert.match(line, /one run/)
-  assert.match(line, /2 wrong values not flagged for review \(after the checker fix: 2\)/)
+  assert.match(line, /2 wrong values not flagged for review$/)
 })
 
 test('the DocIntel card states its test count first, as passing in CI', () => {
