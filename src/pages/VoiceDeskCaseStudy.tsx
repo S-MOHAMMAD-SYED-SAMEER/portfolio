@@ -386,7 +386,7 @@ export default function VoiceDeskCaseStudy() {
               accuracy or call-completion metrics. No such figure exists in
               the repository.
             </li>
-            <li>VoiceDesk has no CI workflow configured — these figures come from running the suite and the evaluation harness directly, not from an automated pipeline.</li>
+            <li>CI runs on every change: ruff and the full suite with PostgreSQL on Linux, the pinned requirements and the no-database tests on Windows, a dependency audit, and the Docker image and compose stack (health, readiness and the browser harness page).</li>
             <li>
               No external provider — Anthropic, Deepgram, ElevenLabs or
               Twilio — has ever been called from this repository.
@@ -431,8 +431,8 @@ export default function VoiceDeskCaseStudy() {
             Not demonstrated
           </p>
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
-            A real Docker build or container run, an orchestrated
-            deployment, a real PSTN telephone call, a round-trip against
+            A deployment under an orchestrator (CI builds the image and
+            runs the compose stack, nothing more), a real PSTN telephone call, a round-trip against
             any real external provider, customer usage, real production
             scale, and real voice or transcription quality metrics. By the
             repository&apos;s own evidence, this is an implemented, tested
@@ -466,14 +466,9 @@ export default function VoiceDeskCaseStudy() {
                   "Bounded by a session and turn limit, not by a login. It is a development surface, closed entirely in production, not a public production endpoint.",
               },
               {
-                title: "No CI workflow is configured",
+                title: "Docker is built and started in CI, not deployed",
                 detail:
-                  "The test suite and evaluation harness are run directly, not automatically on push or pull request.",
-              },
-              {
-                title: "Docker packaging exists; execution hasn't been demonstrated",
-                detail:
-                  "The Dockerfile and compose file are statically checked by tests. Building or running the image was environment-blocked and has not been recorded.",
+                  "CI builds the image and runs the compose stack, then checks health, readiness and the harness page. No orchestrated deployment, hosted instance or real call exists.",
               },
               {
                 title: "transfer_to_human records intent, not a live transfer",
