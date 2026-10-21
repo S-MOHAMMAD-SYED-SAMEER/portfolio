@@ -56,10 +56,10 @@ const RESULTS: Result[] = [
       "1,833 collected, 1,833 pass in CI on Linux with PostgreSQL.",
   },
   {
-    figure: "1,114 / 719",
+    figure: "1,115 / 718",
     label: "No-PostgreSQL run",
     detail:
-      "1,114 pass, 719 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
+      "1,115 pass, 718 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
   },
   {
     figure: "18 / 18",
