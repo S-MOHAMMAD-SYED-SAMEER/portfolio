@@ -29,26 +29,25 @@ const STACK = [
   { name: "Anthropic SDK", role: "Vision extraction, behind a provider interface" },
   { name: "pypdfium2 + Pillow", role: "Page rendering" },
   { name: "Docker + Compose", role: "Demo and deployment packaging" },
-  { name: "pytest", role: "521 tests collected, an autouse guard against real API calls" },
+  { name: "pytest", role: "658 tests, CI on Linux and Windows, an autouse guard against real API calls" },
 ];
 
 /**
- * Engineering test-suite figures, verified directly against the repository's
- * own documentation — not extraction-accuracy or evaluation results. See
- * "Evaluation approach" below for why no such result exists to report.
+ * Engineering test-suite figures, verified against the repository and its CI (main at 5c22fd9, 2026-10-21)
+ * -- not extraction results. The real-model runs are shown separately below, with their limits.
  */
 const RESULTS: Result[] = [
   {
-    figure: "521",
-    label: "Tests passing",
+    figure: "658",
+    label: "Tests passing, CI (GitHub Actions)",
     detail:
-      "521 collected, 521 pass, with PostgreSQL available.",
+      "658 collected, 658 pass on Linux with PostgreSQL. CI also runs ruff and pip-audit, builds the Docker image and runs the demo stack end to end.",
   },
   {
-    figure: "279 / 242",
-    label: "No-PostgreSQL run",
+    figure: "391 / 267",
+    label: "No-database run (Windows runner)",
     detail:
-      "279 pass, 242 skip — 521 collected either way; tests needing a database skip cleanly rather than failing.",
+      "391 pass, 267 skip - 658 collected either way; tests needing a database skip cleanly rather than failing.",
   },
   {
     figure: "7",
@@ -59,7 +58,42 @@ const RESULTS: Result[] = [
 ];
 
 const RESULTS_CAPTION =
-  "These are engineering test-suite figures, verified directly from the repository — not extraction-accuracy or evaluation results. No official real-model benchmark has been run; see Evaluation approach above.";
+  "These are engineering figures, verified from the repository and its CI: the code does what its tests say, and the image builds and the demo runs. They are not extraction-accuracy results; those are in Evaluation above, with their limits.";
+
+/**
+ * The real-model runs of 2026-10-21 (claude-haiku-4-5), from docs/results/2026-10-21-real-runs.md and
+ * docs/results/2026-10-21-rescored.json in the DocIntel repository. Every accuracy figure sits beside its
+ * unflagged-error count. invoice/v2 is the repository default; the v1 figures are in each detail.
+ */
+const REAL_RESULTS: Result[] = [
+  {
+    figure: "387 of 390",
+    label: "Fields correct on 30 synthetic invoices",
+    detail:
+      "Prompt v2, the default: 3 wrong values, and 2 of those 3 were not flagged for review (2 after the checker fix as well). Prompt v1: 384 of 390, with 4 wrong values not flagged as run and 2 with the fixed checker. One run of each.",
+  },
+  {
+    figure: "2 of 390",
+    label: "Wrong values not flagged for review",
+    detail:
+      "Prompt v2, as run and with the fixed checker. Both are on image-only documents, where there is no text layer and the model's own confidence is the only signal. Too few to say how well the confidence weighting works.",
+  },
+  {
+    figure: "260 of 260",
+    label: "Prompt v2 on the 20 easy invoices (v1: 257)",
+    detail:
+      "In-sample: v2 was written from the three v1 misses on this set, all one VAT number copied wrongly. The gain is as consistent with chance as with the prompt: one run each.",
+  },
+  {
+    figure: "127 of 130",
+    label: "Both prompts on the 10 harder invoices",
+    detail:
+      "A smoke test, barely harder: the same three fields missed under both prompts, and the cases the set was built around (stamp, photo, credit note, missing due date, two-page table) were all read correctly.",
+  },
+];
+
+const REAL_CAPTION =
+  "Read this with its limits: the documents are synthetic and the labels are by construction (the values they were rendered from); the harder set was written by Claude, reviewed by ChatGPT and Claude and approved by Sameer; one model (claude-haiku-4-5), one run of each prompt, 30 documents, default sampling, so no run-to-run variation is known. \"As run\" and \"with the fixed checker\" are both published: the text-layer check accepted a truncated value and one with an invisible character, was replaced after the runs, and the saved model outputs were re-scored offline; the fix was chosen after seeing the first numbers. The 0.85 review threshold is unchanged and has a boundary case (a score of exactly 0.850 passes). \"Munchen\" read as \"M\u00fcnchen\" stays scored wrong. Not an accuracy figure for real invoices, other models, or production use.";
 
 export default function DocIntelCaseStudy() {
   return (
@@ -204,8 +238,11 @@ export default function DocIntelCaseStudy() {
             model&apos;s own self-reported number, and always applies. Schema
             (0.20) and arithmetic (0.20) reflect whether that field&apos;s
             deterministic checks passed. Text layer (0.20) checks whether the
-            value is corroborated by the PDF&apos;s own embedded text, only
-            when the value is scalar and a text layer exists. Weights are
+            value is printed, whole, in the PDF&apos;s own embedded text
+            (an exact match on whole tokens after Unicode normalisation, so
+            a truncated value or one with an invisible character is not
+            found), only when the value is scalar and a text layer exists;
+            on an image-only document it does not apply. Weights are
             configurable, not fixed in the scoring logic.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
@@ -273,10 +310,10 @@ export default function DocIntelCaseStudy() {
             accuracy either.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Docker packaging for the demo exists, but the current repository
-            doesn&apos;t document whether the image has actually been built
-            or a container run — that isn&apos;t claimed here either way.
-            There is no hosted or public demo.{" "}
+            CI builds the Docker image, starts the stack (database,
+            migration, app, seed and demo), extracts a seeded invoice through
+            the demo and reads the record back on every change. There is no
+            hosted or public demo.{" "}
             <a
               href={DOCS_URL}
               target="_blank"
@@ -290,22 +327,18 @@ export default function DocIntelCaseStudy() {
         </Section>
 
         {/* 8. EVALUATION APPROACH */}
-        <Section eyebrow="Evaluation" title="Measured, not assumed">
+        <Section eyebrow="Evaluation" title="Measured, with the limits next to the numbers">
           <p className="max-w-3xl text-body text-ink-muted">
-            The evaluation dataset is 20 synthetic invoices, deterministic
-            and committed, generated by evals/generate_invoices_v1.py —
-            labels.json holds the values used to render each PDF,
-            independent of anything a model later claims. --provider
-            anthropic is the harness&apos;s default, a deliberate choice so a
-            real evaluation — billed to a real account — is never
-            accidental; the offline stub has to be requested explicitly with
-            --provider stub.
-          </p>
-          <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            The stub exists to validate the harness itself — dataset
-            loading, orchestration, metric calculation, eval_runs
-            persistence, report rendering, CLI behaviour — not extraction
-            accuracy.
+            Two committed, deterministic synthetic sets: 20 invoices
+            (evals/generate_invoices_v1.py) and a harder set of 10, five of
+            them images with no text layer, frozen by SHA-256 before any real
+            request. labels.json holds the values used to render each
+            document, independent of anything a model later claims. The
+            harness defaults to the real provider, a deliberate choice so a
+            real evaluation is never accidental; the offline stub has to be
+            requested with --provider stub, and a real run needs an explicit
+            request cap and cost cap (this work was capped at 80 requests and
+            USD 2.00 and used 64 requests and USD 0.51).
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             Metrics implemented: exact-match accuracy per field, review
@@ -313,15 +346,25 @@ export default function DocIntelCaseStudy() {
             flagged), the same rate scoped to unflagged fields only, mean
             cost, provider-call latency, and p50/p95 by nearest rank. Money
             is normalised to decimals and line items compared structurally;
-            case and punctuation are not normalised.
+            case and punctuation are not normalised, and an altered spelling
+            (&quot;Munchen&quot; read as &quot;M&uuml;nchen&quot;) is scored wrong.
           </p>
-          <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            <strong className="text-ink">
-              No official real-model benchmark numbers exist.
-            </strong>{" "}
-            No eval_runs row produced by a real model has been recorded in
-            the repository — no accuracy figure, no false-confident rate, no
-            cost, no latency.
+          <div className="mt-8">
+            <ResultsPanel results={REAL_RESULTS} caption={REAL_CAPTION} />
+          </div>
+          <p className="mt-6 max-w-3xl text-small text-ink-muted">
+            <strong className="text-ink">What the runs found.</strong> The
+            same printed VAT number was copied wrongly three ways (a dropped
+            last digit, a dropped middle digit, a zero-width space) and
+            correctly once. Two of those were not flagged because the
+            text-layer check accepted a truncated value and an invisible
+            character; it was fixed after the runs and the saved outputs
+            re-scored (4 unflagged wrong values became 2 for prompt v1; none
+            for v2 changed). A date printed 04/03/2026 was read month-first
+            and the deterministic date check sent it to review, which is
+            what the checks are for. On image-only documents the model&apos;s
+            own confidence is the only signal, and a wrong value reported at
+            0.92 passed.
           </p>
         </Section>
 
@@ -345,9 +388,9 @@ export default function DocIntelCaseStudy() {
               production path described above, not a second implementation.
             </li>
             <li>
-              DocIntel has no CI workflow configured — these figures come
-              from running the suite directly, not from an automated
-              pipeline.
+              CI runs on every change: ruff and the full suite on Linux with
+              PostgreSQL, the no-database tests on Windows, a dependency
+              audit, and the Docker build with the demo stack.
             </li>
           </ul>
         </Section>
@@ -357,26 +400,20 @@ export default function DocIntelCaseStudy() {
           <p className="max-w-3xl text-body text-ink-muted">
             Implemented: the real Anthropic vision provider, strict schema
             validation, every deterministic check, the four-signal
-            confidence scorer, the review queue, corrections with an audit
-            trail, JSON/CSV export, and the evaluation harness&apos;s
-            real-provider path. Running any of that for real needs an
-            Anthropic API key with credits, a reachable PostgreSQL database
-            migrated through all seven revisions, and — for a Docker-based run
-            — a working Docker daemon.
+            confidence scorer, the review queue with the source page beside
+            each field, corrections with an audit trail, JSON/CSV export, a
+            read endpoint for a document, explicit timeout and retry
+            policy, and the evaluation harness&apos;s real-provider path.
+            Running it for real needs an Anthropic API key with credits and
+            a reachable PostgreSQL database migrated through all seven
+            revisions.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            What has actually been exercised, per the available evidence:
-            the deterministic, credential-free demo path, and the evaluation
-            harness&apos;s offline stub plumbing, both proven by tests. What
-            has not been demonstrated: an official evaluation run against
-            the real Anthropic provider, any real-model benchmark result,
-            and real Anthropic extraction in this build&apos;s own evidence.
-          </p>
-          <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Docker&apos;s status sits in the same place: packaging exists,
-            but the current source doesn&apos;t establish whether the image
-            has actually been built or run — that&apos;s stated as an open
-            question, not a pass or a fail.
+            What has been run against the real model: 64 requests on
+            2026-10-21, with claude-haiku-4-5, on synthetic documents (20
+            easy and 10 harder invoices with two prompts each, and 3 purchase
+            orders). What has not: any real invoice, any other model, any
+            repeated run, any load, or any use by a customer.
           </p>
         </Section>
 
@@ -385,14 +422,19 @@ export default function DocIntelCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                title: "No official real-model benchmark numbers",
+                title: "The real-model runs are small and synthetic",
                 detail:
-                  "The evaluation harness is implemented and tested, but no run against the real Anthropic provider has been recorded in the repository.",
+                  "30 invoices, labels by construction, one model, one run of each prompt. Not a benchmark and not an accuracy figure for real invoices.",
               },
               {
-                title: "Purchase-order support is unmeasured",
+                title: "Purchase-order support is only smoke-tested",
                 detail:
-                  "It's newer than invoice extraction, and its fixture set proves the type flows end to end — it isn't a benchmark.",
+                  "Three synthetic purchase orders, 30 of 30 fields correct against the real model: it shows the type runs end to end, nothing more.",
+              },
+              {
+                title: "Image-only documents rely on the model's own confidence",
+                detail:
+                  "With no text layer there is no independent check on a scanned or photographed value, so a wrong value the model is sure of is not flagged. The review threshold (0.85) is unchanged; a score of exactly 0.850 passes.",
               },
               {
                 title: "Demo confidence is hand-authored",
@@ -414,11 +456,6 @@ export default function DocIntelCaseStudy() {
                 detail:
                   "FastAPI's own BackgroundTasks runs extraction in the background instead.",
               },
-              {
-                title: "No endpoint to read a document by id",
-                detail:
-                  "Export is the read path; there is deliberately no GET /api/v1/documents/{id}.",
-              },
             ].map((item) => (
               <div
                 key={item.title}
@@ -433,11 +470,6 @@ export default function DocIntelCaseStudy() {
               </div>
             ))}
           </div>
-          <p className="mt-4 max-w-3xl text-small text-ink-muted">
-            Docker execution status is a documentation gap rather than a
-            product limitation: packaging exists, but whether the image has
-            been built or run isn&apos;t recorded in the source.
-          </p>
         </Section>
 
         {/* 12. TECH STACK */}
