@@ -42,7 +42,7 @@ const STAGES: Stage[] = [
     n: "5",
     title: "Tool executor",
     detail:
-      "A requested tool call is checked and dispatched to one of six application tools, independent of any provider or telephony library.",
+      "A requested tool call is checked and dispatched to one of seven application tools, independent of any provider or telephony library.",
   },
   {
     n: "6",
