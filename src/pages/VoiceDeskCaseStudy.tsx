@@ -50,16 +50,16 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "1,666",
+    figure: "1,833",
     label: "Tests passing",
     detail:
-      "1,666 collected, with a PostgreSQL database available; 1,666 pass.",
+      "1,833 collected, 1,833 pass in CI on Linux with PostgreSQL.",
   },
   {
-    figure: "1,053 / 613",
+    figure: "1,114 / 719",
     label: "No-PostgreSQL run",
     detail:
-      "1,053 pass, 613 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
+      "1,114 pass, 719 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
   },
   {
     figure: "18 / 18",
@@ -188,7 +188,7 @@ export default function VoiceDeskCaseStudy() {
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
             The architecture deliberately keeps provider implementations
             (speech and the language model) behind provider interfaces,
-            keeps the six application tools independent of any provider or
+            keeps the seven application tools independent of any provider or
             telephony library, keeps calendar logic inside CalendarService,
             and keeps persistence in PostgreSQL. None of that implies an
             external provider has actually been exercised — see How the
@@ -226,10 +226,10 @@ export default function VoiceDeskCaseStudy() {
         </Section>
 
         {/* 5. TOOL-CALLING AND BUSINESS ACTIONS */}
-        <Section eyebrow="Tool-calling" title="Six tools, not free text">
+        <Section eyebrow="Tool-calling" title="Seven tools, not free text">
           <p className="max-w-3xl text-body text-ink-muted">
             The assistant does not act on a caller&apos;s request by
-            writing prose — it calls one of six tools, each a plain,
+            writing prose — it calls one of seven tools, each a plain,
             independently testable function.
           </p>
           <ul className="mt-4 flex max-w-3xl flex-col gap-3 text-small text-ink-muted">
@@ -246,6 +246,13 @@ export default function VoiceDeskCaseStudy() {
               conversation.
             </li>
             <li>
+              <strong className="text-ink">find_appointments</strong> —
+              finds a caller&apos;s upcoming bookings by name and
+              telephone number together. Reschedule and cancel only run
+              on an appointment identifier the conversation was given by
+              this lookup or by a booking made in the same call.
+            </li>
+            <li>
               <strong className="text-ink">reschedule</strong> — moves an
               existing appointment, deriving the service from the
               appointment itself rather than from the caller&apos;s
@@ -259,15 +266,16 @@ export default function VoiceDeskCaseStudy() {
             </li>
             <li>
               <strong className="text-ink">take_message</strong> —
-              validates the caller&apos;s name, phone number and message,
-              and persists them through the application&apos;s own turn and
-              tool-call records.
+              validates the caller&apos;s name, phone number and message
+              and stores them as a request for the team, shown in a
+              read-only staff view.
             </li>
             <li>
               <strong className="text-ink">transfer_to_human</strong> —
-              records the intent and reason to escalate. It does not
-              connect a human; nothing in this repository performs a live
-              transfer.
+              stores a request that the team call the caller back, with
+              the reason. It does not connect a human; nothing in this
+              repository performs a live transfer, and the assistant is
+              told never to say it does.
             </li>
           </ul>
         </Section>
@@ -401,7 +409,7 @@ export default function VoiceDeskCaseStudy() {
           </p>
           <p className="mt-2 max-w-3xl text-small text-ink-muted">
             Realtime/session architecture, provider boundaries, the
-            conversation and tool-execution path, all six tools, the
+            conversation and tool-execution path, all seven tools, the
             PostgreSQL calendar and its booking-conflict constraint, the
             browser harness, production preflight checks, separate
             readiness and liveness probes, a stream-token mechanism,
@@ -471,9 +479,9 @@ export default function VoiceDeskCaseStudy() {
                   "CI builds the image and runs the compose stack, then checks health, readiness and the harness page. No orchestrated deployment, hosted instance or real call exists.",
               },
               {
-                title: "transfer_to_human records intent, not a live transfer",
+                title: "transfer_to_human records a callback request, not a live transfer",
                 detail:
-                  "It stores the escalation reason. Nothing in this repository actually connects the caller to a person.",
+                  "It stores the reason and asks the team to call back; the staff view shows it. Nothing in this repository actually connects the caller to a person.",
               },
               {
                 title: "No customer or production-call evidence exists",
