@@ -50,16 +50,16 @@ const STACK = [
  */
 const RESULTS: Result[] = [
   {
-    figure: "1,833",
+    figure: "1,849",
     label: "Tests passing",
     detail:
-      "1,833 collected, 1,833 pass in CI on Linux with PostgreSQL.",
+      "1,849 collected, 1,849 pass in CI on Linux with PostgreSQL.",
   },
   {
-    figure: "1,115 / 718",
+    figure: "1,128 / 721",
     label: "No-PostgreSQL run",
     detail:
-      "1,115 pass, 718 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
+      "1,128 pass, 721 skip — tests that need a database skip cleanly rather than failing when one isn't available.",
   },
   {
     figure: "18 / 18",
