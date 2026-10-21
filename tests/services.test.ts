@@ -148,7 +148,7 @@ test('the verified proof figures are unchanged', () => {
     p2: ['1103 tests', '0 unsafe actions planned in 21 real-model plans'],
     p3: ['886 tests', '86.8% agreement with AI-drafted labels · 1 run'],
     p4: ['1,314 passing (CI)', 'real model: 32 of 33 answers passed the citation check; 12 of 45 answerable questions got no answer'],
-    p5: ['521 tests', 'deterministic, credential-free demo'],
+    p5: ['658 tests passing (CI)', 'real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review (after the checker fix: 2)'],
     p6: ['1,666 tests'],
   }
 
