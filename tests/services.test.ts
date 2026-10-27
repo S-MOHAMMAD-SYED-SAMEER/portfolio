@@ -149,7 +149,10 @@ test('the verified proof figures are unchanged', () => {
     p3: ['886 tests', '86.8% agreement with AI-drafted labels · 1 run'],
     p4: ['1,314 passing (CI)', 'real model: 32 of 33 answers passed the citation check; 12 of 45 answerable questions got no answer'],
     p5: ['658 tests passing (CI)', 'real model: 387 of 390 fields correct on 30 synthetic invoices (one run); 2 wrong values not flagged for review'],
-    p6: ['1,929 tests passing (CI)'],
+    p6: [
+      '1,929 tests passing (CI)',
+      'One real-model run, 17 scripted scenarios, typed text: 10 of 12 task scenarios, 5 of 5 safety-only (a do-nothing receptionist also passes those 5)',
+    ],
   }
 
   for (const project of projects) {
