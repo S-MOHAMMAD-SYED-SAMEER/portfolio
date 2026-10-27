@@ -72,7 +72,7 @@ const RESULTS: Result[] = [
     figure: "10 of 12",
     label: "Real-model run: task scenarios",
     detail:
-      "One run, claude-haiku-4-5, 17 scripted scenarios, typed text, fictional salon. The two failures: both times the caller said “please book that” and the model asked to confirm again; the script had no next line, so nothing was booked.",
+      "One run, claude-haiku-4-5, 17 scripted scenarios, typed text, fictional salon. The two failures: both times the caller said “please book that” and the model asked to confirm again; the script had no next line, so nothing was booked. Also seen, but not failed by the checks: once it told a caller a taken slot was free (nothing was changed), and once it cancelled before the caller confirmed.",
   },
   {
     figure: "5 of 5",
