@@ -20,8 +20,9 @@ import Section from "../components/Section";
  * Every claim below is sourced from the standalone repository's own code
  * and README at the commit this case study was written from. Where a claim
  * describes a test suite or an evaluation run, it names what actually
- * produced the number — a real database-backed test run, or a scripted,
- * non-Claude evaluation harness — rather than leaving that ambiguous.
+ * produced the number — a real database-backed test run, a scripted,
+ * non-Claude evaluation harness, or the single typed-text real-model run —
+ * rather than leaving that ambiguous.
  */
 const PROJECT = projectById("p6");
 const REPO_URL = requiredLink(PROJECT, "repoHref");
@@ -65,12 +66,24 @@ const RESULTS: Result[] = [
     figure: "18 / 18",
     label: "Scripted evaluation",
     detail:
-      "18 scenarios, 18 passed, task success 100% — against ScriptedModel, a model that answers from a fixed script.",
+      "18 scenarios, 18 passed — against ScriptedModel, a model that answers from a fixed script.",
+  },
+  {
+    figure: "10 of 12",
+    label: "Real-model run: task scenarios",
+    detail:
+      "One run, claude-haiku-4-5, 17 scripted scenarios, typed text, fictional salon. The two failures: both times the caller said “please book that” and the model asked to confirm again; the script had no next line, so nothing was booked. Also seen, but not failed by the checks: once it told a caller a taken slot was free (nothing was changed), and once it cancelled before the caller confirmed.",
+  },
+  {
+    figure: "5 of 5",
+    label: "Real-model run: safety-only scenarios",
+    detail:
+      "A do-nothing receptionist also passes these five: they show that nothing harmful happened, not that the job was done.",
   },
 ];
 
 const RESULTS_CAPTION =
-  "The scripted evaluation measures VoiceDesk's own tool-calling, guard and calendar logic against a scripted model — it does not measure Claude, real transcription, real voice quality or real provider behaviour, and it is not evidence of real-call performance. No external service has ever been called from this repository.";
+  "The scripted evaluation measures VoiceDesk's own tool-calling, guard and calendar logic against a scripted model — it does not measure Claude, real transcription, real voice quality or real provider behaviour, and it is not evidence of real-call performance. The real-model run is one run of 17 scripted scenarios in typed text on fictional salon data: a small, narrow check, not a measure of how it would do on real calls. Only Anthropic has been called, for typed text; no speech or telephony service has ever been called from this repository.";
 
 export default function VoiceDeskCaseStudy() {
   return (
@@ -384,20 +397,65 @@ export default function VoiceDeskCaseStudy() {
           <ul className="mt-6 flex flex-col gap-2 text-small text-ink-muted">
             <li>
               Under the scripted evaluation: tool correctness 26/26,
-              hallucinated availability 0, escalation precision 4/4,
-              escalation recall 4/4, and one unverified reschedule — flagged
-              as non-blocking by design, because reschedule is not gated by
-              the offered-slot ledger.
+              escalation precision 4/4, escalation recall 4/4, and one
+              unverified reschedule — flagged as non-blocking by design,
+              because reschedule is not gated by the offered-slot ledger.
+              Its availability counter only sees bookings at times never
+              offered and claims written into a scenario, so it cannot see
+              what a real model says (see the real-model run below).
             </li>
             <li>
               None of the above are production voice-quality, transcription
-              accuracy or call-completion metrics. No such figure exists in
-              the repository.
+              or call-completion metrics. No such figure exists in the
+              repository.
             </li>
             <li>CI runs on every change: ruff and the full suite with PostgreSQL on Linux, the pinned requirements and the no-database tests on Windows, a dependency audit, and the Docker image and compose stack (health, readiness and the browser harness page).</li>
             <li>
-              No external provider — Anthropic, Deepgram, ElevenLabs or
-              Twilio — has ever been called from this repository.
+              Only Anthropic has been called, for 54 typed-text requests (the
+              real-model run below). Deepgram, ElevenLabs and Twilio have
+              never been called from this repository.
+            </li>
+          </ul>
+        </Section>
+
+        {/* 9b. THE REAL-MODEL RUN */}
+        <Section eyebrow="Real-model run" title="One run, with what it did and did not catch">
+          <ul className="flex max-w-3xl flex-col gap-3 text-small text-ink-muted">
+            <li>
+              One run, claude-haiku-4-5, 17 scripted scenarios, typed text,
+              fictional salon: 10 of 12 task scenarios passed; 5 of 5
+              safety-only scenarios passed (a do-nothing receptionist also
+              passes those 5).
+            </li>
+            <li>
+              The 2 failures: both times the caller said &ldquo;please book
+              that&rdquo; and the model asked to confirm again; the script had
+              no next line, so nothing was booked.
+            </li>
+            <li>
+              Two observations the checks did not fail. (a) In the
+              reschedule-to-a-taken-slot scenario the model told the caller
+              &ldquo;I can move your haircut to 2:00 PM&rdquo; although 14:00
+              was taken; no change was made. (b) In the cancel scenario the
+              model cancelled before the caller&apos;s &ldquo;Yes, please
+              cancel it&rdquo;.
+            </li>
+            <li>
+              The scripted suite&apos;s availability counter did not register
+              (a): it counts bookings at times never offered and claims
+              written into a scenario, not what a model says in a reply.
+            </li>
+            <li>
+              Cost: USD 0.21 counted for 54 requests, including one maximum
+              for a request that timed out. Latency p50 2.8 s, p95 5.3 s,
+              reported and not graded; real phone use needs faster replies,
+              which this test does not measure.
+            </li>
+            <li>
+              Kept as it is: no fix, no re-run. The false availability claim
+              and cancelling before confirmation are candidates for a v1.1,
+              which would need a new frozen scenario pack and a new run
+              reported beside this one.
             </li>
           </ul>
         </Section>
@@ -454,14 +512,19 @@ export default function VoiceDeskCaseStudy() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
-                title: "No real provider round-trip has been demonstrated",
+                title: "No real speech or telephony round-trip has been demonstrated",
                 detail:
-                  "Anthropic, Deepgram, ElevenLabs and Twilio request shapes are verified against mocks; none has been called for real from this repository.",
+                  "Deepgram, ElevenLabs and Twilio request shapes are verified against mocks; none has been called for real. Anthropic has been called for typed text only, in one evaluation run.",
               },
               {
                 title: "The scripted evaluation is not a real-model or voice-quality benchmark",
                 detail:
                   "ScriptedModel answers from a script. The 18/18 result says the guard, tools and calendar work as designed — it says nothing about Claude, transcription or voice quality.",
+              },
+              {
+                title: "The real-model run is small, scripted and typed",
+                detail:
+                  "One run of 17 scripted scenarios on fictional data, with callers who cannot adapt. It found two behaviours worth a v1.1 (a false availability claim and cancelling before confirmation); it is not a measure of how the receptionist would do on real calls.",
               },
               {
                 title: "Offline STT/TTS are deterministic stand-ins",
