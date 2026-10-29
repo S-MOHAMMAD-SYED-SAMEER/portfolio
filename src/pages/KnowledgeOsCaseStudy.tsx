@@ -204,9 +204,10 @@ export default function KnowledgeOsCaseStudy() {
         {/* 3. SOLUTION */}
         <Section eyebrow="The solution" title="Answer only from evidence, and check it">
           <p className="max-w-3xl text-body text-ink-muted">
-            KnowledgeOS answers only from retrieved documents, cites the exact
-            chunk behind every claim, validates each citation in code before
-            the answer is shown, and refuses to answer when the evidence
+            KnowledgeOS answers only from retrieved documents, cites a retrieved
+            chunk after every sentence, validates each citation in code before
+            the answer is shown (it checks that a citation points at a chunk
+            the model was given, not that the chunk supports the sentence), and refuses to answer when the evidence
             isn&apos;t sufficient.
           </p>
           <p className="mt-4 max-w-3xl text-small text-ink-muted">
@@ -277,7 +278,7 @@ export default function KnowledgeOsCaseStudy() {
               citation must point at one of the selected top 8 chunks, and
               the declared citation list must exactly match the markers
               actually present in the text. A failure rejects the reply: it
-              is never shown, never stored and never repaired. The model is
+              is never shown, never stored in the application&apos;s database and never repaired. The model is
               asked once more; if that reply fails too, the person sees
               &ldquo;I couldn&apos;t verify this answer&rdquo;, not the
               rejected text.

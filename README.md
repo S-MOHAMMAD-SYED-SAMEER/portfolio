@@ -39,8 +39,8 @@ Extracts structured data from invoices and purchase orders, validates it determi
 - **Repository:** [docintel](https://github.com/S-MOHAMMAD-SYED-SAMEER/docintel)
 
 ### VoiceDesk
-An AI phone receptionist that understands the caller, checks and books appointments in a real calendar, and hands off to a human when it should.
-- **Engineering focus:** real-time voice pipeline, tool-calling against a live calendar, offline demo mode with bounded session limits
+An AI phone receptionist that understands the caller, checks and books appointments in a real calendar, and takes a callback request for the team when it should (it cannot transfer a call).
+- **Engineering focus:** voice-pipeline code (tested against simulated providers; no phone call or speech service has been run), tool-calling against a PostgreSQL calendar, offline demo mode with bounded session limits
 - **Technologies:** speech-to-text/text-to-speech, telephony integration, PostgreSQL
 - **Repository:** [voicedesk](https://github.com/S-MOHAMMAD-SYED-SAMEER/voicedesk)
 
