@@ -101,7 +101,7 @@ export const projects: Project[] = [
     title: "Inbox-to-CRM Agent",
     service: "AI Inbox & Lead Management",
     description:
-      "Reads incoming business email, matches it against the CRM, drafts a reply and logs the work — while a person approves anything consequential. Nothing is ever sent without that approval. Evaluated with scripted answers and with a real model (Gemini): the case study gives the numbers and their limits.",
+      "Reads incoming business email, matches it against the CRM, drafts a reply and logs the work — while a person approves anything consequential. No real email is ever sent (the only sender is a mock). Evaluated with scripted answers and with a real model (Gemini): the case study gives the numbers and their limits.",
     tags: [
       "Human approval gate",
       "Auto-logged to CRM",
@@ -195,7 +195,7 @@ export const projects: Project[] = [
     title: "VoiceDesk",
     service: "Voice AI",
     description:
-      "An AI phone receptionist: understands the caller, checks and books appointments in a real calendar, and hands off to a human when it should. A browser harness runs the identical dialogue, tool-calling and calendar pipeline with no telephony credential required — offline speech recognition and synthesis by default, bounded by a 300-second session limit and a 20-turn cap so a demo session cannot run unbounded.",
+      "An AI phone receptionist: understands the caller, checks and books appointments in a real calendar, and takes a callback request for the team when it should (it cannot transfer a call). A browser harness runs the identical dialogue, tool-calling and calendar pipeline with no telephony credential required — offline speech recognition and synthesis by default, bounded by a 300-second session limit and a 20-turn cap so a demo session cannot run unbounded.",
     tags: [
       "Real-time voice + tool-calling",
       "PostgreSQL-backed calendar",

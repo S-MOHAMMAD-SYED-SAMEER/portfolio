@@ -157,7 +157,7 @@ export const services: readonly Service[] = [
     id: "voice-ai",
     name: "Voice AI",
     positioning:
-      "A phone line that checks the calendar before it promises a slot, and hands off to a person when it should.",
+      "A phone line that checks the calendar before it promises a slot, and takes a callback request for the team when it should.",
     builds:
       "Real-time speech in, tool-calling against a live calendar, and a database exclusion constraint that makes double-booking structurally impossible rather than merely checked for. A browser harness demonstrates the identical pipeline with no telephony credential required.",
     evidence: [

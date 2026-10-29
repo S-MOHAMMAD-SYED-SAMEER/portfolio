@@ -411,8 +411,8 @@ export default function VoiceDeskCaseStudy() {
             </li>
             <li>CI runs on every change: ruff and the full suite with PostgreSQL on Linux, the pinned requirements and the no-database tests on Windows, a dependency audit, and the Docker image and compose stack (health, readiness and the browser harness page).</li>
             <li>
-              Only Anthropic has been called, for 54 typed-text requests (the
-              real-model run below). Deepgram, ElevenLabs and Twilio have
+              Only Anthropic has been called, for typed-text requests only: 54 in the
+              real-model run below, and 7 more recording the demo video. Deepgram, ElevenLabs and Twilio have
               never been called from this repository.
             </li>
           </ul>

@@ -340,7 +340,7 @@ export default function SalesRecoveryCaseStudy() {
               <p className="mt-2 text-small text-ink-muted">
                 &ldquo;What&apos;s true right now, for this specific
                 order/product/code?&rdquo; Deterministic mock functions
-                standing in for a real store API. Changes on every request —
+                standing in for a real store API. Live data, unlike policy text —
                 a policy answer and a stock answer must never be treated as
                 the same kind of fact.
               </p>
@@ -709,6 +709,16 @@ export default function SalesRecoveryCaseStudy() {
                 title: "Guardrails are pattern-based",
                 detail:
                   "They confirm the right category of tool ran, not that a specific stated value is numerically correct.",
+              },
+              {
+                title: "A tool being called is what is checked, not what it returned",
+                detail:
+                  "If a tool ran on the current turn its policy passes without reading the reply, so a different code, percentage or quantity than the one just looked up would pass; only a code verified on an earlier turn is compared in detail. Planned for v1.1.",
+              },
+              {
+                title: "The knowledge-base outage wording is an instruction, not a check",
+                detail:
+                  "When retrieval is unavailable the tool tells the model to say so and not to say the policy does not exist; no code checks the reply for that. Planned for v1.1.",
               },
               {
                 title: "CI covers the tests and the mock evaluation only",
