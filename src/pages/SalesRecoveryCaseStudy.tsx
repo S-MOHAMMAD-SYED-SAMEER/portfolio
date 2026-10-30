@@ -153,7 +153,7 @@ export default function SalesRecoveryCaseStudy() {
               captions="/videos/sales-recovery-agent.vtt"
               label="Demo video of the support agent: an order lookup, a verified discount, a refused 50% off, a hesitant buyer answered from the return policy, and a refused prompt injection, with the Operator view showing each step."
               caption={DEMO_CAPTION}
-              detail="A 90-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-15). The store, the orders and the discount codes are fictional. The replies and the steps beside them are what the server returned; nothing was edited. The narration is an AI voice."
+              detail="An 88-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-15). The store, the orders and the discount codes are fictional. The replies and the steps beside them are what the server returned; nothing was edited. The narration is an AI voice."
             />
           </div>
         </section>
