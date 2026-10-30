@@ -14,11 +14,11 @@ const ROOT = join(import.meta.dirname, '..')
 const read = (path: string) => readFileSync(join(ROOT, path), 'utf8')
 
 test('the video, its poster and its captions exist and are a sensible size', () => {
-  for (const file of ['public/videos/inbox-crm-agent-16x9.mp4', 'public/videos/inbox-crm-agent-poster.jpg', 'public/videos/inbox-crm-agent.vtt']) {
+  for (const file of ['public/videos/inbox-crm-agent-clean-16x9.mp4', 'public/videos/inbox-crm-agent-clean-poster.jpg', 'public/videos/inbox-crm-agent.vtt']) {
     assert.ok(existsSync(join(ROOT, file)), `${file} is missing`)
   }
-  const mb = statSync(join(ROOT, 'public/videos/inbox-crm-agent-16x9.mp4')).size / 1e6
-  assert.ok(mb > 1 && mb < 50, `the video is ${mb.toFixed(1)} MB`)
+  const mb = statSync(join(ROOT, 'public/videos/inbox-crm-agent-clean-16x9.mp4')).size / 1e6
+  assert.ok(mb > 1 && mb <= 8, `the video is ${mb.toFixed(1)} MB`)
 })
 
 test('the captions are WebVTT with timed, non-overlapping cues of the spoken text', () => {
@@ -40,13 +40,13 @@ test('the captions are WebVTT with timed, non-overlapping cues of the spoken tex
 
 test('the case study uses the shared player, with a caption that says what the recording is', () => {
   const component = read('src/components/CaseStudyVideo.tsx')
-  assert.match(component, /preload="metadata"/)
+  assert.match(component, /preload="none"/)
   assert.ok(!/<track[^>]*\bdefault\b/.test(component), 'the captions track is marked default')
 
   const page = read('src/pages/InboxToCrmCaseStudy.tsx')
   assert.match(page, /<CaseStudyVideo/)
-  assert.match(page, /src="\/videos\/inbox-crm-agent-16x9\.mp4"/)
-  assert.match(page, /poster="\/videos\/inbox-crm-agent-poster\.jpg"/)
+  assert.match(page, /src="\/videos\/inbox-crm-agent-clean-16x9.mp4"/)
+  assert.match(page, /poster="\/videos\/inbox-crm-agent-clean-poster.jpg"/)
   assert.match(page, /captions="\/videos\/inbox-crm-agent\.vtt"/)
   for (const claim of ['live Gemini run', '2026-10-18', 'invented', 'AI-voice', 'not hosted']) {
     assert.ok(page.includes(claim), `the video caption does not say "${claim}"`)

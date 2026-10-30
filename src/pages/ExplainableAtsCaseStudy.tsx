@@ -4,9 +4,10 @@ import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
-import CaseStudyVideo from "../components/CaseStudyVideo";
+import CaseStudyVideo, { DEMO_CAPTION } from "../components/CaseStudyVideo";
 import ExplainableAtsFlow from "../components/caseStudy/ExplainableAtsFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
+import { RESULTS_IMAGES } from "../data/resultsImages";
 import Section from "../components/Section";
 
 /**
@@ -313,6 +314,16 @@ export default function ExplainableAtsCaseStudy() {
             reader: no real applicants have been screened, and no customer
             outcomes are claimed.
           </p>
+          <div className="mt-10">
+            <CaseStudyVideo
+              src="/videos/explainable-ats-clean-16x9.mp4"
+              poster="/videos/explainable-ats-clean-poster.jpg"
+              captions="/videos/explainable-ats.vtt"
+              label="Demo video of the Explainable ATS: requirements, a CV masked before a model reads it, a verdict with its quoted passage, a flag where a quote shares no words with the requirement, two candidates with the same score placed differently, a recorded decision with a written reason, and the measured results."
+              caption={DEMO_CAPTION}
+              detail="An 88-second recording of the real app on live Claude Haiku 4.5 runs (2026-10-19). Every CV is invented. The answers and the screens are what the server returned; the time spent waiting for the model is cut, the last scene is a card of the measured figures rather than the app, and the decision scene was recorded in a second take. Narration: AI voice."
+            />
+          </div>
           <div className="mt-10">
             <Screenshot
               src="/images/p3-candidate-ranking.png"
@@ -679,15 +690,6 @@ export default function ExplainableAtsCaseStudy() {
 
         {/* 11. SCREENSHOTS */}
         <Section eyebrow="The product" title="Seeing it work">
-          <div className="mb-10">
-            <CaseStudyVideo
-              src="/videos/explainable-ats-16x9.mp4"
-              poster="/videos/explainable-ats-poster.jpg"
-              captions="/videos/explainable-ats.vtt"
-              label="Demo video of the Explainable ATS: requirements, a CV masked before a model reads it, a verdict with its quoted passage, a flag where a quote shares no words with the requirement, two candidates with the same score placed differently, a recorded decision with a written reason, and the measured results."
-              caption="An 88-second recording of the real app on live Claude Haiku 4.5 runs (2026-10-19). Every CV is invented. The answers and the screens are what the server returned; the time spent waiting for the model is cut, the last scene is a card of the measured figures rather than the app, and the decision scene was recorded in a second take. Narration: AI voice."
-            />
-          </div>
           <div className="columns-1 gap-8 sm:columns-2">
             <Screenshot
               src="/images/p3-model-checked.png"
@@ -740,6 +742,9 @@ export default function ExplainableAtsCaseStudy() {
         {/* 13. VALIDATION */}
         <Section eyebrow="Validation" title="Measured, not just described">
           <ResultsPanel results={RESULTS} caption={RESULTS_CAPTION} />
+          <div className="mt-8">
+            <Screenshot {...RESULTS_IMAGES["explainable-ats"]} />
+          </div>
         </Section>
 
         {/* 14. HONEST LIMITATIONS */}

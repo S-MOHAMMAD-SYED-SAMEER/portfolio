@@ -1,0 +1,39 @@
+WEBVTT
+
+NOTE Narration is an AI voice. Full spoken text; the short captions are also burned into the video.
+
+00:00:02.300 --> 00:00:08.075 line:78% align:center size:86%
+Ask a model about your own policies and it answers confidently, right or wrong.
+
+00:00:08.325 --> 00:00:12.250 line:78% align:center size:86%
+A wrong answer with no source looks just like a right one.
+
+00:00:12.950 --> 00:00:16.175 line:78% align:center size:86%
+KnowledgeOS answers only from your documents.
+
+00:00:16.425 --> 00:00:23.125 line:78% align:center size:86%
+Every claim carries a citation, shown with the document it came from and the passage itself.
+
+00:00:27.432 --> 00:00:30.532 line:78% align:center size:86%
+Click a citation and the passage opens.
+
+00:00:30.782 --> 00:00:39.807 line:78% align:center size:86%
+Before an answer is shown, code checks every citation against the passages the model was given. A bad one is thrown away.
+
+00:00:40.507 --> 00:00:47.057 line:78% align:center size:86%
+Documents change. The Security Policy says seven days, and the newer procedure says three.
+
+00:00:47.307 --> 00:00:52.932 line:78% align:center size:86%
+The answer gives three, and cites both, so you can see where the difference comes from.
+
+00:00:53.632 --> 00:00:58.982 line:78% align:center size:86%
+And when the documents don't cover the question, it says so, instead of guessing.
+
+00:01:04.110 --> 00:01:10.035 line:78% align:center size:86%
+It's measured on a real model, and the page shows each count with the limits beside it.
+
+00:01:11.005 --> 00:01:19.780 line:78% align:center size:86%
+Thirty-two of thirty-three answers passed the citation check, but twelve of forty-five answerable questions got no answer.
+
+00:01:20.030 --> 00:01:26.305 line:78% align:center size:86%
+The questions were written by an AI, the threshold is fitted to them, one model, one day.

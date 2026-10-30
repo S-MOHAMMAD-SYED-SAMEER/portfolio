@@ -6,6 +6,9 @@ import { projectById, requiredLink } from "../data/projects";
 import KnowledgeOsFlow from "../components/caseStudy/KnowledgeOsFlow";
 import Callout from "../components/caseStudy/Callout";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
+import CaseStudyVideo, { DEMO_CAPTION } from "../components/CaseStudyVideo";
+import Screenshot from "../components/Screenshot";
+import { RESULTS_IMAGES } from "../data/resultsImages";
 import Section from "../components/Section";
 
 /**
@@ -188,6 +191,15 @@ export default function KnowledgeOsCaseStudy() {
             deterministic, credential-free demo runs the real query pipeline
             locally — no API key, no network call.
           </p>
+          <div className="mt-10">
+            <CaseStudyVideo
+              src="/videos/knowledgeos-clean-16x9.mp4"
+              poster="/videos/knowledgeos-clean-poster.jpg"
+              captions="/videos/knowledgeos.vtt"
+              label="Demo video of KnowledgeOS: an answer whose citations open the source passage, a check that throws away a citation that is not in the passages the model was given, two documents that disagree and an answer that cites both, a question the documents do not cover, and the measured results with their limits."
+              caption={DEMO_CAPTION}
+            />
+          </div>
         </section>
 
         {/* 2. PROBLEM */}
@@ -393,6 +405,9 @@ export default function KnowledgeOsCaseStudy() {
           </div>
           <div className="mt-6">
             <ResultsPanel results={ANSWER_RESULTS} caption={ANSWER_CAPTION} />
+          </div>
+          <div className="mt-8">
+            <Screenshot {...RESULTS_IMAGES["knowledgeos"]} />
           </div>
         </Section>
 

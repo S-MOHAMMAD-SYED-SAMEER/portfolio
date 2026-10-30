@@ -1,5 +1,6 @@
 import SkipLink from "./SkipLink";
 import ThemeToggle from "./ThemeToggle";
+import { RESUME_URL } from "../data/contact";
 
 const links = [
   { href: "#about", label: "About" },
@@ -9,6 +10,11 @@ const links = [
   // seven services, so the nav's own link should land where all of them are.
   { href: "/projects.html", label: "Projects" },
   { href: "/services.html", label: "Services" },
+  // The resume is a file, not a page: it opens in its own tab so a visitor
+  // does not lose their place here. Shown in the bar from `lg` (1024px): at
+  // 768px the row has no room for a fifth link (it overflowed by 53px), and
+  // below that the hero carries the same link.
+  { href: RESUME_URL, label: "Resume (PDF)", newTab: true },
 ];
 
 export default function Nav() {
@@ -65,8 +71,12 @@ export default function Nav() {
               hidden below its breakpoint by design. */}
           <ul className="hidden items-center gap-6 text-small text-ink-muted md:flex">
             {links.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} className="hover:text-ink">
+              <li key={link.href} className={"newTab" in link ? "hidden lg:block" : undefined}>
+                <a
+                  href={link.href}
+                  className="hover:text-ink"
+                  {...("newTab" in link ? { target: "_blank", rel: "noreferrer" } : {})}
+                >
                   {link.label}
                 </a>
               </li>

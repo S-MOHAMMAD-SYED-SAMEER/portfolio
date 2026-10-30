@@ -24,10 +24,10 @@ export const LINKEDIN_URL =
 export const GITHUB_PROFILE_URL = "https://github.com/S-MOHAMMAD-SYED-SAMEER";
 
 /**
- * A hosted URL or a file served from `public/` would both work. `null` until
- * one exists — a surface renders this channel only when it has somewhere to go.
+ * The resume, a file served from `public/` under its own name. A surface renders this channel only when it
+ * has somewhere to go, which is why it was `null` until the file existed.
  */
-export const RESUME_URL: string | null = null;
+export const RESUME_URL: string = "/Mohammad_Syed_Sameer_AI_Engineer_Resume.pdf";
 
 /**
  * What a first message is invited to say.

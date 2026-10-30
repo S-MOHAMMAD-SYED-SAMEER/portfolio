@@ -4,10 +4,11 @@ import ThemeToggle from "../components/ThemeToggle";
 import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import Screenshot from "../components/Screenshot";
-import CaseStudyVideo from "../components/CaseStudyVideo";
+import CaseStudyVideo, { DEMO_CAPTION } from "../components/CaseStudyVideo";
 import SalesRecoveryFlow from "../components/caseStudy/SalesRecoveryFlow";
 import Callout from "../components/caseStudy/Callout";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
+import { RESULTS_IMAGES } from "../data/resultsImages";
 import Section from "../components/Section";
 
 /**
@@ -147,11 +148,12 @@ export default function SalesRecoveryCaseStudy() {
           </p>
           <div className="mt-10">
             <CaseStudyVideo
-              src="/videos/sales-recovery-agent-16x9.mp4"
-              poster="/videos/sales-recovery-agent-poster.jpg"
+              src="/videos/sales-recovery-agent-clean-16x9.mp4"
+              poster="/videos/sales-recovery-agent-clean-poster.jpg"
               captions="/videos/sales-recovery-agent.vtt"
               label="Demo video of the support agent: an order lookup, a verified discount, a refused 50% off, a hesitant buyer answered from the return policy, and a refused prompt injection, with the Operator view showing each step."
-              caption="A 90-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-15). The store, the orders and the discount codes are fictional. The replies and the steps beside them are what the server returned; nothing was edited. The narration is an AI voice."
+              caption={DEMO_CAPTION}
+              detail="An 88-second recording of the real app on a live Gemini run (gemini-3.5-flash-lite, 2026-10-15). The store, the orders and the discount codes are fictional. The replies and the steps beside them are what the server returned; nothing was edited. The narration is an AI voice."
             />
           </div>
         </section>
@@ -604,6 +606,9 @@ export default function SalesRecoveryCaseStudy() {
         {/* 11. ENGINEERING EVIDENCE */}
         <Section eyebrow="Engineering evidence" title="Verified, not claimed">
           <ResultsPanel results={RESULTS} caption={RESULTS_CAPTION} />
+          <div className="mt-8">
+            <Screenshot {...RESULTS_IMAGES["sales-recovery-agent"]} />
+          </div>
           <ul className="mt-6 flex flex-col gap-2 text-small text-ink-muted">
             <li>
               A provider-agnostic tool-calling loop, shared by two SDKs with
