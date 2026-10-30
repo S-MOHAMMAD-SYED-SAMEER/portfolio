@@ -6,6 +6,9 @@ import { projectById, requiredLink } from "../data/projects";
 import VoiceDeskFlow from "../components/caseStudy/VoiceDeskFlow";
 import Callout from "../components/caseStudy/Callout";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
+import CaseStudyVideo, { DEMO_CAPTION } from "../components/CaseStudyVideo";
+import Screenshot from "../components/Screenshot";
+import { RESULTS_IMAGES } from "../data/resultsImages";
 import Section from "../components/Section";
 
 /**
@@ -150,6 +153,15 @@ export default function VoiceDeskCaseStudy() {
             has answered a real customer call — see Production boundary
             below for exactly what has, and hasn&apos;t, been demonstrated.
           </p>
+          <div className="mt-10">
+            <CaseStudyVideo
+              src="/videos/voicedesk-clean-16x9.mp4"
+              poster="/videos/voicedesk-clean-poster.jpg"
+              captions="/videos/voicedesk.vtt"
+              label="Demo video of VoiceDesk, typed text with a real model on invented data: a booking made and the database holding one appointment, a cancel request with the wrong phone number refused, and the results of the run with their limits. Voice and phone are not connected yet."
+              caption={`${DEMO_CAPTION} Typed text only. Voice and phone are not connected yet.`}
+            />
+          </div>
         </section>
 
         {/* 2. PROBLEM */}
@@ -458,6 +470,9 @@ export default function VoiceDeskCaseStudy() {
               reported beside this one.
             </li>
           </ul>
+          <div className="mt-8">
+            <Screenshot {...RESULTS_IMAGES["voicedesk"]} />
+          </div>
         </Section>
 
         {/* 10. PRODUCTION BOUNDARY */}

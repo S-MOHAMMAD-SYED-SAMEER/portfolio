@@ -5,6 +5,9 @@ import { enquiryMailto } from "../data/contact";
 import { projectById, requiredLink } from "../data/projects";
 import DocIntelFlow from "../components/caseStudy/DocIntelFlow";
 import ResultsPanel, { type Result } from "../components/caseStudy/ResultsPanel";
+import CaseStudyVideo, { DEMO_CAPTION } from "../components/CaseStudyVideo";
+import Screenshot from "../components/Screenshot";
+import { RESULTS_IMAGES } from "../data/resultsImages";
 import Section from "../components/Section";
 
 /**
@@ -158,6 +161,15 @@ export default function DocIntelCaseStudy() {
             deterministic, credential-free demo runs the real pipeline
             locally — no API key, no network call.
           </p>
+          <div className="mt-10">
+            <CaseStudyVideo
+              src="/videos/docintel-clean-16x9.mp4"
+              poster="/videos/docintel-clean-poster.jpg"
+              captions="/videos/docintel.vtt"
+              label="Demo video of DocIntel: an invoice extracted by a real model, a date read the wrong way round and caught by a check in Python, the source page beside each field, a reviewer's correction recorded beside the model's original value, and the measured results with their limits."
+              caption={DEMO_CAPTION}
+            />
+          </div>
         </section>
 
         {/* 2. PROBLEM */}
@@ -366,6 +378,9 @@ export default function DocIntelCaseStudy() {
             own confidence is the only signal, and a wrong value reported at
             0.92 passed.
           </p>
+          <div className="mt-8">
+            <Screenshot {...RESULTS_IMAGES["docintel"]} />
+          </div>
         </Section>
 
         {/* 9. ENGINEERING EVIDENCE */}

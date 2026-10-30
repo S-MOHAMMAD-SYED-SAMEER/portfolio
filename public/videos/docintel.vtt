@@ -1,0 +1,39 @@
+WEBVTT
+
+NOTE Narration is an AI voice. Full spoken text; the short captions are also burned into the video.
+
+00:00:02.300 --> 00:00:08.525 line:78% align:center size:86%
+A model reading invoices can misread a date, and sound just as sure as when it is right.
+
+00:00:08.775 --> 00:00:14.425 line:78% align:center size:86%
+DocIntel checks the result in code, and sends doubtful values to a person.
+
+00:00:15.125 --> 00:00:18.950 line:78% align:center size:86%
+Upload an invoice and extract it with a real model.
+
+00:00:19.200 --> 00:00:22.725 line:78% align:center size:86%
+Everything after the reply is checked in Python.
+
+00:00:23.425 --> 00:00:33.100 line:78% align:center size:86%
+The model read the invoice date, 04/03/2026, as the third of April, with 95 percent confidence.
+
+00:00:33.350 --> 00:00:41.200 line:78% align:center size:86%
+Then the due date, the 18th of March, falls before it. A check in Python caught that, so both go to a person.
+
+00:00:41.450 --> 00:00:44.375 line:78% align:center size:86%
+The source page sits beside each field.
+
+00:00:45.075 --> 00:00:48.675 line:78% align:center size:86%
+The reviewer types the right date, the 4th of March.
+
+00:00:48.925 --> 00:00:53.900 line:78% align:center size:86%
+The correction is recorded with the model's original value beside it.
+
+00:00:54.967 --> 00:01:02.867 line:78% align:center size:86%
+30 invented invoices, one run each: 387 of 390 fields right.
+
+00:01:03.117 --> 00:01:08.867 line:78% align:center size:86%
+Two of the three wrong values were not flagged, both on image-only documents.
+
+00:01:09.117 --> 00:01:15.842 line:78% align:center size:86%
+Synthetic data, one model, one run each. Not an accuracy figure for real invoices.

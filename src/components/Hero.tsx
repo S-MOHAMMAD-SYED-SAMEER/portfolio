@@ -1,3 +1,4 @@
+import { RESUME_URL } from "../data/contact";
 import { projects } from "../data/projects";
 
 // SELECTED WORK — proof, not a promotion.
@@ -62,6 +63,17 @@ export default function Hero() {
             className="inline-flex h-control-lg items-center rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
           >
             View Projects
+          </a>
+          {/* In the hero as well as the nav, because the nav's link list is
+              hidden on a phone and a recruiter on a phone is the likeliest
+              reader to want the PDF. */}
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-control-lg items-center rounded-control border border-line-strong px-6 text-small font-semibold text-ink hover:border-ink-muted"
+          >
+            Resume (PDF)
           </a>
           {/* The 3D experience, which otherwise has no way in.
               It lives at its own page and was reachable only by typing the

@@ -13,11 +13,11 @@ const ROOT = join(import.meta.dirname, '..')
 const read = (path: string) => readFileSync(join(ROOT, path), 'utf8')
 
 test('the video, its poster and its captions exist and are a sensible size', () => {
-  for (const file of ['public/videos/sales-recovery-agent-16x9.mp4', 'public/videos/sales-recovery-agent-poster.jpg', 'public/videos/sales-recovery-agent.vtt']) {
+  for (const file of ['public/videos/sales-recovery-agent-clean-16x9.mp4', 'public/videos/sales-recovery-agent-clean-poster.jpg', 'public/videos/sales-recovery-agent.vtt']) {
     assert.ok(existsSync(join(ROOT, file)), `${file} is missing`)
   }
-  const mb = statSync(join(ROOT, 'public/videos/sales-recovery-agent-16x9.mp4')).size / 1e6
-  assert.ok(mb > 1 && mb < 50, `the video is ${mb.toFixed(1)} MB`)
+  const mb = statSync(join(ROOT, 'public/videos/sales-recovery-agent-clean-16x9.mp4')).size / 1e6
+  assert.ok(mb > 1 && mb <= 8, `the video is ${mb.toFixed(1)} MB`)
 })
 
 test('the captions are WebVTT with timed cues of the spoken text', () => {
@@ -40,7 +40,7 @@ test('the captions are WebVTT with timed cues of the spoken text', () => {
 test('the player has controls, loads metadata only, plays inline, has a poster and an English captions track that is off until the viewer turns it on', () => {
   const component = read('src/components/CaseStudyVideo.tsx')
   assert.match(component, /\bcontrols\b/)
-  assert.match(component, /preload="metadata"/)
+  assert.match(component, /preload="none"/)
   assert.match(component, /\bplaysInline\b/)
   assert.match(component, /poster=\{poster\}/)
   // The track is there (the viewer can turn CC on) but is not the default one, so only the burned-in captions show at first.
@@ -53,8 +53,8 @@ test('the player has controls, loads metadata only, plays inline, has a poster a
 test('the case study uses the video, with a caption that says what it is', () => {
   const page = read('src/pages/SalesRecoveryCaseStudy.tsx')
   assert.match(page, /<CaseStudyVideo/)
-  assert.match(page, /src="\/videos\/sales-recovery-agent-16x9\.mp4"/)
-  assert.match(page, /poster="\/videos\/sales-recovery-agent-poster\.jpg"/)
+  assert.match(page, /src="\/videos\/sales-recovery-agent-clean-16x9.mp4"/)
+  assert.match(page, /poster="\/videos\/sales-recovery-agent-clean-poster.jpg"/)
   assert.match(page, /captions="\/videos\/sales-recovery-agent\.vtt"/)
   for (const claim of ['live Gemini run', '2026-10-15', 'fictional', 'AI voice']) {
     assert.ok(page.includes(claim), `the video caption does not say "${claim}"`)
