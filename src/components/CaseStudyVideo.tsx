@@ -48,7 +48,7 @@ export default function CaseStudyVideo({ src, poster, captions, label, caption, 
         >
           <source src={src} type="video/mp4" />
           <track kind="captions" src={captions} srcLang="en" label="English" />
-          Your browser cannot play this video. It is a 90-second recording of the demo; the case study below
+          Your browser cannot play this video. It is a recording of the demo, under 90 seconds long; the case study below
           describes everything it shows.
         </video>
       </div>
